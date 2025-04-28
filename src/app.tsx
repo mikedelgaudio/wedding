@@ -1,7 +1,18 @@
+import Router, { Route } from 'preact-router';
+import { Header } from './components/Header';
+import { Home } from './routes/Home';
+import { NotFound } from './routes/NotFound';
+
 export function App() {
   return (
-    <div>
-      <h1 class="text-7xl font-bold">Hello World</h1>
+    <div class={'bg-blue-50'}>
+      <Header />
+      <main>
+        <Router>
+          <Route path="/" component={Home} />
+          <Route default component={NotFound} />
+        </Router>
+      </main>
     </div>
   );
 }
