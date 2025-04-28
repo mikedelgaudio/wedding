@@ -9,11 +9,27 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "preact": "^10.26.4"
+    "preact": "^10.26.4",
+    "preact-router": "^4.1.2"
   },
   "devDependencies": {
     "@preact/preset-vite": "^2.10.1",
+    "eslint": "^8.57.1",
+    "eslint-config-preact": "^1.5.0",
+    "lint-staged": "^15.5.1",
     "typescript": "~5.7.2",
     "vite": "^6.3.1"
+  },
+  "eslintConfig": {
+    "extends": "preact/recommended",
+    "rules": {
+      "no-console": 1
+    }
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx,html,css}": [
+      "eslint --cache --fix",
+      "prettier --write"
+    ]
   }
 }
