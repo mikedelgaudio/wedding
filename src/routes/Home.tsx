@@ -4,8 +4,8 @@ import img from '../assets/home.jpg';
 export function Home(): h.JSX.Element {
   return (
     <div class="flex justify-center items-center">
-      <div class={'w-full max-w-[2000px]'}>
-        <div class="relative w-full aspect-video h-[calc(100dvh-200px)]">
+      <div class="w-full max-w-[2000px]">
+        <div class="relative w-full h-[calc(100dvh-194px)] overflow-hidden group">
           <img
             src={img}
             alt=""
@@ -13,7 +13,23 @@ export function Home(): h.JSX.Element {
             height="1080"
             fetchpriority="high"
             decoding="async"
-            class="w-full h-[inherit] object-cover object-top lg:object-center"
+            class="
+              absolute inset-0
+              w-full h-full
+              object-cover
+              object-top sm:object-[50%_45%] md:object-[50%_42%] lg:object-[50%_40%]
+              scale-100
+              sm:scale-105
+              lg:scale-110
+              xl:scale-120
+              max-w-none
+              transition-transform
+              duration-[2000ms]
+              ease-out
+              group-hover:scale-110
+              sm:group-hover:scale-115
+              lg:group-hover:scale-125
+            "
           />
         </div>
       </div>

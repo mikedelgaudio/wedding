@@ -1,14 +1,12 @@
 @import 'tailwindcss';
 
-/* Add your custom font definition */
 @font-face {
-  font-family: 'BickhamScriptProRegular'; /* Choose a name for your font */
-  src: url('./assets/fonts/BickhamScriptProRegular.ttf') format('ttf');
-  font-weight: normal; /* Or the specific weight, e.g., 400 */
-  font-style: normal; /* Or italic, etc. */
-  font-display: swap; /* Improves perceived performance */
+  font-family: 'BickhamScriptPro';
+  src: url('/fonts/BickhamScriptPro.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
 }
 
 html {
-  background-color: var(--color-blue-50);
+  background-color: var(--color-neutral-50);
 }
