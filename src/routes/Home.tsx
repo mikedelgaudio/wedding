@@ -4,8 +4,8 @@ import img from '../assets/home.jpg';
 export function Home(): h.JSX.Element {
   return (
     <div class="flex justify-center items-center">
-      <div class="w-full max-w-[2000px]">
-        <div class="relative w-full h-[calc(100dvh-194px)] overflow-hidden group">
+      <div class="w-full max-w-[1000px]">
+        <div class="relative w-full h-[calc(100dvh-132px)] lg:h-[calc(100dvh-164px)] overflow-hidden group">
           <img
             src={img}
             alt=""

@@ -5,7 +5,7 @@ import { NotFound } from './routes/NotFound';
 
 export function App() {
   return (
-    <div class={'bg-neutral-50'}>
+    <div class={'bg-myColor-500'}>
       <Header />
       <main>
         <Router>

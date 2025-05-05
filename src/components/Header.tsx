@@ -44,7 +44,7 @@ export function Header(): h.JSX.Element {
 
         {/* Title */}
         <span
-          class="font-bickham text-5xl md:text-7xl lg:text-9xl leading-tight w-full flex justify-center"
+          class="text-5xl sm:text-7xl md:text-8xl lg:text-9xl leading-25 w-full flex justify-center"
           style={{ fontFamily: 'BickhamScriptPro' }}
         >
           Lynh & Michael
@@ -85,7 +85,7 @@ export function Header(): h.JSX.Element {
       </div>
 
       {/* Desktop Navigation */}
-      <nav class="hidden md:flex items-center justify-center gap-8 text-2xl my-6">
+      <nav class="hidden md:flex items-center justify-center gap-15 text-2xl my-6">
         {NAV_LINKS.map(({ href, label }) => (
           <Link key={label} href={href} class="hover:underline">
             {label}

@@ -7,6 +7,21 @@
   font-style: normal;
 }
 
+@font-face {
+  font-family: 'EBGaramondRegular';
+  src: url('/fonts/EBGaramondRegular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
 html {
-  background-color: var(--color-neutral-50);
+  background-color: #faf4f1;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: 'EBGaramondRegular', sans-serif;
 }
