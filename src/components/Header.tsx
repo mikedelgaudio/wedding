@@ -4,11 +4,11 @@ import { useCallback, useState } from 'preact/hooks';
 
 const NAV_LINKS = [
   { href: '/', label: 'Home' },
-  { href: '/', label: 'Schedule' },
-  { href: '/', label: 'Registry' },
-  { href: '/', label: 'Gallery' },
-  { href: '/', label: 'RSVP' },
-  { href: '/', label: 'FAQ' },
+  { href: '/schedule', label: 'Schedule' },
+  { href: '/registry', label: 'Registry' },
+  { href: '/gallery', label: 'Gallery' },
+  { href: '/rsvp', label: 'RSVP' },
+  { href: '/faq', label: 'FAQ' },
 ];
 
 export function Header(): h.JSX.Element {
@@ -43,12 +43,13 @@ export function Header(): h.JSX.Element {
         </button>
 
         {/* Title */}
-        <span
-          class="text-5xl sm:text-7xl md:text-8xl lg:text-9xl leading-25 w-full flex justify-center"
+        <Link
+          class="text-5xl sm:text-7xl leading-25 w-full flex justify-center"
           style={{ fontFamily: 'BickhamScriptPro' }}
+          href="/"
         >
           Lynh & Michael
-        </span>
+        </Link>
       </header>
 
       {/* Mobile Menu Overlay */}
@@ -85,7 +86,7 @@ export function Header(): h.JSX.Element {
       </div>
 
       {/* Desktop Navigation */}
-      <nav class="hidden md:flex items-center justify-center gap-15 text-2xl my-6">
+      <nav class="hidden md:flex items-center justify-center gap-15 text-2xl pb-4">
         {NAV_LINKS.map(({ href, label }) => (
           <Link key={label} href={href} class="hover:underline">
             {label}

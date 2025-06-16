@@ -7,7 +7,7 @@ export function useTitle(titleOverride: string) {
     }
 
     const prevTitle = document.title;
-    document.title = titleOverride;
+    document.title = `${titleOverride} - Lynh Tran and Michael DelGaudio's Wedding Website`;
     return () => {
       document.title = prevTitle;
     };
