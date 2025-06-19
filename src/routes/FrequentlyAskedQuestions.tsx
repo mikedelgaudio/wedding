@@ -1,5 +1,4 @@
-import { h } from 'preact';
-import { useState } from 'preact/hooks';
+import { useState, type JSX } from 'react';
 
 interface FAQItem {
   id: number;
@@ -35,7 +34,7 @@ const faqData: FAQItem[] = [
   },
 ];
 
-export function FrequentlyAskedQuestions(): h.JSX.Element {
+export function FrequentlyAskedQuestions(): JSX.Element {
   // State to keep track of which accordion items are open
   // We use a Record where the key is the FAQ item's id and value is boolean (true=open)
   const [openStates, setOpenStates] = useState<Record<number, boolean>>({});

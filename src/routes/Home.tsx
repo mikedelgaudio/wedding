@@ -1,19 +1,18 @@
-import { h } from 'preact';
+import type { JSX } from 'react';
 import img from '../assets/home.jpg';
 
-export function Home(): h.JSX.Element {
+export function Home(): JSX.Element {
   return (
-    <div class="flex justify-center items-center">
-      <div class="w-full max-w-[1000px]">
-        <div class="relative w-full h-[calc(100dvh-132px)] lg:h-[calc(100dvh-164px)] overflow-hidden group">
+    <div className="flex justify-center items-center">
+      <div className="w-full max-w-[1000px]">
+        <div className="relative w-full h-[calc(100dvh-132px)] lg:h-[calc(100dvh-164px)] overflow-hidden group">
           <img
             src={img}
             alt=""
             width="1920"
             height="1080"
-            fetchpriority="high"
             decoding="async"
-            class="
+            className="
               absolute inset-0
               w-full h-full
               object-cover

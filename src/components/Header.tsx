@@ -1,6 +1,5 @@
-import { h } from 'preact';
-import { Link } from 'preact-router';
-import { useCallback, useState } from 'preact/hooks';
+import { useCallback, useState, type JSX } from 'react';
+import { Link } from 'react-router-dom';
 
 const NAV_LINKS = [
   { href: '/', label: 'Home' },
@@ -11,19 +10,19 @@ const NAV_LINKS = [
   { href: '/faq', label: 'FAQ' },
 ];
 
-export function Header(): h.JSX.Element {
+export function Header(): JSX.Element {
   const [menuOpen, setMenuOpen] = useState(false);
 
   const toggleMenu = useCallback(() => setMenuOpen(open => !open), []);
   const closeMenu = useCallback(() => setMenuOpen(false), []);
 
   return (
-    <div class="relative z-50">
+    <div className="relative z-50">
       {/* Sticky Header */}
-      <header class="flex items-center w-full px-6 py-4 max-w-5xl mx-auto z-50 relative">
+      <header className="flex items-center w-full px-6 py-4 max-w-5xl mx-auto z-50 relative">
         {/* Hamburger button */}
         <button
-          class="md:hidden flex flex-col justify-center items-center w-10 h-10 space-y-1.5"
+          className="md:hidden flex flex-col justify-center items-center w-10 h-10 space-y-1.5"
           onClick={toggleMenu}
           aria-label="Toggle menu"
           aria-expanded={menuOpen}
@@ -35,7 +34,7 @@ export function Header(): h.JSX.Element {
           ].map((transform, i) => (
             <span
               key={i}
-              class={`block h-0.5 w-8 bg-black transition-all duration-300 ${
+              className={`block h-0.5 w-8 bg-black transition-all duration-300 ${
                 menuOpen ? transform : ''
               }`}
             />
@@ -44,9 +43,9 @@ export function Header(): h.JSX.Element {
 
         {/* Title */}
         <Link
-          class="text-5xl sm:text-7xl leading-25 w-full flex justify-center"
+          className="text-5xl sm:text-7xl leading-25 w-full flex justify-center"
           style={{ fontFamily: 'BickhamScriptPro' }}
-          href="/"
+          to="/"
         >
           Lynh & Michael
         </Link>
@@ -54,7 +53,7 @@ export function Header(): h.JSX.Element {
 
       {/* Mobile Menu Overlay */}
       <div
-        class={`fixed inset-0 flex flex-col items-center bg-black/50 backdrop-blur-sm z-40 transition-opacity duration-300 ${
+        className={`fixed inset-0 flex flex-col items-center bg-black/50 backdrop-blur-sm z-40 transition-opacity duration-300 ${
           menuOpen
             ? 'opacity-100 pointer-events-auto'
             : 'opacity-0 pointer-events-none'
@@ -62,7 +61,7 @@ export function Header(): h.JSX.Element {
       >
         {/* Dropdown Nav with offset for header height */}
         <nav
-          class={`bg-white w-full overflow-hidden transition-transform transform origin-top duration-500 ease-in-out ${
+          className={`bg-white w-full overflow-hidden transition-transform transform origin-top duration-500 ease-in-out ${
             menuOpen ? 'scale-y-100' : 'scale-y-0'
           } flex flex-col items-center justify-start gap-10 py-10`}
           style={{
@@ -75,8 +74,8 @@ export function Header(): h.JSX.Element {
           {NAV_LINKS.map(({ href, label }) => (
             <Link
               key={label}
-              href={href}
-              class="text-3xl hover:underline"
+              to={href}
+              className="text-3xl hover:underline"
               onClick={closeMenu}
             >
               {label}
@@ -86,9 +85,9 @@ export function Header(): h.JSX.Element {
       </div>
 
       {/* Desktop Navigation */}
-      <nav class="hidden md:flex items-center justify-center gap-15 text-2xl pb-4">
+      <nav className="hidden md:flex items-center justify-center gap-15 text-2xl pb-4">
         {NAV_LINKS.map(({ href, label }) => (
-          <Link key={label} href={href} class="hover:underline">
+          <Link key={label} to={href} className="hover:underline">
             {label}
           </Link>
         ))}
