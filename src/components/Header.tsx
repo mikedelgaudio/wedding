@@ -1,11 +1,10 @@
 import { useCallback, useState, type JSX } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 
 const NAV_LINKS = [
   { href: '/', label: 'Home' },
+  { href: '/ourstory', label: 'Our Story' },
   { href: '/schedule', label: 'Schedule' },
-  { href: '/registry', label: 'Registry' },
-  { href: '/gallery', label: 'Gallery' },
   { href: '/rsvp', label: 'RSVP' },
   { href: '/faq', label: 'FAQ' },
 ];
@@ -18,9 +17,7 @@ export function Header(): JSX.Element {
 
   return (
     <div className="relative z-50">
-      {/* Sticky Header */}
-      <header className="flex items-center w-full px-6 py-4 max-w-5xl mx-auto z-50 relative">
-        {/* Hamburger button */}
+      <header className="flex items-center w-full px-6 max-w-5xl mx-auto z-50 relative">
         <button
           className="md:hidden flex flex-col justify-center items-center w-10 h-10 space-y-1.5"
           onClick={toggleMenu}
@@ -41,14 +38,18 @@ export function Header(): JSX.Element {
           ))}
         </button>
 
-        {/* Title */}
-        <Link
-          className="text-5xl sm:text-7xl leading-25 w-full flex justify-center"
-          style={{ fontFamily: 'BickhamScriptPro' }}
-          to="/"
-        >
-          Lynh & Michael
-        </Link>
+        <div className="flex justify-center w-full flex-wrap">
+          <Link
+            className="text-5xl sm:text-7xl leading-25 w-full flex justify-center"
+            style={{ fontFamily: 'BickhamScriptPro' }}
+            to="/"
+          >
+            Lynh & Michael
+          </Link>
+          <span className="mt-[-1rem]">
+            June 16, 2026 &nbsp;&middot;&nbsp; Seattle, WA
+          </span>
+        </div>
       </header>
 
       {/* Mobile Menu Overlay */}
@@ -72,24 +73,34 @@ export function Header(): JSX.Element {
           onClick={e => e.stopPropagation()}
         >
           {NAV_LINKS.map(({ href, label }) => (
-            <Link
+            <NavLink
               key={label}
               to={href}
-              className="text-3xl hover:underline"
+              className={({ isActive }) =>
+                `hover:underline text-xl ${
+                  isActive ? 'font-bold underline' : ''
+                }`
+              }
               onClick={closeMenu}
             >
               {label}
-            </Link>
+            </NavLink>
           ))}
         </nav>
       </div>
 
       {/* Desktop Navigation */}
-      <nav className="hidden md:flex items-center justify-center gap-15 text-2xl pb-4">
+      <nav className="hidden md:flex items-center justify-center gap-15 text-2xl pb-4 pt-6">
         {NAV_LINKS.map(({ href, label }) => (
-          <Link key={label} to={href} className="hover:underline">
+          <NavLink
+            key={label}
+            to={href}
+            className={({ isActive }) =>
+              `hover:underline text-xl ${isActive ? 'font-bold underline' : ''}`
+            }
+          >
             {label}
-          </Link>
+          </NavLink>
         ))}
       </nav>
     </div>
