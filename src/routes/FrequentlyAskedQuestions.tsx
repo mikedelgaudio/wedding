@@ -1,4 +1,5 @@
 import { useState, type JSX } from 'react';
+import { FadeInOnLoad } from '../components/FadeInOnLoad';
 import { PageWrapper } from '../components/PageWrapper';
 
 interface FAQItem {
@@ -49,62 +50,64 @@ export function FrequentlyAskedQuestions(): JSX.Element {
   };
 
   return (
-    <PageWrapper pageTitle="Frequently Asked Questions">
-      {faqData.map(item => {
-        const isOpen = !!openStates[item.id]; // Check if the current item is open
+    <FadeInOnLoad>
+      <PageWrapper pageTitle="Frequently Asked Questions">
+        {faqData.map(item => {
+          const isOpen = !!openStates[item.id]; // Check if the current item is open
 
-        return (
-          <div
-            key={item.id}
-            className="border border-gray-200 rounded-lg overflow-hidden shadow-sm"
-          >
-            {/* Question Button */}
-            <h3>
-              <button
-                type="button"
-                onClick={() => toggleAccordion(item.id)}
-                className="flex justify-between cursor-pointer items-center w-full p-4 md:p-5 text-left font-semibold text-gray-700 bg-gray-50 hover:bg-gray-100 focus:outline-none focus-visible:ring focus-visible:ring-blue-500 focus-visible:ring-opacity-75"
-                aria-expanded={isOpen}
-                aria-controls={`faq-answer-${item.id}`} // Link button to answer panel
-              >
-                <span>{item.question}</span>
-                {/* Icon indicating open/closed state */}
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className={`w-5 h-5 transform transition-transform duration-300 ease-in-out ${
-                    isOpen ? 'rotate-180' : 'rotate-0'
-                  }`}
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  stroke-width="2"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    d="M19 9l-7 7-7-7"
-                  />
-                </svg>
-              </button>
-            </h3>
-
-            {/* Answer Panel - uses max-height transition */}
+          return (
             <div
-              id={`faq-answer-${item.id}`} // ID for ARIA
-              role="region" // Indicate this is a panel controlled by the button
-              aria-labelledby={`faq-question-${item.id}`} // Link panel back to button (optional but good practice)
-              className={`overflow-hidden transition-all duration-500 ease-in-out ${
-                isOpen ? 'max-h-screen' : 'max-h-0' // Adjust max-h if needed
-              }`}
-              aria-hidden={!isOpen} // Hide from screen readers when collapsed
+              key={item.id}
+              className="border border-gray-200 rounded-lg overflow-hidden shadow-sm"
             >
-              <div className="p-4 md:p-5 border-t border-gray-200 bg-white text-gray-600">
-                {item.answer}
+              {/* Question Button */}
+              <h3>
+                <button
+                  type="button"
+                  onClick={() => toggleAccordion(item.id)}
+                  className="flex justify-between cursor-pointer items-center w-full p-4 md:p-5 text-left font-semibold text-gray-700 bg-gray-50 hover:bg-gray-100 focus:outline-none focus-visible:ring focus-visible:ring-blue-500 focus-visible:ring-opacity-75"
+                  aria-expanded={isOpen}
+                  aria-controls={`faq-answer-${item.id}`} // Link button to answer panel
+                >
+                  <span>{item.question}</span>
+                  {/* Icon indicating open/closed state */}
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className={`w-5 h-5 transform transition-transform duration-300 ease-in-out ${
+                      isOpen ? 'rotate-180' : 'rotate-0'
+                    }`}
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M19 9l-7 7-7-7"
+                    />
+                  </svg>
+                </button>
+              </h3>
+
+              {/* Answer Panel - uses max-height transition */}
+              <div
+                id={`faq-answer-${item.id}`} // ID for ARIA
+                role="region" // Indicate this is a panel controlled by the button
+                aria-labelledby={`faq-question-${item.id}`} // Link panel back to button (optional but good practice)
+                className={`overflow-hidden transition-all duration-500 ease-in-out ${
+                  isOpen ? 'max-h-screen' : 'max-h-0' // Adjust max-h if needed
+                }`}
+                aria-hidden={!isOpen} // Hide from screen readers when collapsed
+              >
+                <div className="p-4 md:p-5 border-t border-gray-200 bg-white text-gray-600">
+                  {item.answer}
+                </div>
               </div>
             </div>
-          </div>
-        );
-      })}
-    </PageWrapper>
+          );
+        })}
+      </PageWrapper>
+    </FadeInOnLoad>
   );
 }

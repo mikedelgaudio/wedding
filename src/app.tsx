@@ -4,6 +4,7 @@ import { FrequentlyAskedQuestions } from './routes/FrequentlyAskedQuestions';
 import { Home } from './routes/Home';
 import { NotFound } from './routes/NotFound';
 import { OurStory } from './routes/OurStory';
+import Schedule from './routes/Schedule';
 
 export function App() {
   return (
@@ -13,6 +14,7 @@ export function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/ourstory" element={<OurStory />} />
+          <Route path="/schedule" element={<Schedule />} />
           <Route path="/faq" element={<FrequentlyAskedQuestions />} />
           <Route path="*" element={<NotFound />} />
         </Routes>

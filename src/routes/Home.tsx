@@ -1,18 +1,20 @@
 import type { JSX } from 'react';
 import img from '../assets/home.jpg';
+import { FadeInOnLoad } from '../components/FadeInOnLoad';
 
 export function Home(): JSX.Element {
   return (
-    <div className="flex justify-center items-center">
-      <div className="w-full max-w-[1000px]">
-        <div className="relative w-full h-[calc(100dvh-132px)] lg:h-[calc(100dvh-164px)] overflow-hidden group">
-          <img
-            src={img}
-            alt=""
-            width="1920"
-            height="1080"
-            decoding="async"
-            className="
+    <FadeInOnLoad>
+      <div className="flex justify-center items-center">
+        <div className="w-full max-w-[1000px]">
+          <div className="relative w-full h-[calc(100dvh-132px)] lg:h-[calc(100dvh-164px)] overflow-hidden group">
+            <img
+              src={img}
+              alt=""
+              width="1920"
+              height="1080"
+              decoding="async"
+              className="
               absolute inset-0
               w-full h-full
               object-cover
@@ -29,9 +31,10 @@ export function Home(): JSX.Element {
     motion-safe:sm:group-hover:scale-115
     motion-safe:lg:group-hover:scale-125
             "
-          />
+            />
+          </div>
         </div>
       </div>
-    </div>
+    </FadeInOnLoad>
   );
 }
