@@ -4,6 +4,7 @@ import { FrequentlyAskedQuestions } from './routes/FrequentlyAskedQuestions';
 import { Home } from './routes/Home';
 import { NotFound } from './routes/NotFound';
 import { OurStory } from './routes/OurStory';
+import { Rsvp } from './routes/Rsvp';
 import Schedule from './routes/Schedule';
 
 export function App() {
@@ -15,6 +16,7 @@ export function App() {
           <Route path="/" element={<Home />} />
           <Route path="/ourstory" element={<OurStory />} />
           <Route path="/schedule" element={<Schedule />} />
+          <Route path="/rsvp" element={<Rsvp />} />
           <Route path="/faq" element={<FrequentlyAskedQuestions />} />
           <Route path="*" element={<NotFound />} />
         </Routes>

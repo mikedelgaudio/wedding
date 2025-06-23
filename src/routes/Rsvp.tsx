@@ -1,0 +1,25 @@
+// src/components/RsvpPage.tsx
+import type { QueryDocumentSnapshot } from 'firebase/firestore';
+import { useState, type JSX } from 'react';
+import { FadeInOnLoad } from '../components/FadeInOnLoad';
+import { PageWrapper } from '../components/PageWrapper';
+import { RsvpForm } from '../components/rsvp/RsvpForm';
+import { RsvpSignIn } from '../components/rsvp/RsvpSignIn';
+import type { IRSVPDoc } from '../firebase/IRSVPDoc';
+
+export function Rsvp(): JSX.Element {
+  const [rsvpSnapshot, setRsvpSnapshot] =
+    useState<QueryDocumentSnapshot<IRSVPDoc> | null>(null);
+
+  return (
+    <FadeInOnLoad>
+      <PageWrapper pageTitle="RSVP">
+        {!rsvpSnapshot ? (
+          <RsvpSignIn onSuccess={setRsvpSnapshot} />
+        ) : (
+          <RsvpForm snapshot={rsvpSnapshot} />
+        )}
+      </PageWrapper>
+    </FadeInOnLoad>
+  );
+}
