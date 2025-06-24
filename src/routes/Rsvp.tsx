@@ -1,5 +1,4 @@
-// src/components/RsvpPage.tsx
-import type { QueryDocumentSnapshot } from 'firebase/firestore';
+import type { DocumentSnapshot } from 'firebase/firestore';
 import { useState, type JSX } from 'react';
 import { FadeInOnLoad } from '../components/FadeInOnLoad';
 import { PageWrapper } from '../components/PageWrapper';
@@ -9,7 +8,7 @@ import type { IRSVPDoc } from '../firebase/IRSVPDoc';
 
 export function Rsvp(): JSX.Element {
   const [rsvpSnapshot, setRsvpSnapshot] =
-    useState<QueryDocumentSnapshot<IRSVPDoc> | null>(null);
+    useState<DocumentSnapshot<IRSVPDoc> | null>(null);
 
   return (
     <FadeInOnLoad>

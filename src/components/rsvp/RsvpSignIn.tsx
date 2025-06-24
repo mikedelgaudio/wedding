@@ -1,20 +1,16 @@
-import {
-  collection,
-  getDocs,
-  query,
-  where,
-  type CollectionReference,
-  type QueryDocumentSnapshot,
-} from 'firebase/firestore';
+// src/components/rsvp/RsvpSignIn.tsx
+import { doc, getDoc, type DocumentSnapshot } from 'firebase/firestore';
 import { useState, type FormEvent } from 'react';
 import type { IRSVPDoc } from '../../firebase/IRSVPDoc';
 import { db } from '../../firebase/firebase.service';
 
-// before you even hit Firestore
+const GENERIC_ERROR_MESSAGE =
+  "We couldn't find or access your invitation. Please check your code and try again, or contact us if you need help.";
+
 const CODE_FORMAT = /^[A-Z0-9]{4}-[A-Z0-9]{4}$/;
 
 interface RsvpSignInProps {
-  onSuccess: (snap: QueryDocumentSnapshot<IRSVPDoc>) => void;
+  onSuccess: (snap: DocumentSnapshot<IRSVPDoc>) => void;
 }
 
 export function RsvpSignIn({ onSuccess }: RsvpSignInProps) {
@@ -28,7 +24,6 @@ export function RsvpSignIn({ onSuccess }: RsvpSignInProps) {
     setLoading(true);
 
     const trimmed = code.trim().toUpperCase();
-
     if (!CODE_FORMAT.test(trimmed)) {
       setError('Please enter your code in the format of XXXX-XXXX');
       setLoading(false);
@@ -38,32 +33,22 @@ export function RsvpSignIn({ onSuccess }: RsvpSignInProps) {
     const cleaned = trimmed.replace(/-/g, '');
 
     try {
-      const rsvpCollection = collection(
-        db,
-        'rsvp',
-      ) as CollectionReference<IRSVPDoc>;
-      const q = query(rsvpCollection, where('inviteCode', '==', cleaned));
-      const snap = await getDocs(q);
+      const ref = doc(db, 'rsvp', cleaned);
+      const snap = await getDoc(ref);
 
-      if (snap.empty) {
-        setError(
-          "1We couldn't find or access your invitation. Please check your code and try again, or contact us if you need help.",
-        );
+      if (!snap.exists()) {
+        setError(GENERIC_ERROR_MESSAGE);
       } else {
-        const docSnap = snap.docs[0];
-        console.log(`Found RSVP doc: ${docSnap.id}`, docSnap.data());
-        const deadline = docSnap.data().rsvpDeadline.toDate();
-        if (deadline < new Date()) {
-          setError('RSVP is closed for this invitation.');
+        const data = snap.data() as IRSVPDoc;
+        if (data.rsvpDeadline.toDate() < new Date()) {
+          setError(GENERIC_ERROR_MESSAGE);
         } else {
-          onSuccess(docSnap);
+          onSuccess(snap);
         }
       }
     } catch (err) {
       console.error(err);
-      setError(
-        "We couldn't find or access your invitation. Please check your code and try again, or contact us if you need help.",
-      );
+      setError(GENERIC_ERROR_MESSAGE);
     }
 
     setLoading(false);
@@ -71,7 +56,7 @@ export function RsvpSignIn({ onSuccess }: RsvpSignInProps) {
 
   return (
     <form onSubmit={handleSubmit}>
-      <label htmlFor="rsvpCode" className="text-xl font-semibold mb-4">
+      <label htmlFor="rsvpCode" className="text-xl font-semibold mb-4 block">
         Enter your RSVP code
       </label>
       <input
@@ -89,25 +74,23 @@ export function RsvpSignIn({ onSuccess }: RsvpSignInProps) {
           {error}
         </p>
       )}
-
-      <p>
-        The RSVP code is located on your invitation in the format of{' '}
+      <p className="text-sm">
+        The RSVP code is on your invitation in the format{' '}
         <strong>XXXX-XXXX</strong>.
       </p>
-      <p>
+      <p className="text-sm ">
         Questions?{' '}
         <a
           className="underline hover:no-underline"
           href="mailto:rsvp@delgaudio.dev"
         >
-          Contact us.
+          Contact us
         </a>
       </p>
-
       <button
         type="submit"
         disabled={loading}
-        className="w-full cursor-pointer mt-6 bg-blue-600 text-white py-2 rounded hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
+        className="w-full bg-blue-600 text-white mt-6 py-2 rounded hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
       >
         {loading ? 'Checking…' : 'Lookup'}
       </button>
