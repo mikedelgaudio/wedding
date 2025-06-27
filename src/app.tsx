@@ -1,4 +1,5 @@
 import { Route, Routes } from 'react-router-dom';
+import { Fragment } from 'react/jsx-runtime';
 import { Header } from './components/Header';
 import { FrequentlyAskedQuestions } from './routes/FrequentlyAskedQuestions';
 import { Home } from './routes/Home';
@@ -9,7 +10,7 @@ import Schedule from './routes/Schedule';
 
 export function App() {
   return (
-    <div className={'bg-myColor-500'}>
+    <Fragment>
       <Header />
       <main>
         <Routes>
@@ -21,6 +22,6 @@ export function App() {
           <Route path="*" element={<NotFound />} />
         </Routes>
       </main>
-    </div>
+    </Fragment>
   );
 }

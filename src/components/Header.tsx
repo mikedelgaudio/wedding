@@ -17,7 +17,7 @@ export function Header(): JSX.Element {
 
   return (
     <div className="relative z-50">
-      <header className="flex items-center w-full px-6 max-w-5xl mx-auto z-50 relative">
+      <header className="flex items-center w-full px-6 pb-6 max-w-5xl mx-auto z-50 relative">
         <button
           className="md:hidden flex flex-col justify-center items-center w-10 h-10 space-y-1.5"
           onClick={toggleMenu}
@@ -54,7 +54,7 @@ export function Header(): JSX.Element {
 
       {/* Mobile Menu Overlay */}
       <div
-        className={`fixed inset-0 flex flex-col items-center bg-black/50 backdrop-blur-sm z-40 transition-opacity duration-300 ${
+        className={`fixed inset-0 top-[132px] flex flex-col items-center bg-black/50 backdrop-blur-sm z-40 transition-opacity duration-300 ${
           menuOpen
             ? 'opacity-100 pointer-events-auto'
             : 'opacity-0 pointer-events-none'
@@ -62,13 +62,14 @@ export function Header(): JSX.Element {
       >
         {/* Dropdown Nav with offset for header height */}
         <nav
-          className={`bg-white w-full overflow-hidden transition-transform transform origin-top duration-500 ease-in-out ${
+          className={`w-full overflow-hidden transition-transform transform origin-top duration-500 ease-in-out ${
             menuOpen ? 'scale-y-100' : 'scale-y-0'
           } flex flex-col items-center justify-start gap-10 py-10`}
           style={{
             transformOrigin: 'top',
             transform: `translateY(${menuOpen ? '0' : '-100%'})`, // Ensures smooth roll-up animation
             transition: 'transform 0.5s ease-in-out',
+            backgroundColor: '#faf4f1', // TODO - You shouldn't be using hex colors, use tailwind classes instead
           }}
           onClick={e => e.stopPropagation()}
         >

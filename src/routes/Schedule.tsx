@@ -6,24 +6,53 @@ import {
 
 const events: TimelineItem[] = [
   {
-    date: 'November 20, 2025',
-    title: 'Arrival',
-    description:
-      'Welcome to Sonoma! Settle in, relax and enjoy all the fruits the Valley has to offer. There is plenty to do in Sonoma but we have compiled a list of some of our favorites, including places to eat, drink, and enjoy. Check out our favorites below or click here.',
+    date: 'June 18th, 2026',
+    title: 'Ceremony Arrival',
+    time: '2:00pm - 2:30pm',
+    description: 'Queen of All Saints Catholic Church',
   },
   {
-    date: 'November 20, 2025',
-    title: 'Welcome Reception',
-    time: '4:00pm',
-    description:
-      'Please join us for a happy hour reception where we can all see one another and meet those we haven’t before the big day. Hosted at the Fairmont Sonoma Mission Inn within their Harvest Pavilion room.',
+    date: 'June 18th, 2026',
+    title: 'Ceremony',
+    time: '2:30pm - 4:00pm',
+    description: 'Queen of All Saints Catholic Church',
   },
   {
-    date: 'November 21, 2025',
-    title: 'Wedding Ceremony',
-    time: '4:30pm',
+    date: 'June 18th, 2026',
+    title: 'After Ceremony Group Photo',
+    time: '4:00pm - 4:30pm',
+    description: 'Queen of All Saints Catholic Church',
+  },
+  {
+    date: 'June 18th, 2026',
+    title: 'Commute to Reception',
+    time: '4:30pm - 5:00pm',
+    description: 'Please make your way to Bacchus Bistro in Brooklyn.',
+  },
+  {
+    date: 'June 18th, 2026',
+    title: 'Amuse Bouche Service',
+    time: '5:00pm - 6:00pm',
     description:
-      'The ceremony will be followed by dinner, dancing, and celebration under the stars at the vineyard.',
+      'Please join us for our reception at Bacchus Bistro, a french restaurant in Brooklyn. There we will have a amuse bouche service, 4 course dinner, and an open bar.',
+  },
+  {
+    date: 'June 18th, 2026',
+    title: 'Dinner Service',
+    time: '6:00pm - 7:30pm',
+    description: '4 course dinner',
+  },
+  {
+    date: 'June 18th, 2026',
+    title: 'Cake Cutting/Dessert Service',
+    time: '7:30pm - 8:30pm',
+    description: 'Cake cutting and dessert service',
+  },
+  {
+    date: 'June 18th, 2026',
+    title: 'Dancing and Celebration',
+    time: '8:30pm - 11:00pm',
+    description: 'Dance the night away with us!',
   },
 ];
 

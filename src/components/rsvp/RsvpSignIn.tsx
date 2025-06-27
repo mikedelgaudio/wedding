@@ -90,7 +90,7 @@ export function RsvpSignIn({ onSuccess }: RsvpSignInProps) {
       <button
         type="submit"
         disabled={loading}
-        className="w-full bg-blue-600 text-white mt-6 py-2 rounded hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
+        className="w-full bg-stone-900 text-white mt-6 py-2 rounded hover:bg-stone-700 disabled:opacity-50 disabled:cursor-not-allowed"
       >
         {loading ? 'Checking…' : 'Lookup'}
       </button>
