@@ -24,12 +24,12 @@ export function Home(): JSX.Element {
               lg:scale-110
               xl:scale-120
               max-w-none
-         motion-safe:transition-transform
-    motion-safe:duration-[2000ms]
-    motion-safe:ease-out
-    motion-safe:group-hover:scale-110
-    motion-safe:sm:group-hover:scale-115
-    motion-safe:lg:group-hover:scale-125
+              motion-safe:transition-transform
+              motion-safe:duration-[2000ms]
+              motion-safe:ease-out
+              motion-safe:group-hover:scale-110
+              motion-safe:sm:group-hover:scale-115
+              motion-safe:lg:group-hover:scale-125
             "
             />
           </div>

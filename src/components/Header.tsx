@@ -46,7 +46,7 @@ export function Header(): JSX.Element {
           >
             Lynh & Michael
           </Link>
-          <span className="mt-[-1rem]">
+          <span className="mt-[-1rem] text-lg">
             June 16, 2026 &nbsp;&middot;&nbsp; Seattle, WA
           </span>
         </div>
@@ -78,9 +78,7 @@ export function Header(): JSX.Element {
               key={label}
               to={href}
               className={({ isActive }) =>
-                `hover:underline text-xl ${
-                  isActive ? 'font-bold underline' : ''
-                }`
+                `hover:overline text-xl ${isActive ? 'font-bold overline' : ''}`
               }
               onClick={closeMenu}
             >
@@ -91,13 +89,13 @@ export function Header(): JSX.Element {
       </div>
 
       {/* Desktop Navigation */}
-      <nav className="hidden md:flex items-center justify-center gap-15 text-2xl pb-4 pt-6">
+      <nav className="hidden md:flex items-center justify-center gap-15 text-2xl pb-4">
         {NAV_LINKS.map(({ href, label }) => (
           <NavLink
             key={label}
             to={href}
             className={({ isActive }) =>
-              `hover:underline text-xl ${isActive ? 'font-bold underline' : ''}`
+              `hover:overline text-xl ${isActive ? 'font-bold overline' : ''}`
             }
           >
             {label}

@@ -16,7 +16,7 @@ export function OurStory(): JSX.Element {
           height={665}
           loading="lazy"
         />
-        <p>
+        <p className="text-lg">
           Lynh and Mike met the Summer of 2022 while interning for the same
           company in Seattle. During orientation, Mike sat next to Lynh. They
           introduced themselves to each other, but didn't think much of it. The
@@ -24,7 +24,7 @@ export function OurStory(): JSX.Element {
           again. They realized they were not only working for the same company,
           but also placed at the same hotel AND on the same floor.
         </p>
-        <p>
+        <p className="text-lg">
           After work, the few intern that were placed in the same hotel would
           play games in the hotel lobby, one day they decided to play poker with
           Lynh's set of shiny gold cards. Mike did not know how to play, so Lynh
@@ -37,7 +37,7 @@ export function OurStory(): JSX.Element {
           offered to cook Lynh dinner with his air fryer. Lynh was skeptical...
           but also hungry, so she eventually accepted.
         </p>
-        <p>
+        <p className="text-lg">
           Mike made Lynh a delicious air fryer chicken dinner, and while they
           ate they decided to play some poker just the two of them. After Mike
           lost for the third time, Mike decided to raise the stakes. "If I win
@@ -54,7 +54,7 @@ export function OurStory(): JSX.Element {
           loading="lazy"
           caption="Our third date at the Chihuly Glass Museum"
         />
-        <p>
+        <p className="text-lg">
           After the summer ended, Mike returned to New York and Lynh returned to
           Minnesota, each visiting each other often.
         </p>
@@ -91,7 +91,7 @@ export function OurStory(): JSX.Element {
           caption="Lynh & Mike at Rockefeller Center on New Years 2023"
         />
 
-        <p>
+        <p className="text-lg">
           After college, Mike and Lynh both returned to Seattle for work and
           have been living there ever since. They've enjoyed exploring the
           outdoors, drinking lots of coffee, and traveling.
@@ -120,7 +120,7 @@ export function OurStory(): JSX.Element {
           loading="lazy"
           caption="Magical moments at Disneyland"
         />
-        <p>
+        <p className="text-lg">
           One of Lynh's most favorite places on Earth is the annual Tulip
           Festival in Northern Washington. For her birthday, Mike surprised Lynh
           with a photoshoot at the festival. However, Mike had more planned than

@@ -6,7 +6,7 @@ import { Home } from './routes/Home';
 import { NotFound } from './routes/NotFound';
 import { OurStory } from './routes/OurStory';
 import { Rsvp } from './routes/Rsvp';
-import Schedule from './routes/Schedule';
+import { Schedule } from './routes/Schedule';
 
 export function App() {
   return (
