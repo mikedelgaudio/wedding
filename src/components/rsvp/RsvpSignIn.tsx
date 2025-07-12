@@ -1,4 +1,3 @@
-// src/components/rsvp/RsvpSignIn.tsx
 import { doc, getDoc, type DocumentSnapshot } from 'firebase/firestore';
 import { useState, type FormEvent } from 'react';
 import type { IRSVPDoc } from '../../firebase/IRSVPDoc';
@@ -6,6 +5,9 @@ import { db } from '../../firebase/firebase.service';
 
 const GENERIC_ERROR_MESSAGE =
   "We couldn't find or access your invitation. Please check your code and try again, or contact us if you need help.";
+
+const RSVP_DEADLINE_PASSED_ERROR_MESSAGE =
+  'The RSVP deadline for this RSVP has passed. Please contact us for assistance.';
 
 const CODE_FORMAT = /^[A-Z0-9]{4}-[A-Z0-9]{4}$/;
 
@@ -41,7 +43,7 @@ export function RsvpSignIn({ onSuccess }: RsvpSignInProps) {
       } else {
         const data = snap.data() as IRSVPDoc;
         if (data.rsvpDeadline.toDate() < new Date()) {
-          setError(GENERIC_ERROR_MESSAGE);
+          setError(RSVP_DEADLINE_PASSED_ERROR_MESSAGE);
         } else {
           onSuccess(snap);
         }
@@ -56,7 +58,7 @@ export function RsvpSignIn({ onSuccess }: RsvpSignInProps) {
 
   return (
     <form onSubmit={handleSubmit}>
-      <label htmlFor="rsvpCode" className="text-xl font-semibold mb-4 block">
+      <label htmlFor="rsvpCode" className="text-xl font-semibold mb-2 block">
         Enter your RSVP code
       </label>
       <input
@@ -81,7 +83,7 @@ export function RsvpSignIn({ onSuccess }: RsvpSignInProps) {
       <p className="text-sm ">
         Questions?{' '}
         <a
-          className="underline hover:no-underline"
+          className="underline focus:outline-none focus:ring  hover:no-underline"
           href="mailto:rsvp@delgaudio.dev"
         >
           Contact us
@@ -90,7 +92,7 @@ export function RsvpSignIn({ onSuccess }: RsvpSignInProps) {
       <button
         type="submit"
         disabled={loading}
-        className="w-full bg-stone-900 text-white mt-6 py-2 rounded hover:bg-stone-700 disabled:opacity-50 disabled:cursor-not-allowed"
+        className="w-full focus:outline-none focus:ring  cursor-pointer bg-stone-900 text-white mt-6 py-2 rounded hover:bg-stone-700 disabled:opacity-50 disabled:cursor-not-allowed"
       >
         {loading ? 'Checking…' : 'Lookup'}
       </button>

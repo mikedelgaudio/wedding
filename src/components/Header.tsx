@@ -19,7 +19,7 @@ export function Header(): JSX.Element {
     <div className="relative z-50">
       <header className="flex items-center w-full px-6 pb-6 max-w-5xl mx-auto z-50 relative">
         <button
-          className="md:hidden flex flex-col justify-center items-center w-10 h-10 space-y-1.5"
+          className="md:hidden md:invisible flex flex-col justify-center items-center w-10 h-10 space-y-1.5 focus-within:outline focus-within:outline-gray-950 focus-within:outline-offset-6"
           onClick={toggleMenu}
           aria-label="Toggle menu"
           aria-expanded={menuOpen}
@@ -40,7 +40,7 @@ export function Header(): JSX.Element {
 
         <div className="flex justify-center w-full flex-wrap">
           <Link
-            className="text-5xl sm:text-7xl leading-25 w-full flex justify-center"
+            className="focus-within:outline focus-within:outline-gray-950 focus-within:outline-offset-6 text-5xl sm:text-7xl leading-25 w-full flex justify-center"
             style={{ fontFamily: 'BickhamScriptPro' }}
             to="/"
           >
@@ -57,7 +57,7 @@ export function Header(): JSX.Element {
         className={`fixed inset-0 top-[132px] flex flex-col items-center bg-black/50 backdrop-blur-sm z-40 transition-opacity duration-300 ${
           menuOpen
             ? 'opacity-100 pointer-events-auto'
-            : 'opacity-0 pointer-events-none'
+            : 'opacity-0 invisible pointer-events-none'
         }`}
       >
         {/* Dropdown Nav with offset for header height */}
@@ -95,7 +95,9 @@ export function Header(): JSX.Element {
             key={label}
             to={href}
             className={({ isActive }) =>
-              `hover:overline text-xl ${isActive ? 'font-bold overline' : ''}`
+              `focus-within:outline focus-within:outline-gray-950 focus-within:outline-offset-6 hover:overline text-xl ${
+                isActive ? 'font-bold overline' : ''
+              }`
             }
           >
             {label}

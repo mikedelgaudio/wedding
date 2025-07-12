@@ -8,31 +8,48 @@ interface FAQItem {
   answer: string;
 }
 
-// Sample data store (you can replace this with data fetched from an API)
 const faqData: FAQItem[] = [
   {
     id: 1,
-    question: 'What is Preact?',
+    question: 'How can I RSVP?',
     answer:
-      'Preact is a fast, 3kB alternative to React with the same modern component API. It provides the thinnest possible Virtual DOM abstraction on top of the DOM.',
+      'To RSVP, please visit our website and fill out the RSVP form by June 1st, 2026.',
   },
   {
     id: 2,
-    question: 'How does Tailwind CSS work?',
+    question: 'When is the RSVP deadline?',
     answer:
-      'Tailwind CSS is a utility-first CSS framework packed with classes like flex, pt-4, text-center and rotate-90 that can be composed to build any design, directly in your markup.',
+      'The RSVP deadline is June 1st, 2026. Please make sure to submit your response by this date.',
   },
   {
     id: 3,
-    question: 'Why use TypeScript with Preact?',
+    question: 'Where can I park for the ceremony?',
     answer:
-      'TypeScript adds static typing to JavaScript, catching errors during development and improving code quality, maintainability, and developer tooling support (like autocompletion).',
+      'There are several parking options available near the ceremony venue. We recommend arriving early to secure a spot.',
   },
   {
     id: 4,
-    question: 'What are the benefits of Vite?',
+    question: 'Is transportation provided?',
     answer:
-      'Vite is a modern frontend build tool that significantly improves the frontend development experience. It offers lightning-fast cold server start and instant Hot Module Replacement (HMR).',
+      'Transportation will be provided from the designated parking areas to the ceremony venue. Please check your invitation for details.',
+  },
+  {
+    id: 5,
+    question: 'Is there parking at the reception venue?',
+    answer:
+      'Yes, there will be parking available at the reception venue. Please follow the signs and instructions from the parking attendants.',
+  },
+  {
+    id: 6,
+    question: 'Will your wedding be indoors or outdoors?',
+    answer:
+      'The ceremony will be held outdoors, weather permitting. In case of inclement weather, we have a backup indoor location.',
+  },
+  {
+    id: 7,
+    question: 'Where is the closest airport if I’m flying in?',
+    answer:
+      'The closest airport is XYZ International Airport, located about 20 miles from the venue.',
   },
 ];
 
@@ -65,7 +82,7 @@ export function FrequentlyAskedQuestions(): JSX.Element {
                 <button
                   type="button"
                   onClick={() => toggleAccordion(item.id)}
-                  className="flex justify-between cursor-pointer items-center w-full p-4 md:p-5 text-left font-semibold text-gray-700 bg-gray-50 hover:bg-gray-100 focus:outline-none focus-visible:ring focus-visible:ring-blue-500 focus-visible:ring-opacity-75"
+                  className="flex justify-between cursor-pointer items-center w-full p-4 md:p-5 text-left font-semibold text-gray-700 bg-gray-50 hover:bg-gray-100 focus-within:border focus-visible:border-gray-950 focus:outline-none focus-within:rounded-lg"
                   aria-expanded={isOpen}
                   aria-controls={`faq-answer-${item.id}`} // Link button to answer panel
                 >
@@ -79,11 +96,11 @@ export function FrequentlyAskedQuestions(): JSX.Element {
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
-                    stroke-width="2"
+                    strokeWidth="2"
                   >
                     <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
                       d="M19 9l-7 7-7-7"
                     />
                   </svg>

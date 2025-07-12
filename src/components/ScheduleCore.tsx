@@ -4,7 +4,7 @@ import GoogleMapsLink from './OpenInGoogleMaps';
 export function ScheduleCore() {
   return (
     <Fragment>
-      <div className="grid grid-cols-1 gap-6 border-b-1 border-[rgba(52,45,47,15%)] py-8 px-4">
+      <div className="grid grid-cols-1 gap-6 border-b-1 border-[rgba(52,45,47,15%)] pb-8 px-4">
         <span className="text-2xl justify-self-end-safe">2:00 PM</span>
         <div>
           <h4 className="font-bold text-2xl">Ceremony</h4>

@@ -1,4 +1,5 @@
 import { initializeApp } from 'firebase/app';
+import { initializeAppCheck, ReCaptchaV3Provider } from 'firebase/app-check';
 import { getFirestore } from 'firebase/firestore';
 
 const firebaseConfig = {
@@ -12,8 +13,20 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
-export const db = getFirestore(app);
 
-// if (import.meta.env.DEV) {
-//   connectFirestoreEmulator(db, 'localhost', 8080);
-// }
+const appCheckSiteKey = import.meta.env
+  .VITE_REACT_APP_FIREBASE_APP_CHECK_SITE_KEY;
+
+if (!appCheckSiteKey) {
+  throw new Error(
+    'VITE_REACT_APP_FIREBASE_APP_CHECK_SITE_KEY is not defined in .env',
+  );
+}
+
+initializeAppCheck(app, {
+  provider: new ReCaptchaV3Provider(appCheckSiteKey),
+  // Automatically refresh tokens
+  isTokenAutoRefreshEnabled: true,
+});
+
+export const db = getFirestore(app);

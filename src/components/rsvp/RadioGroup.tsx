@@ -1,0 +1,53 @@
+interface RadioOption {
+  label: string;
+  value: boolean;
+}
+
+interface RadioGroupProps {
+  name: string;
+  value: boolean | null;
+  onChange: (v: boolean) => void;
+  options?: RadioOption[];
+  disabled?: boolean;
+  required?: boolean;
+}
+
+export function RadioGroup({
+  name,
+  value,
+  onChange,
+  options = [
+    { label: 'Yes', value: true },
+    { label: 'No', value: false },
+  ],
+  disabled = false,
+  required = false,
+}: RadioGroupProps) {
+  return (
+    <div className="flex items-center gap-6">
+      {options.map(({ label, value: v }) => (
+        <label key={label} className="flex items-center cursor-pointer m-0">
+          <input
+            type="radio"
+            name={name}
+            value={String(v)}
+            checked={value === v}
+            onChange={() => onChange(v)}
+            required={required}
+            disabled={disabled}
+            className="sr-only peer"
+          />
+          <span
+            className="
+              w-5 h-5 flex-shrink-0 border-2 rounded-full 
+              border-gray-300 peer-checked:border-stone-600 
+              peer-checked:bg-stone-600 peer-disabled:border-gray-200 
+              peer-disabled:bg-gray-100 transition
+            "
+          />
+          <span className="ml-2 select-none">{label}</span>
+        </label>
+      ))}
+    </div>
+  );
+}

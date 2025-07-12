@@ -10,6 +10,7 @@ export interface IGuest {
   name: string | null;
   attending: boolean | null;
   dietaryRestrictions: string | null;
+  isNameEditable: boolean;
 }
 
 export interface IRSVPDoc {
@@ -17,4 +18,5 @@ export interface IRSVPDoc {
   rsvpDeadline: Timestamp;
   invitee: IInvitee;
   guests: IGuest[];
+  lastModified: Timestamp;
 }
