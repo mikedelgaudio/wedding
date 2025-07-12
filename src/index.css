@@ -1,19 +1,5 @@
 @import 'tailwindcss';
 
-@font-face {
-  font-family: 'BickhamScriptPro';
-  src: url('/fonts/BickhamScriptPro.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: 'EBGaramondRegular';
-  src: url('/fonts/EBGaramondRegular.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
-}
-
 html {
   background-color: #faf4f1;
   font-synthesis: none;
@@ -23,5 +9,5 @@ html {
 }
 
 body {
-  font-family: 'EBGaramondRegular', sans-serif;
+  font-family: 'EB Garamond', serif;
 }

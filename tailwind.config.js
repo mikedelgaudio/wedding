@@ -17,6 +17,11 @@ module.exports = {
           900: '#323130',
         },
       },
+      fontFamily: {
+        // use as `font-garamond` and `font-tangerine`
+        garamond: ['"EB Garamond"', 'serif'],
+        tangerine: ['Tangerine', 'cursive'],
+      },
     },
   },
   plugins: [],

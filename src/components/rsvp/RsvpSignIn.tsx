@@ -1,4 +1,9 @@
-import { doc, getDoc, type DocumentSnapshot } from 'firebase/firestore';
+import {
+  doc,
+  DocumentReference,
+  getDoc,
+  type DocumentSnapshot,
+} from 'firebase/firestore';
 import { useState, type FormEvent } from 'react';
 import type { IRSVPDoc } from '../../firebase/IRSVPDoc';
 import { db } from '../../firebase/firebase.service';
@@ -35,13 +40,13 @@ export function RsvpSignIn({ onSuccess }: RsvpSignInProps) {
     const cleaned = trimmed.replace(/-/g, '');
 
     try {
-      const ref = doc(db, 'rsvp', cleaned);
+      const untypedRef = doc(db, 'rsvp', cleaned);
+      const ref = untypedRef as DocumentReference<IRSVPDoc>;
       const snap = await getDoc(ref);
-
       if (!snap.exists()) {
         setError(GENERIC_ERROR_MESSAGE);
       } else {
-        const data = snap.data() as IRSVPDoc;
+        const data = snap.data();
         if (data.rsvpDeadline.toDate() < new Date()) {
           setError(RSVP_DEADLINE_PASSED_ERROR_MESSAGE);
         } else {

@@ -19,7 +19,7 @@ export function Header(): JSX.Element {
     <div className="relative z-50">
       <header className="flex items-center w-full px-6 pb-6 max-w-5xl mx-auto z-50 relative">
         <button
-          className="md:hidden md:invisible flex flex-col justify-center items-center w-10 h-10 space-y-1.5 focus-within:outline focus-within:outline-gray-950 focus-within:outline-offset-6"
+          className="md:hidden md:invisible flex flex-col justify-center items-center w-10 h-10 space-y-1.5 focus-visible:outline focus-visible:outline-gray-950 focus-visible:outline-offset-6"
           onClick={toggleMenu}
           aria-label="Toggle menu"
           aria-expanded={menuOpen}
@@ -40,8 +40,8 @@ export function Header(): JSX.Element {
 
         <div className="flex justify-center w-full flex-wrap">
           <Link
-            className="focus-within:outline focus-within:outline-gray-950 focus-within:outline-offset-6 text-5xl sm:text-7xl leading-25 w-full flex justify-center"
-            style={{ fontFamily: 'BickhamScriptPro' }}
+            className="focus-visible:outline focus-visible:outline-gray-950 focus-visible:outline-offset-6 text-5xl sm:text-7xl leading-25 w-full flex justify-center"
+            style={{ fontFamily: 'Tangerine' }}
             to="/"
           >
             Lynh & Michael
@@ -95,7 +95,7 @@ export function Header(): JSX.Element {
             key={label}
             to={href}
             className={({ isActive }) =>
-              `focus-within:outline focus-within:outline-gray-950 focus-within:outline-offset-6 hover:overline text-xl ${
+              `focus-visible:outline focus-visible:outline-gray-950 focus-visible:outline-offset-6 hover:overline text-xl ${
                 isActive ? 'font-bold overline' : ''
               }`
             }

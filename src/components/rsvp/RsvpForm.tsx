@@ -3,6 +3,7 @@ import {
   serverTimestamp,
   updateDoc,
   type DocumentSnapshot,
+  type UpdateData,
 } from 'firebase/firestore';
 import { Fragment, useMemo, useRef, useState, type FormEvent } from 'react';
 import type { IGuest, IRSVPDoc } from '../../firebase/IRSVPDoc';
@@ -96,7 +97,7 @@ export function RsvpForm({ snapshot }: RsvpFormProps) {
     }
     for (let i = 0; i < guestResponses.length; i++) {
       const g = guestResponses[i]!;
-      if (!g.name.trim()) {
+      if (!g.name?.trim()) {
         return `Please enter a name for Guest ${i + 1}.`;
       }
       if (g.attending == null) {
@@ -105,7 +106,7 @@ export function RsvpForm({ snapshot }: RsvpFormProps) {
     }
   }
 
-  function makePayload(): Partial<IRSVPDoc> {
+  function makePayload(): UpdateData<IRSVPDoc> {
     return {
       invitee: {
         name: data.invitee.name,

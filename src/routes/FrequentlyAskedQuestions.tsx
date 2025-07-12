@@ -82,7 +82,7 @@ export function FrequentlyAskedQuestions(): JSX.Element {
                 <button
                   type="button"
                   onClick={() => toggleAccordion(item.id)}
-                  className="flex justify-between cursor-pointer items-center w-full p-4 md:p-5 text-left font-semibold text-gray-700 bg-gray-50 hover:bg-gray-100 focus-within:border focus-visible:border-gray-950 focus:outline-none focus-within:rounded-lg"
+                  className="flex justify-between cursor-pointer items-center w-full p-4 md:p-5 text-left font-semibold text-gray-700 bg-gray-50 hover:bg-gray-100 focus-visible:border focus-visible:border-gray-950 focus:outline-none focus-visible:rounded-lg"
                   aria-expanded={isOpen}
                   aria-controls={`faq-answer-${item.id}`} // Link button to answer panel
                 >
