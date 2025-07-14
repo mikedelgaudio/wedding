@@ -25,7 +25,6 @@ services:
       timeout: 5s
       start_period: 10s
       retries: 3
-    restart: on-failure
     security_opt:
       - no-new-privileges:true
     cap_drop:

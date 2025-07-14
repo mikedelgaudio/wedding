@@ -60,7 +60,7 @@ USER app
 WORKDIR /usr/share/nginx/html
 
 # Expose HTTP port (explicit TCP)
-EXPOSE 8080/tcp
+EXPOSE 80/tcp
 
 # Start Nginx
 CMD ["nginx", "-g", "daemon off;"]
