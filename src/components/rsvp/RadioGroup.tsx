@@ -17,8 +17,8 @@ export function RadioGroup({
   value,
   onChange,
   options = [
-    { label: 'Yes', value: true },
-    { label: 'No', value: false },
+    { label: 'Will Attend', value: true },
+    { label: 'Will Not Attend', value: false },
   ],
   disabled = false,
   required = false,
@@ -26,7 +26,10 @@ export function RadioGroup({
   return (
     <div className="flex items-center gap-6">
       {options.map(({ label, value: v }) => (
-        <label key={label} className="flex items-center cursor-pointer m-0">
+        <label
+          key={label}
+          className="flex whitespace-nowrap items-center cursor-pointer m-0 focus-within:outline focus-within:outline-gray-950 focus-within:outline-offset-6"
+        >
           <input
             type="radio"
             name={name}
@@ -35,7 +38,7 @@ export function RadioGroup({
             onChange={() => onChange(v)}
             required={required}
             disabled={disabled}
-            className="sr-only peer"
+            className="sr-only peer "
           />
           <span
             className="

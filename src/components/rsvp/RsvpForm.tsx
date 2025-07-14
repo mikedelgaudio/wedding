@@ -194,8 +194,8 @@ export function RsvpForm({ snapshot }: RsvpFormProps) {
       {/* Invitee Section */}
       <fieldset className="space-y-4 border p-4 rounded">
         <legend className="font-medium m-0">Your Response</legend>
-        <p className="text-xl">{data.invitee.name}</p>
-        <div className="flex items-center gap-6">
+        <p className="text-xl font-bold">{data.invitee.name}</p>
+        <div className="grid md:grid-cols-2 items-center gap-2">
           <p className="font-medium">
             Will you be attending? <span className="text-red-600">*</span>
           </p>
@@ -207,10 +207,16 @@ export function RsvpForm({ snapshot }: RsvpFormProps) {
           />
         </div>
         <div>
-          <label className="block mb-1 font-medium">Dietary Restrictions</label>
+          <label
+            className="block mb-1 font-medium"
+            htmlFor="dietaryRestrictions-invitee"
+          >
+            Dietary Restrictions
+          </label>
           <input
             type="text"
             value={dietNotes}
+            id="dietaryRestrictions-invitee"
             onChange={e => setDietNotes(e.target.value)}
             placeholder="e.g. Vegetarian, Gluten-free…"
             className="w-full p-2 border rounded focus:outline-none focus:ring"
@@ -225,11 +231,15 @@ export function RsvpForm({ snapshot }: RsvpFormProps) {
           <div>
             {resp.isNameEditable ? (
               <Fragment>
-                <label className="block mb-1 font-medium">
+                <label
+                  htmlFor={`guestName-${idx}`}
+                  className="block mb-1 font-medium"
+                >
                   Guest {idx + 1} Full Name{' '}
                   <span className="text-red-600">*</span>
                 </label>
                 <input
+                  id={`guestName-${idx}`}
                   type="text"
                   value={resp.name ?? ''}
                   onChange={e => handleGuestChange(idx, 'name', e.target.value)}
@@ -239,10 +249,10 @@ export function RsvpForm({ snapshot }: RsvpFormProps) {
                 />
               </Fragment>
             ) : (
-              <p className="text-xl">{resp.name}</p>
+              <p className="text-xl font-bold">{resp.name}</p>
             )}
           </div>
-          <div className="flex items-center gap-6">
+          <div className="grid md:grid-cols-2 items-center gap-2">
             <p className="font-medium">
               Will they be attending? <span className="text-red-600">*</span>
             </p>
@@ -254,10 +264,14 @@ export function RsvpForm({ snapshot }: RsvpFormProps) {
             />
           </div>
           <div>
-            <label className="block mb-1 font-medium">
+            <label
+              className="block mb-1 font-medium"
+              htmlFor={`dietaryRestrictions-${idx}`}
+            >
               Dietary Restrictions
             </label>
             <input
+              id={`dietaryRestrictions-${idx}`}
               type="text"
               value={resp.dietaryRestrictions ?? ''}
               onChange={e =>
@@ -279,7 +293,7 @@ export function RsvpForm({ snapshot }: RsvpFormProps) {
       <button
         type="submit"
         disabled={isSaving || !isDirty}
-        className="w-full cursor-pointer bg-stone-900 text-white py-2 rounded hover:bg-stone-700 disabled:opacity-50 disabled:cursor-not-allowed"
+        className="w-full cursor-pointer bg-stone-900 text-white py-2 rounded hover:bg-stone-700 disabled:opacity-50 disabled:cursor-not-allowed focus-visible:outline-6 focus-visible:outline-stone-900"
       >
         {isSaving ? 'Saving…' : saveButtonText}
       </button>
