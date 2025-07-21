@@ -4,9 +4,11 @@ import { Header } from './components/Header';
 
 export function AppWithHeader({ children }: { children: JSX.Element }) {
   return (
-    <FadeInOnLoad>
+    <>
       <Header />
-      <main>{children}</main>
-    </FadeInOnLoad>
+      <FadeInOnLoad>
+        <main>{children}</main>
+      </FadeInOnLoad>
+    </>
   );
 }

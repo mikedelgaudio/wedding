@@ -62,15 +62,13 @@ export function Header(): JSX.Element {
         </div>
       </header>
 
-      {/* Mobile Menu Overlay */}
       <div
-        className={`fixed inset-0 top-[72px] flex flex-col items-center bg-black/50 backdrop-blur-sm z-40 transition-opacity duration-300 ${
+        className={`fixed inset-0 top-[72px] flex flex-col items-center bg-black/50 backdrop-blur-sm z-40 transition-opacity duration-300 md:hidden ${
           menuOpen
             ? 'opacity-100 pointer-events-auto'
             : 'opacity-0 invisible pointer-events-none'
         }`}
       >
-        {/* Dropdown Nav with offset for header height */}
         <nav
           className={`w-full overflow-hidden transition-transform transform origin-top duration-500 ease-in-out ${
             menuOpen ? 'scale-y-100' : 'scale-y-0'
