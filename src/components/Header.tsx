@@ -55,14 +55,14 @@ export function Header(): JSX.Element {
 
         <div className="flex justify-center w-full flex-wrap">
           <Link
-            className="md:flex hidden focus-visible:outline focus-visible:outline-gray-950 focus-visible:outline-offset-6 text-6xl w-full justify-center"
+            className="md:flex hidden focus-visible:outline focus-visible:outline-gray-950 text-6xl w-full justify-center"
             style={{ fontFamily: 'Tangerine' }}
             to="/"
           >
             Lynh & Michael
           </Link>
           <Link
-            className="md:hidden flex focus-visible:outline focus-visible:outline-gray-950 focus-visible:outline-offset-6 text-4xl w-full justify-center"
+            className="md:hidden flex focus-visible:outline focus-visible:outline-gray-950  text-4xl w-full justify-center"
             style={{ fontFamily: 'Tangerine' }}
             to="/"
           >
