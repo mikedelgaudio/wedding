@@ -4,6 +4,7 @@ import { RequireAuth } from './firebase/auth/RequireAuth';
 import { FrequentlyAskedQuestions } from './routes/FrequentlyAskedQuestions';
 import { Home } from './routes/Home';
 import { Login } from './routes/Login';
+import { Logout } from './routes/Logout';
 import { NotFound } from './routes/NotFound';
 import { OurStory } from './routes/OurStory';
 import { Rsvp } from './routes/Rsvp';
@@ -60,6 +61,14 @@ export function App() {
           element={
             <RequireAuth>
               <ThingsToDo />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="/logout"
+          element={
+            <RequireAuth>
+              <Logout />
             </RequireAuth>
           }
         />

@@ -1,6 +1,5 @@
-import { useCallback, useContext, useEffect, useState, type JSX } from 'react';
+import { useCallback, useEffect, useState, type JSX } from 'react';
 import { Link, NavLink } from 'react-router-dom';
-import { AuthContext } from '../firebase/auth/AuthContext';
 
 const NAV_LINKS = [
   { href: '/', label: 'Home' },
@@ -14,7 +13,6 @@ const NAV_LINKS = [
 export function Header(): JSX.Element {
   const [menuOpen, setMenuOpen] = useState(false);
 
-  const auth = useContext(AuthContext);
   const toggleMenu = useCallback(() => setMenuOpen(open => !open), []);
   const closeMenu = useCallback(() => setMenuOpen(false), []);
 
@@ -110,7 +108,6 @@ export function Header(): JSX.Element {
 
       {/* Desktop Navigation */}
       <nav className="hidden md:flex items-center justify-center gap-15 text-2xl pb-4">
-        <button onClick={() => auth.signOutUser()}>LOGOUT</button>
         {NAV_LINKS.map(({ href, label }) => (
           <NavLink
             key={label}
