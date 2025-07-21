@@ -1,6 +1,6 @@
 import type { DocumentSnapshot } from 'firebase/firestore';
 import { useState, type JSX } from 'react';
-import { FadeInOnLoad } from '../components/FadeInOnLoad';
+import { AppWithHeader } from '../AppWithHeader';
 import { PageWrapper } from '../components/PageWrapper';
 import { RsvpForm } from '../components/rsvp/RsvpForm';
 import { RsvpSignIn } from '../components/rsvp/RsvpSignIn';
@@ -11,7 +11,7 @@ export function Rsvp(): JSX.Element {
     useState<DocumentSnapshot<IRSVPDoc> | null>(null);
 
   return (
-    <FadeInOnLoad>
+    <AppWithHeader>
       <PageWrapper pageTitle="RSVP">
         {!rsvpSnapshot ? (
           <RsvpSignIn onSuccess={setRsvpSnapshot} />
@@ -19,6 +19,6 @@ export function Rsvp(): JSX.Element {
           <RsvpForm snapshot={rsvpSnapshot} />
         )}
       </PageWrapper>
-    </FadeInOnLoad>
+    </AppWithHeader>
   );
 }

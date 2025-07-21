@@ -1,5 +1,5 @@
 import { useState, type JSX } from 'react';
-import { FadeInOnLoad } from '../components/FadeInOnLoad';
+import { AppWithHeader } from '../AppWithHeader';
 import { PageWrapper } from '../components/PageWrapper';
 
 interface FAQItem {
@@ -67,7 +67,7 @@ export function FrequentlyAskedQuestions(): JSX.Element {
   };
 
   return (
-    <FadeInOnLoad>
+    <AppWithHeader>
       <PageWrapper pageTitle="Frequently Asked Questions">
         {faqData.map(item => {
           const isOpen = !!openStates[item.id]; // Check if the current item is open
@@ -125,6 +125,6 @@ export function FrequentlyAskedQuestions(): JSX.Element {
           );
         })}
       </PageWrapper>
-    </FadeInOnLoad>
+    </AppWithHeader>
   );
 }

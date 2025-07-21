@@ -1,20 +1,19 @@
 import type { JSX } from 'react';
+import { AppWithHeader } from '../AppWithHeader';
 import glassMuesumImg from '../assets/glassMuesum.jpg';
-import img from '../assets/ourstory.jpg';
-import { FadeInOnLoad } from '../components/FadeInOnLoad';
 import { PageWrapper } from '../components/PageWrapper';
 import { ResponsiveFigure } from '../components/ResponsiveFigure';
 
 export function OurStory(): JSX.Element {
   return (
-    <FadeInOnLoad>
+    <AppWithHeader>
       <PageWrapper pageTitle="Our Story">
         <ResponsiveFigure
-          src={img}
+          src={'https://cdn-wedding.delgaudio.dev/ourstory.jpg'}
           alt=""
           width={1000}
           height={665}
-          loading="lazy"
+          loading="eager"
         />
         <p className="text-lg">
           Lynh and Mike met the Summer of 2022 while interning for the same
@@ -128,6 +127,6 @@ export function OurStory(): JSX.Element {
           first blooms of Spring:
         </p>
       </PageWrapper>
-    </FadeInOnLoad>
+    </AppWithHeader>
   );
 }

@@ -1,10 +1,12 @@
-import { useCallback, useState, type JSX } from 'react';
+import { useCallback, useContext, useState, type JSX } from 'react';
 import { Link, NavLink } from 'react-router-dom';
+import { AuthContext } from '../firebase/auth/AuthContext';
 
 const NAV_LINKS = [
   { href: '/', label: 'Home' },
   { href: '/ourstory', label: 'Our Story' },
   { href: '/schedule', label: 'Schedule' },
+  { href: '/thingstodo', label: 'Things to Do' },
   { href: '/rsvp', label: 'RSVP' },
   { href: '/faq', label: 'FAQ' },
 ];
@@ -12,6 +14,7 @@ const NAV_LINKS = [
 export function Header(): JSX.Element {
   const [menuOpen, setMenuOpen] = useState(false);
 
+  const auth = useContext(AuthContext);
   const toggleMenu = useCallback(() => setMenuOpen(open => !open), []);
   const closeMenu = useCallback(() => setMenuOpen(false), []);
 
@@ -38,7 +41,7 @@ export function Header(): JSX.Element {
           ))}
         </button>
 
-        <div className="flex justify-center w-full flex-wrap">
+        <div className="flex justify-center w-full flex-wrap pt-4">
           <Link
             className="focus-visible:outline focus-visible:outline-gray-950 focus-visible:outline-offset-6 text-5xl sm:text-7xl leading-25 w-full flex justify-center"
             style={{ fontFamily: 'Tangerine' }}
@@ -90,6 +93,7 @@ export function Header(): JSX.Element {
 
       {/* Desktop Navigation */}
       <nav className="hidden md:flex items-center justify-center gap-15 text-2xl pb-4">
+        <button onClick={() => auth.signOutUser()}>LOGOUT</button>
         {NAV_LINKS.map(({ href, label }) => (
           <NavLink
             key={label}

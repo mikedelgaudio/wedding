@@ -1,13 +1,13 @@
-import { FadeInOnLoad } from '../components/FadeInOnLoad';
+import { AppWithHeader } from '../AppWithHeader';
 import { PageWrapper } from '../components/PageWrapper';
 import { ScheduleCore } from '../components/ScheduleCore';
 
 export function Schedule() {
   return (
-    <FadeInOnLoad>
+    <AppWithHeader>
       <PageWrapper pageTitle="Schedule">
         <ScheduleCore />
       </PageWrapper>
-    </FadeInOnLoad>
+    </AppWithHeader>
   );
 }

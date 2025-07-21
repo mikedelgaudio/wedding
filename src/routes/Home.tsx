@@ -1,10 +1,10 @@
 import type { JSX } from 'react';
+import { AppWithHeader } from '../AppWithHeader';
 import img from '../assets/home.jpg';
-import { FadeInOnLoad } from '../components/FadeInOnLoad';
 
 export function Home(): JSX.Element {
   return (
-    <FadeInOnLoad>
+    <AppWithHeader>
       <div className="flex justify-center items-center">
         <div className="w-full max-w-[1000px]">
           <div className="relative w-full h-[calc(100dvh-132px)] lg:h-[calc(100dvh-164px)] overflow-hidden group">
@@ -35,6 +35,6 @@ export function Home(): JSX.Element {
           </div>
         </div>
       </div>
-    </FadeInOnLoad>
+    </AppWithHeader>
   );
 }
