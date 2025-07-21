@@ -7,7 +7,7 @@ export function Home(): JSX.Element {
     <AppWithHeader>
       <div className="flex justify-center items-center">
         <div className="w-full max-w-[1000px]">
-          <div className="relative w-full h-[calc(100dvh-132px)] lg:h-[calc(100dvh-164px)] overflow-hidden group">
+          <div className="relative w-full h-[400px] md:h-[calc(100dvh-164px)] overflow-hidden group">
             <img
               src={img}
               alt=""

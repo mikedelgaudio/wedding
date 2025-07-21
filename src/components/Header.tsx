@@ -1,4 +1,4 @@
-import { useCallback, useContext, useState, type JSX } from 'react';
+import { useCallback, useContext, useEffect, useState, type JSX } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import { AuthContext } from '../firebase/auth/AuthContext';
 
@@ -17,6 +17,18 @@ export function Header(): JSX.Element {
   const auth = useContext(AuthContext);
   const toggleMenu = useCallback(() => setMenuOpen(open => !open), []);
   const closeMenu = useCallback(() => setMenuOpen(false), []);
+
+  useEffect(() => {
+    if (menuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [menuOpen]);
 
   return (
     <div className="relative z-50">

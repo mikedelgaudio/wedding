@@ -21,7 +21,7 @@ export function Login() {
 
     if (!success) {
       setError(
-        'The password entered may be invalid or an error occurred.Please try again by checking your password or refreshing the page.',
+        'The password entered may be invalid or an error occurred. Please try again by checking your password or refreshing the page.',
       );
       setSubmitting(false);
       return;
@@ -40,20 +40,12 @@ export function Login() {
 
   return (
     <div className="h-lvh grid grid-cols-1 md:grid-cols-2">
-      <div className="h-full w-full">
-        <img
-          src="https://cdn-wedding.delgaudio.dev/ourstory.jpg"
-          alt="Our Story"
-          className="object-cover w-full h-full"
-          loading="eager"
-        />
-      </div>
       <div className="flex items-center justify-center p-8">
         <form onSubmit={handleSubmit} className="max-w-lg w-full">
           <h1 className="text-2xl font-bold">Welcome family and friends</h1>
           <p className="m-0 text-gray-600">
-            Please use the site password from your wedding invitation to access
-            the site.
+            Please use the site password from your invitation to access the
+            site.
           </p>
           <div className="flex items-center justify-between mt-4">
             <label htmlFor="site-password" className="text-lg font-bold">
@@ -101,6 +93,14 @@ export function Login() {
             {submitting || checking || !!user ? 'Checking...' : 'Submit'}
           </button>
         </form>
+      </div>
+      <div className="h-full w-full">
+        <img
+          src="https://cdn-wedding.delgaudio.dev/ourstory.jpg"
+          alt="Our Story"
+          className="object-cover w-full h-full"
+          loading="eager"
+        />
       </div>
     </div>
   );

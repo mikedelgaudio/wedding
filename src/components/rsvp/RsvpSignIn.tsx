@@ -63,16 +63,27 @@ export function RsvpSignIn({ onSuccess }: RsvpSignInProps) {
 
   return (
     <form onSubmit={handleSubmit}>
-      <label htmlFor="rsvpCode" className="text-xl font-semibold mb-2 block">
-        Enter your RSVP code
-      </label>
+      <div className="flex items-center justify-between">
+        <label htmlFor="rsvpCode" className="text-xl font-semibold mb-2 block">
+          Enter your RSVP code
+        </label>
+        <p className="text-sm">
+          Questions?{' '}
+          <a
+            className="underline focus:outline-none focus:ring  hover:no-underline"
+            href="mailto:rsvp@delgaudio.dev"
+          >
+            Contact us
+          </a>
+        </p>
+      </div>
       <input
         type="text"
         id="rsvpCode"
         value={code}
         onChange={e => setCode(e.target.value)}
         placeholder="Example: XXXX-XXXX"
-        className="w-full p-2 border rounded focus:outline-none focus:ring mb-3"
+        className="w-full p-2 border rounded focus:outline-none focus:ring mb-2"
         aria-invalid={!!error}
         aria-describedby={error ? 'rsvp-error' : undefined}
       />
@@ -81,18 +92,9 @@ export function RsvpSignIn({ onSuccess }: RsvpSignInProps) {
           {error}
         </p>
       )}
-      <p className="text-sm">
+      <p className="text-md">
         The RSVP code is on your invitation in the format{' '}
         <strong>XXXX-XXXX</strong>.
-      </p>
-      <p className="text-sm ">
-        Questions?{' '}
-        <a
-          className="underline focus:outline-none focus:ring  hover:no-underline"
-          href="mailto:rsvp@delgaudio.dev"
-        >
-          Contact us
-        </a>
       </p>
       <button
         type="submit"
