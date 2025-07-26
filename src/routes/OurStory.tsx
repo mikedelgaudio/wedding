@@ -13,7 +13,7 @@ export function OurStory(): JSX.Element {
           src={`${CDN_URL}/public-hero.jpg`}
           alt=""
           width={583}
-          height={388}
+          height={300}
           loading="eager"
         />
         <p className="text-lg">
