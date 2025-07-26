@@ -1,6 +1,7 @@
 import type { JSX } from 'react';
 import { AppWithHeader } from '../AppWithHeader';
-import img from '../assets/home.jpg';
+
+const CDN_URL = import.meta.env.VITE_REACT_APP_ASSET_CDN_URL;
 
 export function Home(): JSX.Element {
   return (
@@ -9,7 +10,7 @@ export function Home(): JSX.Element {
         <div className="w-full max-w-[1000px]">
           <div className="relative w-full h-[400px] md:h-[calc(100dvh-164px)] overflow-hidden group">
             <img
-              src={img}
+              src={`${CDN_URL}/home.jpg`}
               alt=""
               width="1920"
               height="1080"

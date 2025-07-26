@@ -96,7 +96,7 @@ export function Login() {
       </div>
       <div className="h-full w-full">
         <img
-          src="https://cdn-wedding.delgaudio.dev/ourstory.jpg"
+          src="https://cdn-wedding.delgaudio.dev/public-hero.jpg"
           alt="Our Story"
           className="object-cover w-full h-full"
           loading="eager"

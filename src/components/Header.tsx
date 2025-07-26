@@ -67,11 +67,10 @@ export function Header(): JSX.Element {
             L & M
           </Link>
           <span className="md:block hidden text-lg">
-            July 16, 2026 &nbsp;&middot;&nbsp; Seattle, WA
+            June 18, 2026 &nbsp;&middot;&nbsp; Seattle, WA
           </span>
         </div>
       </header>
-
       <div
         className={`fixed inset-0 top-[72px] flex flex-col items-center bg-black/50 backdrop-blur-sm z-40 transition-opacity duration-300 md:hidden ${
           menuOpen

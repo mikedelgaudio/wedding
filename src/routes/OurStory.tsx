@@ -1,18 +1,19 @@
 import type { JSX } from 'react';
 import { AppWithHeader } from '../AppWithHeader';
-import glassMuesumImg from '../assets/glassMuesum.jpg';
 import { PageWrapper } from '../components/PageWrapper';
 import { ResponsiveFigure } from '../components/ResponsiveFigure';
+
+const CDN_URL = import.meta.env.VITE_REACT_APP_ASSET_CDN_URL;
 
 export function OurStory(): JSX.Element {
   return (
     <AppWithHeader>
       <PageWrapper pageTitle="Our Story">
         <ResponsiveFigure
-          src={'https://cdn-wedding.delgaudio.dev/ourstory.jpg'}
+          src={`${CDN_URL}/public-hero.jpg`}
           alt=""
-          width={1000}
-          height={665}
+          width={583}
+          height={388}
           loading="eager"
         />
         <p className="text-lg">
@@ -46,7 +47,7 @@ export function OurStory(): JSX.Element {
           2022 playing lot of poker and eating their way around Seattle.
         </p>
         <ResponsiveFigure
-          src={glassMuesumImg}
+          src={`${CDN_URL}/museum.jpg`}
           alt=""
           width={1000}
           height={400}
@@ -58,7 +59,7 @@ export function OurStory(): JSX.Element {
           Minnesota, each visiting each other often.
         </p>
         <ResponsiveFigure
-          src={glassMuesumImg}
+          src={`${CDN_URL}/museum.jpg`}
           alt=""
           width={1000}
           height={400}
@@ -66,7 +67,7 @@ export function OurStory(): JSX.Element {
           caption="Mike experiencing his first MN Snow"
         />
         <ResponsiveFigure
-          src={glassMuesumImg}
+          src={`${CDN_URL}/museum.jpg`}
           alt=""
           width={1000}
           height={400}
@@ -74,7 +75,7 @@ export function OurStory(): JSX.Element {
           caption="Lynh in Timesquare"
         />
         <ResponsiveFigure
-          src={glassMuesumImg}
+          src={`${CDN_URL}/museum.jpg`}
           alt=""
           width={1000}
           height={400}
@@ -82,7 +83,7 @@ export function OurStory(): JSX.Element {
           caption="Mike at his first MN State Fair"
         />
         <ResponsiveFigure
-          src={glassMuesumImg}
+          src={`${CDN_URL}/museum.jpg`}
           alt=""
           width={1000}
           height={400}
@@ -96,7 +97,7 @@ export function OurStory(): JSX.Element {
           outdoors, drinking lots of coffee, and traveling.
         </p>
         <ResponsiveFigure
-          src={glassMuesumImg}
+          src={`${CDN_URL}/museum.jpg`}
           alt=""
           width={1000}
           height={400}
@@ -104,7 +105,7 @@ export function OurStory(): JSX.Element {
           caption="Hiking in the Pacific Northwest"
         />
         <ResponsiveFigure
-          src={glassMuesumImg}
+          src={`${CDN_URL}/museum.jpg`}
           alt=""
           width={1000}
           height={400}
@@ -112,7 +113,7 @@ export function OurStory(): JSX.Element {
           caption="Exploring the fjords of Norway"
         />
         <ResponsiveFigure
-          src={glassMuesumImg}
+          src={`${CDN_URL}/museum.jpg`}
           alt=""
           width={1000}
           height={400}
