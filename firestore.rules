@@ -1,0 +1,68 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+  	match /site/{docId} {
+    	allow get: if true;
+      allow create, update, delete: if false;
+      
+      match /schedule/{scheduleId} {
+        allow get: if request.auth != null;
+        allow create, update, delete: if false;
+      }
+    }
+    match /rsvp/{inviteCode} {
+      allow get: if request.auth != null;
+
+      // allow updates only by someone who knows the code and before the deadline,
+      // and only if the data passes our schema checks
+      allow update: if
+        // they can’t change the inviteCode itself
+        request.resource.data.inviteCode == resource.id
+        // must be before the RSVP deadline
+        && request.time < resource.data.rsvpDeadline
+        // payload must validate
+        && validateRsvp(request.resource.data);
+
+      allow create, delete: if false;
+    }
+  }
+}
+
+  function validateRsvp(data) {
+    return (
+      // top‐level keys
+      data.keys().hasOnly([
+        'inviteCode',
+        'rsvpDeadline',
+        'lastModified',
+        'invitee',
+        'guests'
+      ])
+      // inviteCode must stay the same and be a string
+      && data.inviteCode is string
+
+      // deadlines & timestamps
+      && data.rsvpDeadline is timestamp
+      && (data.lastModified is timestamp || data.lastModified == null)
+
+      // invitee sub‐map
+      && data.invitee.keys().hasOnly([
+           'name',
+           'attending',
+           'dietaryRestrictions'
+         ])
+      && data.invitee.name is string
+      && data.invitee.name.size() > 0
+      && data.invitee.attending is bool
+      && (
+           data.invitee.dietaryRestrictions == null
+           || (
+             data.invitee.dietaryRestrictions is string
+             && data.invitee.dietaryRestrictions.size() <= 200
+           )
+         )
+
+      // guests array constraints
+      && data.guests is list
+    );
+  }
