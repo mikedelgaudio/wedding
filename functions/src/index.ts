@@ -20,6 +20,7 @@ if (!SHARED_PASSWORD) {
 export const passwordLogin = functions.https.onCall(async request => {
   logger.info('Password attempt received');
 
+  // ✅ Enforce App Check (includes ReCAPTCHA protection)
   if (!request.app) {
     logger.warn('App Check missing');
     throw new functions.https.HttpsError(
@@ -28,6 +29,7 @@ export const passwordLogin = functions.https.onCall(async request => {
     );
   }
 
+  // ✅ Validate input
   const { password } = request.data;
 
   if (typeof password !== 'string' || password.trim() === '') {

@@ -9,8 +9,10 @@ export function RequireAuth({ children }: { children: JSX.Element }) {
   if (checking) return null;
 
   if (!user) {
-    // Save the current location in router state
-    return <Navigate to="/login" state={{ from: location }} replace />;
+    // Save the current location in router state, but don't save /logout
+    // as we don't want to redirect back there after login
+    const from = location.pathname === '/logout' ? { pathname: '/' } : location;
+    return <Navigate to="/login" state={{ from }} replace />;
   }
 
   return children;

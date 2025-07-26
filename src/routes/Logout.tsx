@@ -1,18 +1,29 @@
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 
 export function Logout() {
   const auth = useAuth();
+  const navigate = useNavigate();
 
-  if (!auth) {
-    return null; // or handle the case where auth is not available
-  }
+  useEffect(() => {
+    const handleLogout = async () => {
+      if (auth) {
+        await auth.signOutUser();
+        // Navigate to login and clear any stored location state
+        navigate('/login', { replace: true, state: null });
+      }
+    };
 
+    handleLogout();
+  }, [auth, navigate]);
+
+  // Show a loading state while logging out
   return (
-    <button
-      className="w-full focus:outline-none focus:ring cursor-pointer bg-stone-900 text-white mt-6 py-2 rounded hover:bg-stone-700 disabled:opacity-50 disabled:cursor-not-allowed"
-      onClick={() => auth.signOutUser()}
-    >
-      LOGOUT
-    </button>
+    <div className="h-lvh flex items-center justify-center">
+      <div className="text-center">
+        <p className="text-lg">Logging out...</p>
+      </div>
+    </div>
   );
 }

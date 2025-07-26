@@ -28,9 +28,7 @@ export async function tryPasswordLogin(password: string): Promise<boolean> {
 
     await signInWithCustomToken(auth, result.data.token);
 
-    console.log(auth.currentUser);
-    console.log(result.data.token);
-
+    // Successfully authenticated
     return true;
   } catch (e) {
     console.error('Login failed:', e);
