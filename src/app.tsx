@@ -9,7 +9,7 @@ import { NotFound } from './routes/NotFound';
 import { OurStory } from './routes/OurStory';
 import { Rsvp } from './routes/Rsvp';
 import { Schedule } from './routes/Schedule';
-import { ThingsToDo } from './routes/ThingsToDo';
+import { Travel } from './routes/Travel';
 
 export function App() {
   return (
@@ -57,10 +57,10 @@ export function App() {
           }
         />
         <Route
-          path="/thingstodo"
+          path="/travel"
           element={
             <RequireAuth>
-              <ThingsToDo />
+              <Travel />
             </RequireAuth>
           }
         />

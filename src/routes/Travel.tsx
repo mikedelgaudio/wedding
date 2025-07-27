@@ -43,10 +43,10 @@ const places: Place[] = [
   },
 ];
 
-export function ThingsToDo(): JSX.Element {
+export function Travel(): JSX.Element {
   return (
     <AppWithHeader>
-      <PageWrapper pageTitle="Things to Do">
+      <PageWrapper pageTitle="Travel">
         <section
           aria-labelledby="things-to-do-heading"
           className="max-w-5xl mx-auto"

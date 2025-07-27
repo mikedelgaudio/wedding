@@ -5,7 +5,7 @@ const NAV_LINKS = [
   { href: '/', label: 'Home' },
   { href: '/ourstory', label: 'Our Story' },
   { href: '/schedule', label: 'Schedule' },
-  { href: '/thingstodo', label: 'Things to Do' },
+  { href: '/travel', label: 'Travel' },
   { href: '/rsvp', label: 'RSVP' },
   { href: '/faq', label: 'FAQ' },
 ];
@@ -67,7 +67,7 @@ export function Header(): JSX.Element {
             L & M
           </Link>
           <span className="md:block hidden text-lg">
-            June 18, 2026 &nbsp;&middot;&nbsp; Seattle, WA
+            June 18, 2026 &nbsp;&middot;&nbsp; Redmond, WA
           </span>
         </div>
       </header>

@@ -36,29 +36,29 @@ export function ScheduleCore() {
   }, []);
 
   return (
-    <Fragment>
-      <h2>Day of Event: June 18, 2026</h2>
-      <div className="grid grid-cols-1 gap-6 pb-8 px-4">
-        {events.map((event, index) => (
-          <Fragment key={index}>
-            <span className="text-2xl justify-self-end-safe">{event.time}</span>
+    <div className="grid grid-cols-1 gap-2 pb-8 px-4">
+      {events.map((event, index) => (
+        <Fragment key={index}>
+          <div className="flex flex-col flex-nowrap items-end-safe whitespace-nowrap">
+            <span className="text-2xl">{event.time}</span>
+            <span className="text-md mr-[2px] leading-1">June 18, 2026</span>
+          </div>
+          <div>
             <div>
-              <div>
-                <h2 className="font-bold text-2xl">{event.header}</h2>
-              </div>
-              <div>
-                <p className="text-lg">{event.venue}</p>
-                <p className="text-lg">{event.address}</p>
-                <GoogleMapsLink address={event.address} />
-                <p className="mt-6">Attire: {event.attire}</p>
-              </div>
+              <h2 className="font-bold text-2xl">{event.header}</h2>
             </div>
-            {index < events.length - 1 && (
-              <hr className="border-b-1 border-[rgba(52,45,47,15%)] " />
-            )}
-          </Fragment>
-        ))}
-      </div>
-    </Fragment>
+            <div>
+              <p className="text-lg">{event.venue}</p>
+              <p className="text-lg">{event.address}</p>
+              <GoogleMapsLink address={event.address} />
+              <p className="mt-6">Attire: {event.attire}</p>
+            </div>
+          </div>
+          {index < events.length - 1 && (
+            <hr className="border-b-1 border-[rgba(52,45,47,15%)] my-4" />
+          )}
+        </Fragment>
+      ))}
+    </div>
   );
 }
