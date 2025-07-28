@@ -24,10 +24,9 @@ export function ScheduleCore() {
         if (snap.exists()) {
           const data = snap.data();
           setEvents(data.events || []);
-        } else {
-          console.warn('No schedule found.');
         }
       } catch (error) {
+        // eslint-disable-next-line no-console
         console.error('Error fetching schedule:', error);
       }
     };

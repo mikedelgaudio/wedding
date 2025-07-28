@@ -1,7 +1,7 @@
 {
   "name": "wedding-react",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -30,12 +30,6 @@
     "typescript": "~5.8.3",
     "typescript-eslint": "^8.35.1",
     "vite": "^7.0.6"
-  },
-  "eslintConfig": {
-    "extends": "preact/recommended",
-    "rules": {
-      "no-console": 1
-    }
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx,html,css}": [

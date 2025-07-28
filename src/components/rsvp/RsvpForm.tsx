@@ -153,6 +153,7 @@ export function RsvpForm({ snapshot }: RsvpFormProps) {
       // swap to success screen
       setSuccessFlag(true);
     } catch (err) {
+      // eslint-disable-next-line no-console
       console.error('RSVP save error:', err);
       setErrorMessage(
         'An error occurred while saving your RSVP. Please try again or contact us.',
