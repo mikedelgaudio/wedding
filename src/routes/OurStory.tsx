@@ -18,24 +18,24 @@ export function OurStory(): JSX.Element {
         />
         <p className="text-lg">
           Lynh and Mike met the Summer of 2022 while interning for the same
-          company in Seattle. During orientation, Mike sat next to Lynh. They
-          introduced themselves to each other, but didn't think much of it. The
-          next day walking back to her hotel room with groceries, Lynh saw Mike
-          again. They realized they were not only working for the same company,
-          but also placed at the same hotel AND on the same floor.
+          company in Redmond, WA. During orientation, Mike sat next to Lynh.
+          They introduced themselves to each other, but didn't think much of it.
+          The next day walking back to her hotel room with groceries, Lynh saw
+          Mike again. They realized they were not only working for the same
+          company, but also placed at the same hotel AND on the same floor.
         </p>
         <p className="text-lg">
-          After work, the few intern that were placed in the same hotel would
-          play games in the hotel lobby, one day they decided to play poker with
-          Lynh's set of shiny gold cards. Mike did not know how to play, so Lynh
-          taught him... but not for free. We didn't have Poker chips, so we
-          would play for verbal bets. First, Mike lost and had to give Lynh
-          rides to work for a week (Mike was the only one who rented a car).
-          This soon turned into free rides for the whole Summer. Mike kept
-          bragging about how he bought an air fryer from Costco to get him
-          through the Summer living in a hotel room. The next time Mike lost, he
-          offered to cook Lynh dinner with his air fryer. Lynh was skeptical...
-          but also hungry, so she eventually accepted.
+          After work, the interns that were placed in the Residence Inn Redmond
+          would play games in the hotel lobby. One day they decided to play
+          pokerMike did not know how to play, so Lynh taught him... but not for
+          free. We didn't have Poker chips, so we would play for verbal bets.
+          First, Mike lost and had to give Lynh rides to work for a week (Mike
+          was the only one who rented a car for the Summer). This soon turned
+          into free rides for the whole Summer. Mike kept bragging about how he
+          bought an air fryer from Costco to get him through the Summer living
+          in a hotel room. The next time Mike lost, he offered to cook Lynh
+          dinner with his air fryer. Lynh was skeptical... but also hungry, so
+          she eventually accepted.
         </p>
         <p className="text-lg">
           Mike made Lynh a delicious air fryer chicken dinner, and while they
@@ -59,7 +59,7 @@ export function OurStory(): JSX.Element {
           Minnesota, each visiting each other often.
         </p>
         <ResponsiveFigure
-          src={`${CDN_URL}/museum.jpg`}
+          src={`${CDN_URL}/mikeSnow.jpg`}
           alt=""
           width={1000}
           height={400}
@@ -67,59 +67,19 @@ export function OurStory(): JSX.Element {
           caption="Mike experiencing his first MN Snow"
         />
         <ResponsiveFigure
-          src={`${CDN_URL}/museum.jpg`}
+          src={`${CDN_URL}/timesSquare.jpg`}
           alt=""
           width={1000}
           height={400}
           loading="lazy"
           caption="Lynh in Timesquare"
         />
-        <ResponsiveFigure
-          src={`${CDN_URL}/museum.jpg`}
-          alt=""
-          width={1000}
-          height={400}
-          loading="lazy"
-          caption="Mike at his first MN State Fair"
-        />
-        <ResponsiveFigure
-          src={`${CDN_URL}/museum.jpg`}
-          alt=""
-          width={1000}
-          height={400}
-          loading="lazy"
-          caption="Lynh & Mike at Rockefeller Center on New Years 2023"
-        />
 
         <p className="text-lg">
-          After college, Mike and Lynh both returned to Seattle for work and
-          have been living there ever since. They've enjoyed exploring the
-          outdoors, drinking lots of coffee, and traveling.
+          After college, Mike and Lynh both returned to Redmond for work and
+          have been living there ever since!
         </p>
-        <ResponsiveFigure
-          src={`${CDN_URL}/museum.jpg`}
-          alt=""
-          width={1000}
-          height={400}
-          loading="lazy"
-          caption="Hiking in the Pacific Northwest"
-        />
-        <ResponsiveFigure
-          src={`${CDN_URL}/museum.jpg`}
-          alt=""
-          width={1000}
-          height={400}
-          loading="lazy"
-          caption="Exploring the fjords of Norway"
-        />
-        <ResponsiveFigure
-          src={`${CDN_URL}/museum.jpg`}
-          alt=""
-          width={1000}
-          height={400}
-          loading="lazy"
-          caption="Magical moments at Disneyland"
-        />
+        <h3 className="text-lg font-bold mt-4">The Proposal</h3>
         <p className="text-lg">
           One of Lynh's most favorite places on Earth is the annual Tulip
           Festival in Northern Washington. For her birthday, Mike surprised Lynh
@@ -127,6 +87,20 @@ export function OurStory(): JSX.Element {
           just a photoshoot. On April 4th, 2025 Michael proposed in front of the
           first blooms of Spring:
         </p>
+        <ResponsiveFigure
+          src={`${CDN_URL}/proposal.jpg`}
+          alt=""
+          width={1000}
+          height={400}
+          loading="lazy"
+        />
+        <ResponsiveFigure
+          src={`${CDN_URL}/day.jpg`}
+          alt=""
+          width={1000}
+          height={400}
+          loading="lazy"
+        />
       </PageWrapper>
     </AppWithHeader>
   );

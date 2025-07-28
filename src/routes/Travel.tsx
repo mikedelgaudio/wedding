@@ -11,12 +11,14 @@ type CollapsibleSectionProps = {
   id: string;
   title: string;
   children: JSX.Element | JSX.Element[];
+  titleclassName?: string; // Add className prop
 };
 
 function CollapsibleSection({
   id,
   title,
   children,
+  titleclassName,
 }: CollapsibleSectionProps): JSX.Element {
   const [isOpen, setIsOpen] = useState(false);
   const contentRef = useRef<HTMLDivElement>(null);
@@ -26,11 +28,13 @@ function CollapsibleSection({
       <button
         id={`toggle-${id}`}
         onClick={() => setIsOpen(prev => !prev)}
-        className="cursor-pointer text-2xl font-bold mt-2 w-full text-left flex justify-between items-center focus:outline-none focus-visible:ring focus-visible:ring-black-500 rounded"
+        className={`cursor-pointer text-2xl font-bold mt-2 w-full text-left flex justify-between items-center focus:outline-none focus-visible:ring focus-visible:ring-black-500 rounded`}
         aria-expanded={isOpen}
         aria-controls={`content-${id}`}
       >
-        {title}
+        <span className={titleclassName || 'text-xl font-semibold'}>
+          {title}
+        </span>
         <span className="text-xl">{isOpen ? '−' : '+'}</span>
       </button>
 
@@ -40,7 +44,7 @@ function CollapsibleSection({
         role="region"
         aria-labelledby={`toggle-${id}`}
         className={`overflow-hidden transition-all duration-500 ease-in-out ${
-          isOpen ? 'max-h-[2000px] opacity-100' : 'max-h-0 opacity-0'
+          isOpen ? 'opacity-100' : 'max-h-0 opacity-0'
         }`}
       >
         <div className="mt-2">{children}</div>
@@ -193,140 +197,219 @@ export function Travel(): JSX.Element {
             </>
           </CollapsibleSection>
 
-          <CollapsibleSection id="local-attractions" title="Local Attractions">
+          <CollapsibleSection id="things-to-do" title="Things to Do">
             <>
-              <p>
-                Washington is known for its beautiful scenery, outdoor
-                activities, and vibrant culture (think coffee!). Luckily,
-                whether you're in Redmond or Seattle you have access to many
-                outdoor and city attractions.
-              </p>
+              <CollapsibleSection
+                id="coffee"
+                title="☕ Coffee"
+                titleclassName="text-base font-medium"
+              >
+                <>
+                  <ul className="list-disc pl-6 text-sm">
+                    <li>
+                      <strong>Lighthouse Roasters</strong> Located in Fremont
+                      (North Seattle)
+                    </li>
+                    <li>
+                      <strong>Phe</strong> Located in Capitol Hill, Seattle.
+                      This shop serves both Vietnamese Coffee, matcha, hojicha,
+                      and some great Bahn Mi.
+                    </li>
+                    <li>
+                      <strong>Thruline</strong> Located in Kirkland (about 15
+                      minutes west of Redmond), grab a cappuccino and stroll
+                      through the waterfront.
+                    </li>
+                    <li>
+                      <strong>Aroom</strong> a Vietnamese coffee shop located
+                      above the famous Gas Works Park in Seattle.
+                    </li>
+                  </ul>
+                </>
+              </CollapsibleSection>
 
-              <h3 className="text-xl font-bold mt-4">Coffee</h3>
-              <ul className="list-disc pl-6 text-lg">
-                <li>
-                  <strong>Lighthouse Roasters</strong> Located in Fremont (North
-                  Seattle)
-                </li>
-                <li>
-                  <strong>Phe</strong> Located in Capitol Hill, Seattle. This
-                  shop serves both Vietnamese Coffee, matcha, hojicha, and some
-                  great Bahn Mi.
-                </li>
-                <li>
-                  <strong>Thruline</strong> Located in Kirkland (about 15
-                  minutes west of Redmond), grab a cappuccino and stroll through
-                  the waterfront.
-                </li>
-                <li>
-                  <strong>Aroom</strong> a Vietnamese coffee shop located above
-                  the famous Gas Works Park in Seattle.
-                </li>
-              </ul>
-              <h3 className="text-xl font-bold mt-4">Favorite Boba Tea</h3>
-              <ul className="list-disc pl-6 text-lg">
-                <li>
-                  <strong>HeyTea</strong> Located in Bellevue (with a Redmond
-                  location opening soon). Lynh's favorite is the Coconut Cloud
-                  Blue and Mike's is the Matcha Cloud Jasmine. The Mango Boom
-                  with reduced sweetness is also a great option!
-                </li>
-                <li>
-                  <strong>Bobae</strong> Located in both Kirkland and
-                  Woodinville, this is one of our favorite boba shops in the
-                  area. Locally sourced ingredients, all toppings and syrups
-                  made in store, only using full leaf teas. Our go to is the
-                  NITRO OG Milk Tea with 25% sweetness.
-                </li>
-                <li>
-                  <strong>OMO Thai Tea</strong> Located in Bellevue, this has
-                  one of our favorite drinks: the Thai Green Classic. They also
-                  have soft serve ice cream!
-                </li>
-              </ul>
+              <CollapsibleSection
+                id="boba-tea"
+                title="🧋 Boba Tea"
+                titleclassName="text-base font-medium"
+              >
+                <>
+                  <ul className="list-disc pl-6 text-sm">
+                    <li>
+                      <strong>HeyTea</strong> Located in Bellevue (with a
+                      Redmond location opening soon). Lynh's favorite is the
+                      Coconut Cloud Blue and Mike's is the Matcha Cloud Jasmine.
+                      The Mango Boom with reduced sweetness is also a great
+                      option!
+                    </li>
+                    <li>
+                      <strong>Bobae</strong> Located in both Kirkland and
+                      Woodinville, this is one of our favorite boba shops in the
+                      area. Locally sourced ingredients, all toppings and syrups
+                      made in store, only using full leaf teas. Our go to is the
+                      NITRO OG Milk Tea with 25% sweetness.
+                    </li>
+                    <li>
+                      <strong>OMO Thai Tea</strong> Located in Bellevue, this
+                      has one of our favorite drinks: the Thai Green Classic.
+                      They also have soft serve ice cream!
+                    </li>
+                    <li>
+                      <strong>CHICHA San Chen</strong>
+                    </li>
+                  </ul>
+                </>
+              </CollapsibleSection>
 
-              <h3 className="text-xl font-bold mt-4">Favorite Food</h3>
-              <ul className="list-disc pl-6 text-lg">
-                <li>
-                  <strong>A Ma Chicken Rice</strong> Located in Redmond. This
-                  spot has some killer chicken and rice!
-                </li>
-                <li>
-                  <strong>Isarn Thai Soul Kitchen</strong> Located in Kirkland,
-                  this is a restaurant Mike and I love especially for their
-                  chicken soup (ask to add coconut milk) and their khao soi.
-                </li>
-                <li>
-                  <strong>Din Tai Fung</strong> Located in Bellevue, this has
-                  some great best soup dumplings (xiao long bao)!
-                </li>
-              </ul>
+              <CollapsibleSection
+                id="favorite-food"
+                title="🍽️ Favorite Food"
+                titleclassName="text-base font-medium"
+              >
+                <>
+                  <ul className="list-disc pl-6 text-sm">
+                    <li>
+                      <strong>A Ma Chicken Rice</strong> Located in Redmond.
+                      This spot has some killer Hainanese chicken!
+                    </li>
+                    <li>
+                      <strong>Isarn Thai Soul Kitchen</strong> Located in
+                      Kirkland, this is a restaurant Mike and I love especially
+                      for their chicken soup (ask to add coconut milk) and their
+                      khao soi.
+                    </li>
+                    <li>
+                      <strong>Din Tai Fung</strong> Located in Bellevue, this
+                      has some great best soup dumplings (xiao long bao)!
+                    </li>
+                    <li>
+                      <strong>Matts' Rotisserie & Oyster Lounge</strong> Located
+                      in Redmond, this spot is a favorite of Lynh's dad for
+                      Oysters, Rotisserie chicken, and prime rib.
+                    </li>
+                  </ul>
+                </>
+              </CollapsibleSection>
 
-              <h3 className="text-xl font-bold mt-4">
-                Favorite Outdoor Activities
-              </h3>
-              <p>
-                If you have a car and are physically able, we highly recommend
-                checking out some of the beautiful hiking trails in the area.
-              </p>
-              <ul className="list-disc pl-6 text-lg">
-                <li>
-                  <strong>Snoqualmie Falls:</strong> 268-foot waterfall...{' '}
-                  <OpenInExternalLink
-                    title="AllTrails"
-                    url="https://www.alltrails.com/trail/us/washington/snoqualmie-falls-trail"
+              <CollapsibleSection
+                id="outdoor-activities"
+                title="⛰️ Hiking"
+                titleclassName="text-base font-medium"
+              >
+                <ul className="list-disc pl-6 text-sm">
+                  <li>
+                    <strong>Snoqualmie Falls:</strong> This is for those who
+                    want to see a stunning 268-foot waterfall, without a
+                    strenuous hike. This waterfall is wheelchair accessible
+                    (paved paths).
+                    <OpenInExternalLink
+                      title="AllTrails"
+                      url="https://www.alltrails.com/trail/us/washington/snoqualmie-falls-trail"
+                    />
+                  </li>
+                  <ResponsiveFigure
+                    src={`${CDN_URL}/snoqualmie.jpg`}
+                    alt=""
+                    width={1000}
+                    height={400}
+                    loading="lazy"
                   />
-                </li>
-                <ResponsiveFigure
-                  src={`${CDN_URL}/snoqualmie.jpg`}
-                  alt=""
-                  width={1000}
-                  height={400}
-                  loading="lazy"
-                />
-                <li>
-                  <strong>Rattlesnake Ledge:</strong> Popular hike...{' '}
-                  <OpenInExternalLink
-                    title="AllTrails"
-                    url="https://www.alltrails.com/trail/us/washington/rattlesnake-ledge"
+                  <li>
+                    <strong>Rattlesnake Ledge:</strong> A very popular hike that
+                    is about 30 minutes from Redmond. It offers stunning views
+                    of Rattlesnake Lake and the surrounding mountains. The hike
+                    is about 4 miles round trip with a moderate elevation gain.
+                    We recommend using the jet lag to your advantage and waking
+                    up early to do this hike to beat the crowds.
+                    <OpenInExternalLink
+                      title="AllTrails"
+                      url="https://www.alltrails.com/trail/us/washington/rattlesnake-ledge"
+                    />
+                  </li>
+                  <ResponsiveFigure
+                    src={`${CDN_URL}/rattlesnake.jpg`}
+                    alt=""
+                    width={1000}
+                    height={400}
+                    loading="lazy"
+                    caption="July 2025 with Liem (Lynh's brother)"
                   />
-                </li>
-                <ResponsiveFigure
-                  src={`${CDN_URL}/rattlesnake.jpg`}
-                  alt=""
-                  width={1000}
-                  height={400}
-                  loading="lazy"
-                />
-                <li>
-                  <strong>Twin Falls:</strong> Lush trail with waterfalls...{' '}
-                  <OpenInExternalLink
-                    title="AllTrails"
-                    url="https://www.alltrails.com/trail/us/washington/twin-falls-trail"
+                  <li>
+                    <strong>Twin Falls:</strong> This hike is about 40 minutes
+                    from Redmond and is only 2 miles round trip (about 1 hour
+                    and 20 minutes of hiking). It is well worth it for the views
+                    of the beautiful Twin Falls.
+                    <OpenInExternalLink
+                      title="AllTrails"
+                      url="https://www.alltrails.com/trail/us/washington/twin-falls-trail"
+                    />
+                  </li>
+                  <li>
+                    <strong>
+                      North Cascades National Park: if you're up for a longer
+                      drive, the North Cascades are about 2 hours and 30 minutes
+                      away.
+                    </strong>
+                  </li>
+                  <ResponsiveFigure
+                    src={`${CDN_URL}/diabloLake.jpg`}
+                    alt=""
+                    width={1000}
+                    height={400}
+                    loading="lazy"
+                    caption="July 2023 at Diablo Lake"
                   />
-                </li>
-                <ResponsiveFigure
-                  src={`${CDN_URL}/diabloLake.jpg`}
-                  alt=""
-                  width={1000}
-                  height={400}
-                  loading="lazy"
-                />
-                <li>
-                  <strong>Mount Rainier National Park:</strong> Iconic views...{' '}
-                  <OpenInExternalLink
-                    title="AllTrails"
-                    url="https://www.alltrails.com/trail/us/washington/skyline-trail"
+                  <li>
+                    <strong>Mount Rainier National Park:</strong> Iconic
+                    views...{' '}
+                    <OpenInExternalLink
+                      title="AllTrails"
+                      url="https://www.alltrails.com/trail/us/washington/skyline-trail"
+                    />
+                  </li>
+                  <ResponsiveFigure
+                    src={`${CDN_URL}/rainer.jpg`}
+                    alt=""
+                    width={1000}
+                    height={400}
+                    loading="lazy"
                   />
-                </li>
-                <ResponsiveFigure
-                  src={`${CDN_URL}/rainer.jpg`}
-                  alt=""
-                  width={1000}
-                  height={400}
-                  loading="lazy"
-                />
-              </ul>
+                </ul>
+              </CollapsibleSection>
+              <CollapsibleSection
+                id="Outdoor-attractions"
+                title="Other Attractions"
+                titleclassName="text-base font-medium"
+              >
+                <ul className="list-disc pl-6 text-sm">
+                  <li>
+                    <strong>Leavenworth:</strong> A charming Bavarian-style
+                    village located about 2 hours from Seattle. It's known for
+                    its beautiful scenery, outdoor activities, and festive
+                    atmosphere.
+                  </li>
+                  <li>
+                    <strong>Vancouver:</strong> If you're up for a road trip,
+                    consider visiting Vancouver, Canada. It's about a 2.5 hour
+                    drive away from Seattle.
+                  </li>
+                  <li>
+                    <strong>Pike's Place Market:</strong> A must-visit
+                    destination in Seattle, known for its fresh produce,
+                    seafood, and local crafts. It's a great place to explore and
+                    grab a bite to eat.
+                  </li>
+                  <li>
+                    <strong>Ballard Farmer's Market:</strong> A popular weekend
+                    market in Seattle's Ballard neighborhood, featuring local
+                    produce, handmade goods, and delicious food vendors.
+                  </li>
+                  <li>
+                    <strong>Golden Gates Park:</strong> Stunning views of the
+                    Puget Sound. It's a great place to take a leisurely stroll.
+                  </li>
+                </ul>
+              </CollapsibleSection>
             </>
           </CollapsibleSection>
         </div>
