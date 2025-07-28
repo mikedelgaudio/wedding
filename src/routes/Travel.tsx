@@ -40,7 +40,7 @@ function CollapsibleSection({
         role="region"
         aria-labelledby={`toggle-${id}`}
         className={`overflow-hidden transition-all duration-500 ease-in-out ${
-          isOpen ? 'max-h-[2000px] opacity-100' : 'max-h-0 opacity-0'
+          isOpen ? 'opacity-100' : 'max-h-0 opacity-0'
         }`}
       >
         <div className="mt-2">{children}</div>
