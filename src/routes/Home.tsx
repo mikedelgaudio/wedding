@@ -52,8 +52,6 @@ export function Home(): JSX.Element {
               RSVP
             </Link>
           </div>
-
-          {/* <ScheduleCore /> */}
         </div>
       </div>
     </AppWithHeader>

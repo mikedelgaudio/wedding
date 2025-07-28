@@ -12,7 +12,7 @@ export function PageWrapper({
       <h1 className="text-2xl md:text-3xl font-bold mb-6 text-gray-800">
         {pageTitle}
       </h1>
-      <div className="space-y-4">{children}</div>
+      <div className="space-y-4 pb-8">{children}</div>
     </div>
   );
 }

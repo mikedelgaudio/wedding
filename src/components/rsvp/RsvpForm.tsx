@@ -173,9 +173,8 @@ export function RsvpForm({ snapshot }: RsvpFormProps) {
       className="space-y-6"
       aria-describedby={errorMessage ? 'form-error' : undefined}
     >
-      {/* Header */}
       <div className="space-y-2">
-        <h2 className="text-2xl font-semibold m-0">
+        <h2 className="text-2xl font-semibold m-0 break-all">
           Welcome, {data.invitee.name}
         </h2>
         {lastModifiedDate ? (
@@ -191,10 +190,9 @@ export function RsvpForm({ snapshot }: RsvpFormProps) {
         )}
       </div>
 
-      {/* Invitee Section */}
       <fieldset className="space-y-4 border p-4 rounded">
         <legend className="font-medium m-0">Your Response</legend>
-        <p className="text-xl font-bold">{data.invitee.name}</p>
+        <p className="text-xl font-bold break-all">{data.invitee.name}</p>
         <div className="grid md:grid-cols-2 items-center gap-2">
           <p className="font-medium">
             Will you be attending? <span className="text-red-600">*</span>
@@ -224,7 +222,6 @@ export function RsvpForm({ snapshot }: RsvpFormProps) {
         </div>
       </fieldset>
 
-      {/* Guests */}
       {guestResponses.map((resp, idx) => (
         <fieldset key={idx} className="space-y-4 border p-4 rounded">
           <legend className="font-medium m-0">Guest {idx + 1}</legend>
@@ -249,7 +246,7 @@ export function RsvpForm({ snapshot }: RsvpFormProps) {
                 />
               </Fragment>
             ) : (
-              <p className="text-xl font-bold">{resp.name}</p>
+              <p className="text-xl font-bold break-all">{resp.name}</p>
             )}
           </div>
           <div className="grid md:grid-cols-2 items-center gap-2">
