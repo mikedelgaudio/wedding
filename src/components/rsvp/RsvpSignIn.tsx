@@ -62,47 +62,57 @@ export function RsvpSignIn({ onSuccess }: RsvpSignInProps) {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div className="flex items-center justify-between">
-        <label htmlFor="rsvpCode" className="text-xl font-semibold mb-2 block">
-          Enter your RSVP code
-        </label>
-        <p className="text-sm">
-          Questions?{' '}
-          <a
-            className="underline focus:outline-none focus:ring  hover:no-underline"
-            href="mailto:rsvp@delgaudio.dev"
-          >
-            Contact us
-          </a>
-        </p>
-      </div>
-      <input
-        type="text"
-        id="rsvpCode"
-        value={code}
-        onChange={e => setCode(e.target.value)}
-        placeholder="Example: XXXX-XXXX"
-        className="w-full p-2 border rounded focus:outline-none focus:ring mb-2"
-        aria-invalid={!!error}
-        aria-describedby={error ? 'rsvp-error' : undefined}
-      />
-      {error && (
-        <p id="rsvp-error" role="alert" className="text-red-500 mb-3">
-          {error}
-        </p>
-      )}
-      <p className="text-md">
-        The RSVP code is on your invitation in the format{' '}
-        <strong>XXXX-XXXX</strong>.
+    <>
+      <p>
+        We know summer is a busy season, and we truly understand that traveling
+        from out of state can be difficult. Please don't worry if you're unable
+        to attend--your love and support mean the world to us, no matter what!
       </p>
-      <button
-        type="submit"
-        disabled={loading}
-        className="w-full focus:outline-none focus:ring  cursor-pointer bg-stone-900 text-white mt-6 py-2 rounded hover:bg-stone-700 disabled:opacity-50 disabled:cursor-not-allowed"
-      >
-        {loading ? 'Checking…' : 'Lookup'}
-      </button>
-    </form>
+      <form onSubmit={handleSubmit}>
+        <div className="flex items-center justify-between">
+          <label
+            htmlFor="rsvpCode"
+            className="text-xl font-semibold mb-2 block"
+          >
+            Enter your RSVP code
+          </label>
+          <p className="text-sm">
+            Questions?{' '}
+            <a
+              className="underline focus:outline-none focus:ring  hover:no-underline"
+              href="mailto:rsvp@delgaudio.dev"
+            >
+              Contact us
+            </a>
+          </p>
+        </div>
+        <input
+          type="text"
+          id="rsvpCode"
+          value={code}
+          onChange={e => setCode(e.target.value)}
+          placeholder="Example: XXXX-XXXX"
+          className="w-full p-2 border rounded focus:outline-none focus:ring mb-2"
+          aria-invalid={!!error}
+          aria-describedby={error ? 'rsvp-error' : undefined}
+        />
+        {error && (
+          <p id="rsvp-error" role="alert" className="text-red-500 mb-3">
+            {error}
+          </p>
+        )}
+        <p className="text-md">
+          The RSVP code is on your invitation in the format{' '}
+          <strong>XXXX-XXXX</strong>.
+        </p>
+        <button
+          type="submit"
+          disabled={loading}
+          className="w-full focus:outline-none focus:ring  cursor-pointer bg-stone-900 text-white mt-6 py-2 rounded hover:bg-stone-700 disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          {loading ? 'Checking…' : 'Lookup'}
+        </button>
+      </form>
+    </>
   );
 }

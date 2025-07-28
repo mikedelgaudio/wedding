@@ -13,55 +13,55 @@ const faqData: FAQItem[] = [
     id: 1,
     question: 'How can I RSVP?',
     answer:
-      'To RSVP, please visit our website and fill out the RSVP form by March 1st, 2026.',
+      "Please visit our website and fill out the RSVP form by your RSVP's deadline.",
   },
   {
     id: 2,
     question: 'When is the RSVP deadline?',
     answer:
-      'The RSVP deadline is March 1st, 2026. Please make sure to submit your response by this date.',
-  },
-  {
-    id: 9,
-    question: 'Is there a dress code?',
-    answer:
-      'Nope, please wear whatever you feel comfortable in whether that be an ao dai (traditional Vietnamese dress), a leopard print suit, or something more casual! Let your personality shine!! The wedding will be outdoors, so please dress accordingly for the weather. We do recommend wearing comfortable shoes as there will be some walking on gravel paths and grass.',
-  },
-  {
-    id: 11,
-    question: 'Where is the registry?',
-    answer:
-      'We are so grateful for your love and support, but we do not have a registry. Traditionally in both Vietnamese and Italian culture, the couple will go and greet their guests during the reception and that is when (if the guest wishes) they will give the couple a envelope (typically a red one in Vietnamese culture or called "busta" in Italian culture) which is placed in a satin bag (called la borsa in Italian culture).',
+      'The RSVP deadline is located on your invitation. Please make sure to submit your response by this date.',
   },
   {
     id: 3,
-    question: 'Where can I park?',
+    question: 'Is there a dress code?',
     answer:
-      'There is parking at the venue. There will be two parking attendants to direct you once you get to the venue.',
+      "While formal attire will be worn by many guests, please feel free to wear whatever makes you feel most comfortable—whether that's an áo dài (traditional Vietnamese dress), a leopard print suit, or something more casual. We love seeing everyone's unique style and want your personality to shine! The ceremony will take place outdoors, so please dress for the weather. We also recommend comfortable shoes, as there will be some walking on gravel paths and grass.",
   },
   {
     id: 4,
-    question: 'Is transportation provided?',
+    question: 'Where is the registry?',
     answer:
-      'Transportation will not be provided. Please plan to drive or arrange your own transportation to the venue.',
+      'We are incredibly grateful for your love and support. While we do not have a traditional registry, we wanted to share a bit about a custom from both our Vietnamese and Italian cultures. During the reception, it is customary for the couple to visit with guests at their tables. If guests wish to give a gift, it is typically presented as an envelope—often red in Vietnamese tradition, or known as a busta in Italian—which is then placed in a satin bag (la borsa). Your presence truly means the most to us, and we are so thankful to have you celebrate with us.',
+  },
+  {
+    id: 5,
+    question: 'Where can I park?',
+    answer:
+      'There is parking at the venue. There will be parking attendants to direct you once you get to the venue.',
   },
   {
     id: 6,
+    question: 'Is transportation provided?',
+    answer:
+      "Transportation to the venue will not be provided, so we kindly ask guests to drive or arrange their own transportation. We recommend using a rideshare service if you don't have a car, and invite you to check out the Travel section on our website for helpful details and suggestions.",
+  },
+  {
+    id: 7,
     question: 'Will your wedding be indoors or outdoors?',
     answer:
       'The wedding will mostly be outdoors, with indoor/tented backup at the venue in case of extreme weather.',
   },
   {
-    id: 7,
+    id: 8,
     question: 'Where is the closest airport if I’m flying in?',
     answer:
       'The closest airport is Seattle-Tacoma International Airport (SEA), located about 30 minutes from the venue.',
   },
   {
-    id: 8,
+    id: 9,
     question: 'Is there a hotel block for guests?',
     answer:
-      'Because we have many guest coming at different times and would like to stay in different places for their travel plans, we are not reserving a hotel block. However, there are many hotels in the area please check the travel section of the website for recommendations.',
+      "Since many of our guests are arriving at different times—and some are turning the trip into a longer vacation—we've chosen not to reserve a hotel block. That said, there are plenty of great accommodation options in the area! Please check out the Travel section of our website for our recommendations and helpful links.",
   },
   {
     id: 10,
@@ -88,9 +88,14 @@ export function FrequentlyAskedQuestions(): JSX.Element {
     <AppWithHeader>
       <PageWrapper pageTitle="Frequently Asked Questions">
         <p>
-          Have a question that you don't see answered here? Please reach out to
-          us by emailing{' '}
-          <a href="mailto:wedding@delgaudio.dev">wedding@delgaudio.dev</a>
+          If your question isn't here, please reach out to us by emailing{' '}
+          <a
+            className="underline hover:no-underline"
+            href="mailto:wedding@delgaudio.dev"
+          >
+            wedding@delgaudio.dev
+          </a>
+          .
         </p>
         {faqData.map(item => {
           const isOpen = !!openStates[item.id]; // Check if the current item is open
