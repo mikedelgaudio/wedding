@@ -133,8 +133,8 @@ export function Travel(): JSX.Element {
               <ul className="list-disc pl-6 text-lg">
                 <li>
                   <strong>Marriott Residence Inn Seattle East/Redmond: </strong>
-                  One of the hotels that we both stayed at when we first moved
-                  to Redmond. It offers spacious suites with kitchenettes (hot
+                  This is the hotel that we both stayed for 3 months when we
+                  were interns. It offers spacious suites with kitchenettes (hot
                   plates and fridge), complimentary breakfast, and is located
                   near the Redmond Town Center.{' '}
                   <OpenInExternalLink

@@ -17,7 +17,8 @@ export function Rsvp(): JSX.Element {
           We know Summer is a busy time for many of you, and we understand that
           traveling from out of state can be challenging. Please know that we
           completely understand if you’re unable to attend, and your love and
-          support mean the world to us regardless!
+          support mean the world to us regardless!{' '}
+          <strong>RSVP Deadline: March 1, 2026</strong>
         </p>
         {!rsvpSnapshot ? (
           <RsvpSignIn onSuccess={setRsvpSnapshot} />
