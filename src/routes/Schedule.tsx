@@ -10,7 +10,7 @@ export function Schedule() {
     <AppWithHeader>
       <PageWrapper pageTitle="Schedule">
         <ResponsiveFigure
-          src={`${CDN_URL}/day.jpg`}
+          src={`${CDN_URL}/chateau.jpg`}
           alt=""
           width={583}
           height={300}

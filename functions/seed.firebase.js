@@ -19,11 +19,11 @@ async function seed() {
       venue: 'Immaculate Church',
     },
     {
-      address: '1234 Mickey Mouse Rd, Seattle, WA 98122',
+      address: '14208 Woodinville Redmond Road NE, Redmond, WA 98052',
       attire: 'Formal',
       header: 'Reception',
-      time: '4:30PM - 10:00PM PDT',
-      venue: 'Chateau X',
+      time: '4:00PM - 10:00PM PDT',
+      venue: 'Chateau Lill',
     },
   ];
 
