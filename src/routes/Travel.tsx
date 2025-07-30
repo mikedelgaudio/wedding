@@ -45,8 +45,8 @@ export function Travel(): JSX.Element {
                   International Airport (SEA).
                 </li>
                 <li>
-                  We recommend renting a car for convenience, but rideshare
-                  services are also available. Rideshares are common to the
+                  We recommend renting a car for convenience, but ride-share
+                  services are also available. Ride-shares are common to the
                   airport and local areas near your accommodations, but if
                   you're interested in visiting Seattle, crossing the lake can
                   cost a premium and makes it less practical than renting a car.
@@ -77,7 +77,7 @@ export function Travel(): JSX.Element {
                 you easy access to the wedding festivities and local
                 attractions.
               </p>
-              <p>
+              <p className="mt-2">
                 Redmond Town Center is a popular shopping and dining destination
                 with a variety of options to choose from with a large amount of
                 hotels features a walkable area with restaurants, shops, and
@@ -90,30 +90,13 @@ export function Travel(): JSX.Element {
                   This is the hotel that we both stayed for 3 months when we
                   were interns. It offers spacious suites with kitchenettes (hot
                   plates and fridge), complimentary breakfast, and is located
-                  near the Redmond Town Center.{' '}
-                  <OpenInExternalLink
-                    title="More Info"
-                    url="https://www.marriott.com/en-us/hotels/seard-residence-inn-seattle-east-redmond/overview/"
-                  />
+                  near the Redmond Town Center.
                 </li>
                 <li>
                   <strong>Archer Hotel Redmond:</strong> A stylish hotel located
                   in downtown Redmond, offering modern amenities and easy access
                   to local attractions. Mike's parents actually stayed here and
-                  loved it! {''}
-                  <OpenInExternalLink
-                    title="More Info"
-                    url="https://archerhotel.com/redmond"
-                  />
-                </li>
-                <li>
-                  <strong>Hyatt House Seattle/Redmond:</strong> A modern hotel
-                  with spacious rooms and a complimentary breakfast, located
-                  near the wedding venue.
-                  <OpenInExternalLink
-                    title="More Info"
-                    url="https://www.hyatt.com/en-US/hotel/washington/hyatt-house-seattle-redmond/seahr"
-                  />
+                  loved it!
                 </li>
                 <li>
                   <strong>Airbnb Options:</strong> There are many Airbnb options
@@ -122,14 +105,17 @@ export function Travel(): JSX.Element {
                   suit your needs.
                 </li>
               </ul>
-
               <h3 className="text-xl font-bold mt-4">Seattle Accommodations</h3>
               <p>
-                If you prefer to stay in Seattle, we recommend looking for
-                hotels in the downtown area or near the waterfront. This will
-                give you easy access to the city's attractions and restaurants.
-                Please check Google Maps for projected travel times to Redmond,
-                as traffic can vary depending on the time of day.
+                If you prefer to stay in Seattle for tourist attractions and
+                some great food, we recommend looking for hotels in the downtown
+                area or near Fremont. This will give you easy access to the
+                city's attractions and restaurants.
+              </p>
+              <p className="mt-2">
+                Please note that Seattle is about a 30 minute drive to Redmond,
+                not accounting for traffic. Traffic varies throughout the day
+                and peaks during typical rush hours.
               </p>
 
               <h3 className="text-xl font-bold mt-4">
@@ -150,7 +136,6 @@ export function Travel(): JSX.Element {
               </p>
             </>
           </CollapsibleSection>
-
           <CollapsibleSection id="things-to-do" title="Things to Do">
             <CollapsibleSection
               id="coffee"
@@ -179,7 +164,6 @@ export function Travel(): JSX.Element {
                 </li>
               </ul>
             </CollapsibleSection>
-
             <CollapsibleSection
               id="boba-tea"
               title="🧋 Boba Tea"
@@ -210,7 +194,6 @@ export function Travel(): JSX.Element {
                 </li>
               </ul>
             </CollapsibleSection>
-
             <CollapsibleSection
               id="favorite-food"
               title="🍽️ Favorite Food"
@@ -237,7 +220,6 @@ export function Travel(): JSX.Element {
                 </li>
               </ul>
             </CollapsibleSection>
-
             <CollapsibleSection
               id="outdoor-activities"
               title="⛰️ Hiking"
@@ -291,11 +273,9 @@ export function Travel(): JSX.Element {
                   />
                 </li>
                 <li>
-                  <strong>
-                    North Cascades National Park: if you're up for a longer
-                    drive, the North Cascades are about 2 hours and 30 minutes
-                    away.
-                  </strong>
+                  <strong>North Cascades National Park:</strong> if you're up
+                  for a longer drive, the North Cascades are about 2 hours and
+                  30 minutes away.
                 </li>
                 <ResponsiveFigure
                   src={`${CDN_URL}/diabloLake.jpg`}

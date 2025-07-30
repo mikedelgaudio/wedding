@@ -55,7 +55,7 @@ export function Login() {
               Questions?{' '}
               <a
                 className="underline focus:outline-none focus:ring hover:no-underline"
-                href="mailto:rsvp@delgaudio.dev"
+                href="mailto:wedding@delgaudio.dev"
               >
                 Contact us
               </a>

@@ -1,6 +1,7 @@
 import { Route, Routes } from 'react-router-dom';
 import { AuthProvider } from './firebase/auth/AuthProvider';
 import { RequireAuth } from './firebase/auth/RequireAuth';
+import { useScrollToTop } from './hooks/useScrollToTop';
 import { FrequentlyAskedQuestions } from './routes/FrequentlyAskedQuestions';
 import { Home } from './routes/Home';
 import { Login } from './routes/Login';
@@ -12,6 +13,7 @@ import { Schedule } from './routes/Schedule';
 import { Travel } from './routes/Travel';
 
 export function App() {
+  useScrollToTop();
   return (
     <AuthProvider>
       <Routes>

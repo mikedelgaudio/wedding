@@ -22,7 +22,7 @@ export function CollapsibleSection({
       <button
         id={`toggle-${id}`}
         onClick={() => setIsOpen(prev => !prev)}
-        className={`cursor-pointer text-2xl font-bold mt-2 w-full flex justify-between items-center focus:outline-none focus-visible:ring focus-visible:ring-black-500 rounded`}
+        className={`cursor-pointer text-2xl font-bold mt-2 w-full flex justify-between items-center focus:outline-none focus-visible:ring focus-visible:ring-black-500 rounded hover:scale-105 transition-transform duration-200 `}
         aria-expanded={isOpen}
         aria-controls={`content-${id}`}
       >

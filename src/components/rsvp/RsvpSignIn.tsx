@@ -64,9 +64,10 @@ export function RsvpSignIn({ onSuccess }: RsvpSignInProps) {
   return (
     <>
       <p>
-        We know summer is a busy season, and we truly understand that traveling
-        from out of state can be difficult. Please don't worry if you're unable
-        to attend--your love and support mean the world to us, no matter what!
+        We hope you'll be able to join us—it would mean so much to celebrate
+        together! But we also understand that summer is a busy time and travel
+        isn't always easy. If you're unable to attend, please know that your
+        love and support still mean the world to us.
       </p>
       <form onSubmit={handleSubmit}>
         <div className="flex items-center justify-between">
@@ -80,7 +81,7 @@ export function RsvpSignIn({ onSuccess }: RsvpSignInProps) {
             Questions?{' '}
             <a
               className="underline focus:outline-none focus:ring  hover:no-underline"
-              href="mailto:rsvp@delgaudio.dev"
+              href="mailto:wedding@delgaudio.dev"
             >
               Contact us
             </a>

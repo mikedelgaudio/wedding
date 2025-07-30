@@ -14,6 +14,7 @@ interface IEvent {
 
 export function ScheduleCore() {
   const [events, setEvents] = useState<IEvent[]>([]);
+  const [error, setError] = useState<boolean>(false);
 
   useEffect(() => {
     const fetchSchedule = async () => {
@@ -24,10 +25,14 @@ export function ScheduleCore() {
         if (snap.exists()) {
           const data = snap.data();
           setEvents(data.events || []);
+          setError(false);
+        } else {
+          setError(true);
         }
       } catch (error) {
         // eslint-disable-next-line no-console
         console.error('Error fetching schedule:', error);
+        setError(true);
       }
     };
 
@@ -58,6 +63,18 @@ export function ScheduleCore() {
           )}
         </Fragment>
       ))}
+      {error && (
+        <div className="text-xl font-bold">
+          The schedule is unavailable. Please try again later or contact us at{' '}
+          <a
+            className="underline hover:no-underline"
+            href="mailto:wedding@delgaudio.dev"
+          >
+            wedding@delgaudio.dev
+          </a>
+          .
+        </div>
+      )}
     </div>
   );
 }
