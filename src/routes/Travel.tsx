@@ -102,7 +102,7 @@ export function Travel(): JSX.Element {
                   to local attractions. Mike's parents actually stayed here and
                   loved it! {''}
                   <OpenInExternalLink
-                    title="Archer Hotel Redmond"
+                    title="More Info"
                     url="https://archerhotel.com/redmond"
                   />
                 </li>
@@ -111,7 +111,7 @@ export function Travel(): JSX.Element {
                   with spacious rooms and a complimentary breakfast, located
                   near the wedding venue.
                   <OpenInExternalLink
-                    title="Hyatt House Seattle/Redmond"
+                    title="More Info"
                     url="https://www.hyatt.com/en-US/hotel/washington/hyatt-house-seattle-redmond/seahr"
                   />
                 </li>
