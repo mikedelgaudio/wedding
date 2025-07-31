@@ -17,34 +17,51 @@ export function CollapsibleSection({
 
   return (
     <div
-      className={` ${!useSubHeading ? 'border-b border-gray-300' : ''} pb-4`}
+      className={`border border-gray-200 rounded-lg overflow-hidden shadow-sm ${
+        useSubHeading ? 'mb-4' : ''
+      }`}
     >
-      <button
-        id={`toggle-${id}`}
-        onClick={() => setIsOpen(prev => !prev)}
-        className={`cursor-pointer text-2xl font-bold mt-2 w-full flex justify-between items-center focus:outline-none focus-visible:ring focus-visible:ring-black-500 rounded hover:scale-105 transition-transform duration-200 `}
-        aria-expanded={isOpen}
-        aria-controls={`content-${id}`}
-      >
-        <span
-          className={
-            useSubHeading ? 'text-lg font-medium ml-2' : 'text-xl font-semibold'
-          }
+      <h3>
+        <button
+          id={`toggle-${id}`}
+          onClick={() => setIsOpen(prev => !prev)}
+          className="flex justify-between cursor-pointer items-center w-full p-4 md:p-5 text-left font-semibold text-gray-700 bg-gray-50 hover:bg-gray-100 focus-visible:border focus-visible:border-gray-950 focus:outline-none focus-visible:rounded-lg"
+          aria-expanded={isOpen}
+          aria-controls={`content-${id}`}
         >
-          {title}
-        </span>
-        <span className="text-xl">{isOpen ? '−' : '+'}</span>
-      </button>
-
+          <span className={useSubHeading ? 'text-lg font-medium' : ''}>
+            {title}
+          </span>
+          {/* Arrow icon */}
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className={`w-5 h-5 transform transition-transform duration-300 ease-in-out ${
+              isOpen ? 'rotate-180' : 'rotate-0'
+            }`}
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            strokeWidth="2"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M19 9l-7 7-7-7"
+            />
+          </svg>
+        </button>
+      </h3>
       <div
         id={`content-${id}`}
         role="region"
         aria-labelledby={`toggle-${id}`}
-        className={`overflow-hidden transition-all duration-500 ease-in-out ${
-          isOpen ? 'opacity-100' : 'max-h-0 opacity-0'
-        }`}
+        className={`overflow-hidden transition-all duration-500 ease-in-out`}
+        aria-hidden={!isOpen}
+        hidden={!isOpen}
       >
-        <div className={`${useSubHeading ? 'ml-2' : ''} mt-2`}>{children}</div>
+        <div className="p-4 md:p-5 border-t border-gray-200 bg-white text-gray-600">
+          {children}
+        </div>
       </div>
     </div>
   );
