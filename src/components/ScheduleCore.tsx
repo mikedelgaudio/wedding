@@ -10,6 +10,7 @@ interface IEvent {
   venue: string;
   address: string;
   attire: string;
+  date: string;
 }
 
 export function ScheduleCore() {
@@ -45,7 +46,7 @@ export function ScheduleCore() {
         <Fragment key={index}>
           <div className="flex flex-col flex-nowrap items-end-safe whitespace-nowrap">
             <span className="text-2xl">{event.time}</span>
-            <span className="text-md mr-[2px] leading-3">June 18, 2026</span>
+            <span className="text-md mr-[2px] leading-3">{event.date}</span>
           </div>
           <div>
             <div>
