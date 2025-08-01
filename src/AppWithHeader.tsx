@@ -7,7 +7,7 @@ export function AppWithHeader({ children }: { children: JSX.Element }) {
     <>
       <Header />
       <FadeInOnLoad>
-        <main>{children}</main>
+        <main className="mt-[72px] md:mt-auto">{children}</main>
       </FadeInOnLoad>
     </>
   );

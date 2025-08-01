@@ -9,27 +9,27 @@ export function Home(): JSX.Element {
     <AppWithHeader>
       <div className="flex justify-center items-center">
         <div className="w-full max-w-[1000px]">
-          <div className="relative w-full h-[300px] sm:h-[400px] md:h-[calc(100dvh-172px)] overflow-hidden group">
+          <div className="relative w-full h-[calc(100dvh-400px)] md:h-[calc(100dvh-172px)] overflow-hidden group">
             <img
               src={`${CDN_URL}/home.jpg`}
               alt=""
               width="1920"
               height="1080"
-              decoding="async"
+              loading="eager"
               className="
               absolute inset-0
               w-full h-full
               object-cover
-              object-[60%_27%] sm:object-[50%_45%] md:object-[50%_42%] lg:object-[50%_40%]
-              scale-150
+              object-[50%_27%] sm:object-[50%_45%] md:object-[50%_42%] lg:object-[50%_40%]
+              scale-200
               sm:scale-125
               max-w-none
               motion-safe:transition-transform
               motion-safe:duration-[2000ms]
               motion-safe:ease-out
-              motion-safe:group-hover:scale-110
-              motion-safe:sm:group-hover:scale-115
-              motion-safe:lg:group-hover:scale-125
+              motion-safe:group-hover:scale-150
+              motion-safe:sm:group-hover:scale-125
+              motion-safe:lg:group-hover:scale-135
             "
             />
           </div>

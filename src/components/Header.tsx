@@ -30,7 +30,7 @@ export function Header(): JSX.Element {
 
   return (
     <div className="relative z-50">
-      <header className="flex items-center w-full px-6 md:pt-6 md:pb-4 py-4 max-w-5xl mx-auto z-50 relative">
+      <header className="flex items-center w-full px-6 md:pt-6 md:pb-4 py-4 max-w-5xl mx-auto z-50 bg-[#faf4f1] fixed top-0 left-0 md:relative">
         <button
           className="md:hidden cursor-pointer md:invisible flex flex-col justify-center items-center w-10 h-10 space-y-1.5 focus-visible:outline focus-visible:outline-gray-950 focus-visible:outline-offset-6"
           onClick={toggleMenu}
