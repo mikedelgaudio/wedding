@@ -1,4 +1,5 @@
-import { Route, Routes } from 'react-router-dom';
+import { Outlet, Route, Routes } from 'react-router-dom';
+import { EventProvider } from './context/event/EventProvider';
 import { AuthProvider } from './firebase/auth/AuthProvider';
 import { RequireAuth } from './firebase/auth/RequireAuth';
 import { useScrollToTop } from './hooks/useScrollToTop';
@@ -12,68 +13,32 @@ import { Rsvp } from './routes/Rsvp';
 import { Schedule } from './routes/Schedule';
 import { Travel } from './routes/Travel';
 
-export function App() {
+// Layout component that provides EventProvider and RequireAuth for protected routes
+function ProtectedLayout() {
   useScrollToTop();
+  return (
+    <EventProvider>
+      <RequireAuth>
+        <Outlet />
+      </RequireAuth>
+    </EventProvider>
+  );
+}
+
+export function App() {
   return (
     <AuthProvider>
       <Routes>
         <Route path="/login" element={<Login />} />
-        <Route
-          path="/"
-          element={
-            <RequireAuth>
-              <Home />
-            </RequireAuth>
-          }
-        />
-        <Route
-          path="/ourstory"
-          element={
-            <RequireAuth>
-              <OurStory />
-            </RequireAuth>
-          }
-        />
-        <Route
-          path="/schedule"
-          element={
-            <RequireAuth>
-              <Schedule />
-            </RequireAuth>
-          }
-        />
-        <Route
-          path="/rsvp"
-          element={
-            <RequireAuth>
-              <Rsvp />
-            </RequireAuth>
-          }
-        />
-        <Route
-          path="/faq"
-          element={
-            <RequireAuth>
-              <FrequentlyAskedQuestions />
-            </RequireAuth>
-          }
-        />
-        <Route
-          path="/travel"
-          element={
-            <RequireAuth>
-              <Travel />
-            </RequireAuth>
-          }
-        />
-        <Route
-          path="/logout"
-          element={
-            <RequireAuth>
-              <Logout />
-            </RequireAuth>
-          }
-        />
+        <Route path="/" element={<ProtectedLayout />}>
+          <Route index element={<Home />} />
+          <Route path="ourstory" element={<OurStory />} />
+          <Route path="schedule" element={<Schedule />} />
+          <Route path="rsvp" element={<Rsvp />} />
+          <Route path="faq" element={<FrequentlyAskedQuestions />} />
+          <Route path="travel" element={<Travel />} />
+          <Route path="logout" element={<Logout />} />
+        </Route>
         <Route path="*" element={<NotFound />} />
       </Routes>
     </AuthProvider>

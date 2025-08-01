@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState, type JSX } from 'react';
 import { Link, NavLink } from 'react-router-dom';
+import { useEvent } from '../hooks/useEvent';
 
 const NAV_LINKS = [
   { href: '/', label: 'Home' },
@@ -11,6 +12,7 @@ const NAV_LINKS = [
 ];
 
 export function Header(): JSX.Element {
+  const event = useEvent();
   const [menuOpen, setMenuOpen] = useState(false);
 
   const toggleMenu = useCallback(() => setMenuOpen(open => !open), []);
@@ -67,7 +69,7 @@ export function Header(): JSX.Element {
             L & M
           </Link>
           <span className="md:block hidden text-lg">
-            June 18, 2026 &nbsp;&middot;&nbsp; Redmond, WA
+            {event?.date} &nbsp;&middot;&nbsp; {event?.location}
           </span>
         </div>
       </header>

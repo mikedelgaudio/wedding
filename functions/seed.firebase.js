@@ -1,7 +1,7 @@
 const admin = require('firebase-admin');
 
 process.env.FIRESTORE_EMULATOR_HOST = 'localhost:8080';
-process.env.GOOGLE_APPLICATION_CREDENTIALS = ''; // <-- this disables cloud auth
+process.env.GOOGLE_APPLICATION_CREDENTIALS = '';
 
 admin.initializeApp({ projectId: 'wedding-rsvp-25b5b' });
 
@@ -17,7 +17,7 @@ async function seed() {
       header: 'Ceremony',
       time: '2:00PM PDT',
       venue: 'Immaculate Church',
-      date: 'June 17, 2026',
+      date: 'June 10, 2028',
     },
     {
       address: '1234 Mickey Mouse Rd, Redmond, WA 98052',
@@ -25,13 +25,21 @@ async function seed() {
       header: 'Reception',
       time: '4:00PM - 10:00PM PDT',
       venue: 'Chateau X',
-      date: 'June 17, 2026',
+      date: 'June 10, 2028',
     },
   ];
 
   await siteDocRef.set({ events });
 
   console.log('✅ Firestore emulator seeded with schedule data.');
+
+  const eventDocRef = db.collection('site').doc('event');
+  const eventData = {
+    date: 'June 10, 2028',
+    location: 'Seattle, WA',
+  };
+  await eventDocRef.set(eventData);
+  console.log('✅ Seeded: site/event');
 
   // --- Seed: rsvp/ABCD1234 ---
   const rsvpRef = db.collection('rsvp').doc('ABCD1234');
@@ -61,7 +69,7 @@ async function seed() {
       new Date('2025-07-13T19:56:15-07:00'),
     ),
     rsvpDeadline: admin.firestore.Timestamp.fromDate(
-      new Date('2026-06-18T00:00:00-07:00'),
+      new Date('2028-06-18T00:00:00-07:00'),
     ),
   };
 

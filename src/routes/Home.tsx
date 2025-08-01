@@ -1,10 +1,13 @@
 import type { JSX } from 'react';
 import { Link } from 'react-router-dom';
 import { AppWithHeader } from '../AppWithHeader';
+import { useEvent } from '../hooks/useEvent';
 
 const CDN_URL = import.meta.env.VITE_REACT_APP_ASSET_CDN_URL;
 
 export function Home(): JSX.Element {
+  const event = useEvent();
+
   return (
     <AppWithHeader>
       <div className="flex justify-center items-center">
@@ -40,9 +43,11 @@ export function Home(): JSX.Element {
                 Lynh & Michael
               </h1>
               <div className="flex flex-nowrap whitespace-nowrap gap-4">
-                <span className="text-2xl md:text-6xl">June 18, 2026</span>
-                <span className="border-r border-gray-500">&nbsp;</span>
-                <span className="text-2xl md:text-6xl">Redmond, WA</span>
+                <span className="text-2xl md:text-6xl">{event?.date}</span>
+                {event?.date && event?.location && (
+                  <span className="border-r border-gray-500">&nbsp;</span>
+                )}
+                <span className="text-2xl md:text-6xl">{event?.location}</span>
               </div>
             </div>
             <Link
