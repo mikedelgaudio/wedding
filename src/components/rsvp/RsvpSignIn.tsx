@@ -54,6 +54,7 @@ export function RsvpSignIn({ onSuccess }: RsvpSignInProps) {
         }
       }
     } catch (err) {
+      // eslint-disable-next-line no-console
       console.error(err);
       setError(GENERIC_ERROR_MESSAGE);
     }
