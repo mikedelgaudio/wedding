@@ -10,7 +10,6 @@ export function Logout() {
     const handleLogout = async () => {
       if (auth) {
         await auth.signOutUser();
-        // Navigate to login and clear any stored location state
         navigate('/login', { replace: true, state: null });
       }
     };
@@ -18,7 +17,6 @@ export function Logout() {
     handleLogout();
   }, [auth, navigate]);
 
-  // Show a loading state while logging out
   return (
     <div className="h-lvh flex items-center justify-center">
       <div className="text-center">

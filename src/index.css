@@ -19,7 +19,7 @@ body {
   }
 }
 
-main :is(h2, p, li, img) {
+main :is(h2, p, img) {
   @media (prefers-reduced-motion: no-preference) {
     @supports (animation-timeline: view()) {
       animation: slide-fade-in linear both;

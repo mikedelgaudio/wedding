@@ -35,8 +35,7 @@ export function Home(): JSX.Element {
               motion-safe:ease-out
               motion-safe:group-hover:scale-150
               motion-safe:sm:group-hover:scale-125
-              motion-safe:lg:group-hover:scale-135
-            "
+              motion-safe:lg:group-hover:scale-135"
             />
           </div>
 
@@ -45,13 +44,13 @@ export function Home(): JSX.Element {
               <h1 className="text-7xl md:text-8xl font-bold md:hidden block">
                 Lynh & Michael
               </h1>
-              <div className="flex flex-nowrap whitespace-nowrap gap-4">
-                <span className="text-2xl md:text-6xl">{event?.date}</span>
-                {event?.date && event?.location && (
+              {event?.date && event?.location && (
+                <div className="flex flex-nowrap whitespace-nowrap gap-4">
+                  <span className="text-2xl md:text-6xl">{event.date}</span>
                   <span className="border-r border-gray-500">&nbsp;</span>
-                )}
-                <span className="text-2xl md:text-6xl">{event?.location}</span>
-              </div>
+                  <span className="text-2xl md:text-6xl">{event.location}</span>
+                </div>
+              )}
             </div>
             <Link
               className="text-xl md:text-2xl focus:outline-none w-fit px-6 py-2 focus:ring cursor-pointer bg-stone-900 text-white mr-8 rounded hover:bg-stone-700 disabled:opacity-50 disabled:cursor-not-allowed"

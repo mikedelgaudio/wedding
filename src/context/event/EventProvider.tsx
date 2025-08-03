@@ -25,10 +25,8 @@ export function EventProvider({ children }: { children: React.ReactNode }) {
       }
     }
 
-    console.log('Fetching event data...');
-
     fetchEventDataOnce();
-  }, []); // run only once on first mount
+  }, []);
 
   return (
     <EventContext.Provider value={eventData}>{children}</EventContext.Provider>

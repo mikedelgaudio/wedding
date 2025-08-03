@@ -68,9 +68,11 @@ export function Header(): JSX.Element {
           >
             L & M
           </Link>
-          <span className="md:block hidden text-lg">
-            {event?.date} &nbsp;&middot;&nbsp; {event?.location}
-          </span>
+          {event?.date && event?.location && (
+            <span className="md:block hidden text-lg">
+              {event.date} &nbsp;&middot;&nbsp; {event.location}
+            </span>
+          )}
         </div>
       </header>
       <div
