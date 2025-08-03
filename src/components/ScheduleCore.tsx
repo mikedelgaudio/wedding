@@ -65,15 +65,18 @@ export function ScheduleCore() {
         </Fragment>
       ))}
       {error && (
-        <div className="text-xl font-bold">
-          The schedule is unavailable. Please try again later or contact us at{' '}
-          <a
-            className="underline hover:no-underline"
-            href="mailto:wedding@delgaudio.dev"
-          >
-            wedding@delgaudio.dev
-          </a>
-          .
+        <div className="bg-red-700 font-bold text-white mb-4 p-4 rounded">
+          <span role="alert">
+            The schedule service is unavailable. Please try again later or
+            contact us at{' '}
+            <a
+              className="underline hover:no-underline"
+              href="mailto:wedding@delgaudio.dev"
+            >
+              wedding@delgaudio.dev
+            </a>
+            .
+          </span>
         </div>
       )}
     </div>

@@ -188,6 +188,15 @@ export function RsvpForm({ snapshot }: RsvpFormProps) {
             <strong>{formatter.format(deadlineDate)} PDT</strong>.
           </p>
         )}
+        <p>
+          If you need help or have questions, email us at{' '}
+          <a
+            className="underline hover:no-underline"
+            href="mailto:wedding@delgaudio.dev"
+          >
+            wedding@delgaudio.dev
+          </a>
+        </p>
       </div>
 
       <fieldset className="space-y-4 border p-4 rounded">
@@ -282,7 +291,7 @@ export function RsvpForm({ snapshot }: RsvpFormProps) {
       ))}
 
       {errorMessage && (
-        <div className="bg-red-700 text-white p-4 rounded">
+        <div className="bg-red-700 font-bold text-white p-4 rounded">
           <p id="form-error" role="alert">
             {errorMessage}
           </p>

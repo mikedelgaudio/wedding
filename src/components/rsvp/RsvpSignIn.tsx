@@ -8,6 +8,9 @@ import { useState, type FormEvent } from 'react';
 import type { IRSVPDoc } from '../../firebase/IRSVPDoc';
 import { db } from '../../firebase/firebase.service';
 
+const RSVP_SERVICE_UNAVAILABLE_ERROR_MESSAGE =
+  'The RSVP service is currently unavailable. Please try again later or contact us for assistance.';
+
 const GENERIC_ERROR_MESSAGE =
   "We couldn't find or access your invitation. Please check your code and try again, or contact us if you need help.";
 
@@ -32,7 +35,9 @@ export function RsvpSignIn({ onSuccess }: RsvpSignInProps) {
 
     const trimmed = code.trim().toUpperCase();
     if (!CODE_FORMAT.test(trimmed)) {
-      setError('Please enter your code in the format of XXXX-XXXX');
+      setError(
+        'Please enter your code in the format of XXXX-XXXX. Make sure to include the dash.',
+      );
       setLoading(false);
       return;
     }
@@ -54,9 +59,11 @@ export function RsvpSignIn({ onSuccess }: RsvpSignInProps) {
         }
       }
     } catch (err) {
-      // eslint-disable-next-line no-console
-      console.error(err);
-      setError(GENERIC_ERROR_MESSAGE);
+      if ((err as { code?: string }).code === 'unavailable') {
+        setError(RSVP_SERVICE_UNAVAILABLE_ERROR_MESSAGE);
+      } else {
+        setError(GENERIC_ERROR_MESSAGE);
+      }
     }
 
     setLoading(false);
@@ -64,7 +71,7 @@ export function RsvpSignIn({ onSuccess }: RsvpSignInProps) {
 
   return (
     <>
-      <p>
+      <p className="text-lg">
         We hope you'll be able to join us—it would mean so much to celebrate
         together! But we also understand that summer is a busy time and travel
         isn't always easy. If you're unable to attend, please know that your
@@ -99,9 +106,11 @@ export function RsvpSignIn({ onSuccess }: RsvpSignInProps) {
           aria-describedby={error ? 'rsvp-error' : undefined}
         />
         {error && (
-          <p id="rsvp-error" role="alert" className="text-red-500 mb-3">
-            {error}
-          </p>
+          <div className="bg-red-700 font-bold text-white mb-4 p-4 rounded">
+            <p id="rsvp-error" role="alert">
+              {error}
+            </p>
+          </div>
         )}
         <p className="text-md">
           The RSVP code is on your invitation in the format{' '}

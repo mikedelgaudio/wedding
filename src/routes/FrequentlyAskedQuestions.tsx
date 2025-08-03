@@ -56,14 +56,22 @@ const faqData: FAQItem[] = [
     question: 'Where is the registry?',
     answer: (
       <>
-        We are incredibly grateful for your love and support. While we do not
-        have a traditional registry, we wanted to share a bit about a custom
-        from both our Vietnamese and Italian cultures. During the reception, it
-        is customary for the couple to visit with guests at their tables. If
-        guests wish to give a gift, it is typically presented as an
-        envelope—often red in Vietnamese tradition, or known as a busta in
-        Italian. Your presence truly means the most to us, and we are so
-        thankful to have you celebrate with us.
+        <p>
+          We are incredibly grateful for your love and support. While we do not
+          have a traditional registry, we wanted to share a meaningful custom
+          from both our Vietnamese and Italian backgrounds. At the reception,
+          it's customary for the couple to visit each table, and if guests wish
+          to give a gift, it is often presented in a traditionally red envelope
+          known as a <i lang="vi">lì xì</i> in Vietnamese culture, or known as
+          <i lang="it">busta</i> in Italian.
+        </p>
+        <p>
+          Your presence is truly the greatest gift of all, and we are so
+          thankful to have you celebrate with us. If you're unable to attend but
+          would still like to send a gift, we warmly encourage you to reach out
+          to us or our families for a mailing address. Your thoughtfulness means
+          the world to us.
+        </p>
       </>
     ),
   },
@@ -102,8 +110,8 @@ const faqData: FAQItem[] = [
     question: 'Will your wedding be indoors or outdoors?',
     answer: (
       <>
-        The wedding will mostly be outdoors, with indoor/tented backup at the
-        venue in case of extreme weather.
+        The wedding will mostly be outdoors, with indoor backup at the venue in
+        case of extreme weather.
       </>
     ),
   },
