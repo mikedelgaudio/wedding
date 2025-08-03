@@ -29,7 +29,7 @@ export function CollapsibleSection({
           aria-expanded={isOpen}
           aria-controls={`content-${id}`}
         >
-          <span className={useSubHeading ? 'text-lg font-medium' : ''}>
+          <span className={useSubHeading ? 'text-xl font-medium' : ''}>
             {title}
           </span>
           {/* Arrow icon */}

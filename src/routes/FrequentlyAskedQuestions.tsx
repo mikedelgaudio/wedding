@@ -62,9 +62,8 @@ const faqData: FAQItem[] = [
         is customary for the couple to visit with guests at their tables. If
         guests wish to give a gift, it is typically presented as an
         envelope—often red in Vietnamese tradition, or known as a busta in
-        Italian—which is then placed in a satin bag (la borsa). Your presence
-        truly means the most to us, and we are so thankful to have you celebrate
-        with us.
+        Italian. Your presence truly means the most to us, and we are so
+        thankful to have you celebrate with us.
       </>
     ),
   },
@@ -123,10 +122,11 @@ const faqData: FAQItem[] = [
     question: 'Is there a hotel block for guests?',
     answer: (
       <>
-        Since many of our guests are arriving at different times—and some are
-        turning the trip into a longer vacation—we've chosen not to reserve a
-        hotel block. That said, there are plenty of great accommodation options
-        in the area! Please check out the{' '}
+        Since our guests will be arriving at different times—and many are either
+        staying in Downtown Redmond, where there are plenty of nearby hotel
+        options, or extending their trip to explore more of Seattle—we do not
+        have a hotel block at this time. That said, there are lots of great
+        places to stay in the area! We encourage you to use the{' '}
         <Link
           className="underline hover:no-underline focus-visible:border focus-visible:border-gray-950 focus:outline-none focus-visible:rounded-lg"
           to="/travel"
@@ -143,9 +143,9 @@ const faqData: FAQItem[] = [
     answer: (
       <>
         Our wedding is invite only. Guests with a plus-one will be formally
-        invited. If your invite does not mention a plus-one, we kindly ask that
-        you attend solo. We appreciate your understanding as we have limited
-        space at the venue.
+        invited. If your invite does not mention a plus-one, then we are nearing
+        capacity of our venue. We appreciate your understanding as we want to
+        ensure we accommodate all our guests comfortably.
       </>
     ),
   },
@@ -179,13 +179,11 @@ export function FrequentlyAskedQuestions(): JSX.Element {
         </p>
         {faqData.map(item => {
           const isOpen = !!openStates[item.id]; // Check if the current item is open
-
           return (
             <div
               key={item.id}
               className="border border-gray-200 rounded-lg overflow-hidden shadow-sm"
             >
-              {/* Question Button */}
               <h3>
                 <button
                   type="button"
@@ -195,7 +193,6 @@ export function FrequentlyAskedQuestions(): JSX.Element {
                   aria-controls={`faq-answer-${item.id}`} // Link button to answer panel
                 >
                   <span>{item.question}</span>
-                  {/* Icon indicating open/closed state */}
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     className={`w-5 h-5 transform transition-transform duration-300 ease-in-out ${
@@ -214,8 +211,6 @@ export function FrequentlyAskedQuestions(): JSX.Element {
                   </svg>
                 </button>
               </h3>
-
-              {/* Answer Panel - uses max-height transition */}
               <div
                 id={`faq-answer-${item.id}`} // ID for ARIA
                 role="region" // Indicate this is a panel controlled by the button
@@ -226,7 +221,7 @@ export function FrequentlyAskedQuestions(): JSX.Element {
                 aria-hidden={!isOpen} // Hide from screen readers when collapsed
                 hidden={!isOpen} // Hide from the DOM when collapsed
               >
-                <div className="p-4 md:p-5 border-t border-gray-200 bg-white text-gray-600">
+                <div className="p-4 md:p-5 border-t border-gray-200 bg-white text-gray-600 text-xl">
                   {item.answer}
                 </div>
               </div>

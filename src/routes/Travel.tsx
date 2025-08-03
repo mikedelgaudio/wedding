@@ -52,9 +52,9 @@ export function Travel(): JSX.Element {
                   cost a premium and makes it less practical than renting a car.
                 </li>
                 <li>
-                  There are several accommodation options in the area Redmond,
-                  Seattle and neighboring cities, and all depends on your
-                  preferences.
+                  There are several accommodation options in Redmond, Seattle,
+                  and neighboring cities (Bellevue, Kirkland, Woodinville), and
+                  it all depends on your preferences.
                 </li>
               </ul>
             </>
@@ -65,9 +65,9 @@ export function Travel(): JSX.Element {
               <p>
                 We have compiled a list of recommended accommodations in the
                 Redmond and Seattle area. Some of these options are located in
-                Redmond, which is closer to the wedding venue, while others are
-                in Seattle, which is about a 30 minute drive from Redmond not
-                accounting for traffic.
+                Downtown Redmond, which is closer to the wedding venue, while
+                others are in Seattle, which is about a 30 minute drive from
+                Redmond not accounting for traffic.
               </p>
 
               <h3 className="text-xl font-bold mt-4">Redmond Accommodations</h3>
@@ -94,7 +94,7 @@ export function Travel(): JSX.Element {
                 </li>
                 <li>
                   <strong>Archer Hotel Redmond:</strong> A stylish hotel located
-                  in downtown Redmond, offering modern amenities and easy access
+                  in Downtown Redmond, offering modern amenities and easy access
                   to local attractions. Mike's parents actually stayed here and
                   loved it!
                 </li>
@@ -132,7 +132,9 @@ export function Travel(): JSX.Element {
                 Kirkland offers a charming waterfront area with parks and
                 restaurants. Woodinville is famous for its wineries and
                 breweries, making it a great option for those interested in
-                exploring the local beverage scene.
+                exploring the local beverage scene. Please check out Google Maps
+                and some of the local guides on YouTube for a better
+                visualization of the area.
               </p>
             </>
           </CollapsibleSection>
@@ -142,7 +144,7 @@ export function Travel(): JSX.Element {
               title="☕ Coffee"
               useSubHeading={true}
             >
-              <ul className="list-disc pl-6 text-sm text-md flex flex-col gap-2">
+              <ul className="list-disc pl-6  text-md flex flex-col gap-2">
                 <li>
                   <strong>Lighthouse Roasters</strong> (Fremont, North Seattle)
                   - A beloved local roastery with great coffee and a laid-back
@@ -169,7 +171,7 @@ export function Travel(): JSX.Element {
               title="🧋 Boba Tea"
               useSubHeading={true}
             >
-              <ul className="list-disc pl-6 text-sm text-md flex flex-col gap-2">
+              <ul className="list-disc pl-6  text-md flex flex-col gap-2">
                 <li>
                   <strong>HeyTea</strong> (Bellevue & Redmond coming soon) -
                   Lynh loves the Coconut Cloud Blue, Mike goes for the Matcha
@@ -199,7 +201,7 @@ export function Travel(): JSX.Element {
               title="🍽️ Favorite Food"
               useSubHeading={true}
             >
-              <ul className="list-disc pl-6 text-sm text-md flex flex-col gap-2">
+              <ul className="list-disc pl-6  text-md flex flex-col gap-2">
                 <li>
                   <strong>A Ma Chicken Rice</strong> (Redmond) - Amazing
                   Hainanese chicken—simple, flavorful, and a must-try.
@@ -214,9 +216,9 @@ export function Travel(): JSX.Element {
                   xiao long bao (soup dumplings)—a crowd-pleaser every time.
                 </li>
                 <li>
-                  <strong>Matts' Rotisserie & Oyster Lounge</strong> (Redmond)
-                  -s A favorite of Lynh's dad for fresh oysters and Mike's
-                  parents for rotisserie chicken, and prime rib.
+                  <strong>Matts' Rotisserie & Oyster Lounge</strong> (Redmond) A
+                  favorite of Lynh's dad for fresh oysters and Mike's parents
+                  for rotisserie chicken, and prime rib.
                 </li>
               </ul>
             </CollapsibleSection>
@@ -225,11 +227,12 @@ export function Travel(): JSX.Element {
               title="⛰️ Hiking"
               useSubHeading={true}
             >
-              <ul className="list-disc pl-6 text-sm text-md flex flex-col gap-2">
+              <ul className="list-disc pl-6  text-md flex flex-col gap-2">
                 <li>
-                  <strong>Snoqualmie Falls:</strong> This is for those who want
-                  to see a stunning 268-foot waterfall, without a strenuous
-                  hike. This waterfall is wheelchair accessible (paved paths).
+                  <strong>Snoqualmie Falls:</strong> This is the easiest option
+                  for those who want to see a stunning 268-foot waterfall,
+                  without a strenuous hike. This waterfall is wheelchair
+                  accessible (paved paths) and has viewing platforms.{' '}
                   <OpenInExternalLink
                     title="AllTrails"
                     url="https://www.alltrails.com/trail/us/washington/snoqualmie-falls-trail"
@@ -246,9 +249,9 @@ export function Travel(): JSX.Element {
                   <strong>Rattlesnake Ledge:</strong> A very popular hike that
                   is about 30 minutes from Redmond. It offers stunning views of
                   Rattlesnake Lake and the surrounding mountains. The hike is
-                  about 4 miles round trip with a moderate elevation gain. We
-                  recommend using the jet lag to your advantage and waking up
-                  early to do this hike to beat the crowds.
+                  about 4 miles round trip with elevation gain. We recommend
+                  using the jet lag to your advantage and waking up early to do
+                  this hike to beat the crowds.{' '}
                   <OpenInExternalLink
                     title="AllTrails"
                     url="https://www.alltrails.com/trail/us/washington/rattlesnake-ledge"
@@ -263,19 +266,27 @@ export function Travel(): JSX.Element {
                   caption="July 2025 with Liem (Lynh's brother)"
                 />
                 <li>
-                  <strong>Twin Falls:</strong> This hike is about 40 minutes
-                  from Redmond and is only 2 miles round trip (about 1 hour and
-                  20 minutes of hiking). It is well worth it for the views of
-                  the beautiful Twin Falls.
+                  <strong>Twin Falls:</strong> Just a 40-minute drive from
+                  Redmond, this short and sweet 2-mile round-trip hike (about 1
+                  hour and 20 minutes) rewards you with stunning views of the
+                  beautiful Twin Falls. It's a perfect quick escape into nature,
+                  especially if you're looking for something scenic but not too
+                  strenuous!{' '}
                   <OpenInExternalLink
                     title="AllTrails"
                     url="https://www.alltrails.com/trail/us/washington/twin-falls-trail"
                   />
                 </li>
                 <li>
-                  <strong>North Cascades National Park:</strong> if you're up
-                  for a longer drive, the North Cascades are about 2 hours and
-                  30 minutes away.
+                  <strong>North Cascades National Park:</strong> If you're up
+                  for a bit of an adventure, the breathtaking North Cascades are
+                  just about a 2.5-hour drive away. It's well worth the trip for
+                  stunning mountain views, alpine lakes, and unforgettable
+                  hikes—perfect for a day trip or a peaceful escape into nature!{' '}
+                  <OpenInExternalLink
+                    title="AllTrails"
+                    url="https://www.alltrails.com/trail/us/washington/diablo-lake-overlook"
+                  />
                 </li>
                 <ResponsiveFigure
                   src={`${CDN_URL}/diabloLake.jpg`}
@@ -286,7 +297,16 @@ export function Travel(): JSX.Element {
                   caption="July 2023 at Diablo Lake"
                 />
                 <li>
-                  <strong>Mount Rainier National Park:</strong> Iconic views...{' '}
+                  <strong>Mount Rainier National Park:</strong> A true a gem of
+                  the Pacific Northwest. Towering glaciers, wildflower-filled
+                  meadows, and dramatic alpine views make every trail feel like
+                  a postcard come to life. Whether you're taking a leisurely
+                  stroll through Paradise or challenging yourself on the Skyline
+                  Trail, the scenery is unforgettable. If you've never been,
+                  it's one of those places that genuinely makes you stop and
+                  say, “Wow.” It is another road trip option, about 2 hours from
+                  Redmond and you should arrive as early as possible to avoid
+                  crowds.{' '}
                   <OpenInExternalLink
                     title="AllTrails"
                     url="https://www.alltrails.com/trail/us/washington/skyline-trail"
@@ -298,6 +318,7 @@ export function Travel(): JSX.Element {
                   width={1000}
                   height={400}
                   loading="lazy"
+                  caption="Mount Rainier on the trail"
                 />
               </ul>
             </CollapsibleSection>
@@ -306,7 +327,7 @@ export function Travel(): JSX.Element {
               title="Other Attractions"
               useSubHeading={true}
             >
-              <ul className="list-disc pl-6 text-sm text-md flex flex-col gap-2">
+              <ul className="list-disc pl-6  text-md flex flex-col gap-2">
                 <li>
                   <strong>Leavenworth:</strong> Step into a storybook Bavarian
                   village nestled in the mountains, just two hours from Seattle.

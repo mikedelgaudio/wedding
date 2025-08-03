@@ -17,42 +17,49 @@ export function OurStory(): JSX.Element {
           loading="eager"
         />
         <p className="text-lg">
-          Lynh and Mike met the Summer of 2021 while interning for the same
-          company in Redmond, WA. During orientation, they were assigned to
-          tables based on the org that they would be working for. Mike sat next
-          to Lynh. They introduced themselves to each other, but didn't think
-          much of it. From what they can recall, Lynh said "The only thing I
-          know about Staten Island is Pete Davidson is from there" and Mike
-          asked about if the weather really was that cold in Minnesota.
+          Lynh and Mike met during the summer of 2021 while interning at the
+          same company in Redmond, WA. During orientation, interns were seated
+          by the organization they'd be working for—and that's how Mike ended up
+          next to Lynh. They exchanged a few words but didn't think much of it
+          at the time. From what they remember, Lynh joked, “The only thing I
+          know about Staten Island is that Pete Davidson is from there,” while
+          Mike asked if Minnesota was <span className="italic">really</span>{' '}
+          that cold.
         </p>
         <p className="text-lg">
-          The next day walking back to her hotel room with groceries, Lynh saw
-          Mike again. As fate would have it, they were not only working for the
-          same company in the same org, but also placed at the same hotel AND on
-          the same floor.
+          The very next day, as Lynh was walking back to her hotel with
+          groceries, she ran into Mike again. As it turned out, not only were
+          they working for the same company and same org—they were staying at
+          the same hotel, on the same floor.
         </p>
         <p className="text-lg">
-          After work, the interns that were placed in the Residence Inn Redmond
-          would play games in the hotel lobby. One day they decided to play
-          poker, one of Lynh's favorite games. Mike did not know how to play, so
-          Lynh taught him... but not for free. We didn't have Poker chips, so we
-          would play for verbal bets. First, Mike lost and had to give Lynh
-          rides to work for a week (Mike was the only one who rented a car for
-          the Summer). This soon turned into free rides for the whole Summer.
-          Mike kept bragging about how he bought an air fryer from Costco to get
-          him through the Summer living in a hotel room. The next time Mike
-          lost, he offered to cook Lynh dinner with his air fryer. Lynh was
-          skeptical... but also hungry, so she eventually accepted.
+          In the evenings, the interns staying at the Residence Inn Redmond
+          would often gather in the lobby to hang out and play games. One night,
+          someone suggested poker—one of Lynh's favorite games. Mike had never
+          played before, so Lynh offered to teach him… but not for free. With no
+          poker chips, the interns resorted to verbal bets. Mike's first loss
+          earned Lynh a week of rides to work (he was the only one who had
+          rented a car that summer). That “week” quickly turned into the rest of
+          the summer.
         </p>
         <p className="text-lg">
-          Mike made Lynh a delicious air fryer chicken dinner, and while they
-          ate they decided to play some poker just the two of them. After Mike
-          lost for the third time, Mike decided to raise the stakes. "If I win
-          the next hand, I get to take you out on a <strong>proper</strong>{' '}
-          date". Mike had lost every poker game up to this point, so Lynh wasn't
-          worried. But as fate would have it, Mike won... let's just say they
-          spent the Summer of 2022 playing lot of poker and eating their way
-          around Seattle.
+          Mike, ever proud of his air fryer purchase from Costco, boasted about
+          using it to survive hotel living. So when he lost another hand, he
+          upped the ante: he'd cook Lynh dinner. Skeptical—but also hungry—Lynh
+          eventually took him up on the offer.
+        </p>
+        <p className="text-lg">
+          Mike made a surprisingly good air fryer chicken dinner, and over
+          dinner, they played another round of poker—just the two of them this
+          time. After yet another loss, Mike decided to raise the stakes: “If I
+          win the next hand, I get to take you out on a{' '}
+          <span className="font-bold">proper date.</span>” Given his track
+          record, Lynh didn't worry.
+        </p>
+        <p className="text-lg">But as fate would have it, Mike won.</p>
+        <p className="text-lg">
+          Let's just say the summer turned into a season of poker nights and
+          food adventures around Seattle—one bet at a time.
         </p>
         <ResponsiveFigure
           src={`${CDN_URL}/museum.jpg`}

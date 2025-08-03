@@ -53,7 +53,7 @@ export function RsvpForm({ snapshot }: RsvpFormProps) {
       const lastModifiedDate = data.lastModified?.toDate() ?? null;
       const formatter = new Intl.DateTimeFormat('en-US', {
         timeZone: 'America/Los_Angeles',
-        dateStyle: 'medium',
+        dateStyle: 'long',
         timeStyle: 'short',
       });
       const saveButtonText = lastModifiedDate ? 'Update RSVP' : 'Submit RSVP';
@@ -97,11 +97,11 @@ export function RsvpForm({ snapshot }: RsvpFormProps) {
     }
     for (let i = 0; i < guestResponses.length; i++) {
       const g = guestResponses[i]!;
-      if (!g.name?.trim()) {
-        return `Please enter a name for Guest ${i + 1}.`;
-      }
       if (g.attending == null) {
         return `Please select Yes or No for Guest ${i + 1}.`;
+      }
+      if (g.attending && g.isNameEditable && !g.name?.trim()) {
+        return `Please enter a name for Guest ${i + 1}.`;
       }
     }
   }
@@ -178,12 +178,12 @@ export function RsvpForm({ snapshot }: RsvpFormProps) {
           Welcome, {data.invitee.name}
         </h2>
         {lastModifiedDate ? (
-          <p className="text-gray-600">
+          <p>
             Your RSVP was last modified on{' '}
             <strong>{formatter.format(lastModifiedDate)} PDT</strong>.
           </p>
         ) : (
-          <p className="text-gray-600">
+          <p>
             Please respond by{' '}
             <strong>{formatter.format(deadlineDate)} PDT</strong>.
           </p>
@@ -241,7 +241,7 @@ export function RsvpForm({ snapshot }: RsvpFormProps) {
                   value={resp.name ?? ''}
                   onChange={e => handleGuestChange(idx, 'name', e.target.value)}
                   placeholder={`Guest ${idx + 1} Full Name`}
-                  required
+                  required={resp.attending === true}
                   className="w-full p-2 border rounded focus:outline-none focus:ring"
                 />
               </Fragment>
