@@ -2,7 +2,7 @@ import { doc, getDoc } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
 import { Fragment } from 'react/jsx-runtime';
 import { db } from '../firebase/firebase.service';
-import GoogleMapsLink from './OpenInGoogleMaps';
+import { OpenInExternalLink } from './OpenInExternalLink';
 
 interface IEvent {
   time: string;
@@ -55,7 +55,10 @@ export function ScheduleCore() {
             <div>
               <p className="text-lg">{event.venue}</p>
               <p className="text-lg">{event.address}</p>
-              <GoogleMapsLink address={event.address} />
+              <OpenInExternalLink
+                title="View on Google Maps"
+                googleMaps={{ address: event.address }}
+              />
               <p className="mt-6">Attire: {event.attire}</p>
             </div>
           </div>

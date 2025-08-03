@@ -173,9 +173,9 @@ export function RsvpForm({ snapshot }: RsvpFormProps) {
       className="space-y-6"
       aria-describedby={errorMessage ? 'form-error' : undefined}
     >
-      <div className="space-y-2">
-        <h2 className="text-2xl font-semibold m-0 break-all">
-          Welcome, {data.invitee.name}
+      <div className="space-y-2 bg-black text-white p-6 rounded">
+        <h2 className="text-3xl font-semibold m-0 break-all">
+          {data.invitee.name}
         </h2>
         {lastModifiedDate ? (
           <p>

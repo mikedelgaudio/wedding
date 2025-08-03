@@ -62,7 +62,7 @@ const faqData: FAQItem[] = [
           from both our Vietnamese and Italian backgrounds. At the reception,
           it's customary for the couple to visit each table, and if guests wish
           to give a gift, it is often presented in a traditionally red envelope
-          known as a <i lang="vi">lì xì</i> in Vietnamese culture, or known as
+          known as a <i lang="vi">lì xì</i> in Vietnamese culture, or known as{' '}
           <i lang="it">busta</i> in Italian.
         </p>
         <p>
