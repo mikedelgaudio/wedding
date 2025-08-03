@@ -19,6 +19,9 @@ export function Home(): JSX.Element {
               width="1920"
               height="1080"
               loading="eager"
+              onError={e => {
+                e.currentTarget.parentElement!.style.display = 'none';
+              }}
               className="
               absolute inset-0
               w-full h-full

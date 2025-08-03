@@ -127,11 +127,6 @@ export function RsvpForm({ snapshot }: RsvpFormProps) {
     e.preventDefault();
     setErrorMessage(null);
 
-    if (!isDirty) {
-      setErrorMessage('No changes detected—nothing to update.');
-      return;
-    }
-
     const err = validate();
     if (err) {
       setErrorMessage(err);
@@ -140,6 +135,11 @@ export function RsvpForm({ snapshot }: RsvpFormProps) {
 
     setIsSaving(true);
     try {
+      if (!isDirty) {
+        setSuccessFlag(true);
+        return;
+      }
+
       const ref = doc(db, 'rsvp', snapshot.id);
       await updateDoc(ref, makePayload());
 
@@ -163,7 +163,6 @@ export function RsvpForm({ snapshot }: RsvpFormProps) {
     }
   }
 
-  // component swap on success
   if (successFlag) {
     return <SuccessScreen />;
   }
@@ -283,14 +282,16 @@ export function RsvpForm({ snapshot }: RsvpFormProps) {
       ))}
 
       {errorMessage && (
-        <p id="form-error" role="alert" className="text-red-500">
-          {errorMessage}
-        </p>
+        <div className="bg-red-700 text-white p-4 rounded">
+          <p id="form-error" role="alert">
+            {errorMessage}
+          </p>
+        </div>
       )}
 
       <button
         type="submit"
-        disabled={isSaving || !isDirty}
+        disabled={isSaving}
         className="w-full cursor-pointer bg-stone-900 text-white py-2 rounded hover:bg-stone-700 disabled:opacity-50 disabled:cursor-not-allowed focus-visible:outline-6 focus-visible:outline-stone-900"
       >
         {isSaving ? 'Saving…' : saveButtonText}

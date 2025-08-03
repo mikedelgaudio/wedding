@@ -64,7 +64,7 @@ export function Login() {
           <div className="relative w-full">
             <input
               id="site-password"
-              type={showPassword ? 'text' : 'text'}
+              type={showPassword ? 'text' : 'password'}
               value={password}
               onChange={e => setPassword(e.target.value)}
               placeholder="Password"

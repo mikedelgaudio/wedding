@@ -7,7 +7,7 @@ export function SuccessScreen() {
       </p>
       <button
         onClick={() => window.location.reload()}
-        className="px-4 py-2 cursor-pointer bg-stone-900 text-white rounded hover:bg-stone-700"
+        className="px-4 py-2 cursor-pointer bg-stone-900 text-white rounded hover:bg-stone-700 focus-visible:outline-6 focus-visible:outline-stone-900"
       >
         Submit another response
       </button>

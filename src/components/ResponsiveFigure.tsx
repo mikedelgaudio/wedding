@@ -26,6 +26,9 @@ export function ResponsiveFigure({
         height={height}
         loading={loading}
         style={{ height }}
+        onError={e => {
+          e.currentTarget.parentElement!.style.display = 'none';
+        }}
         className={
           'w-full rounded-lg shadow-lg object-cover transition-opacity duration-300'
         }

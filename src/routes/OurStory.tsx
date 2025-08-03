@@ -17,7 +17,7 @@ export function OurStory(): JSX.Element {
           loading="eager"
         />
         <p className="text-lg">
-          Lynh and Mike met the Summer of 2022 while interning for the same
+          Lynh and Mike met the Summer of 2021 while interning for the same
           company in Redmond, WA. During orientation, they were assigned to
           tables based on the org that they would be working for. Mike sat next
           to Lynh. They introduced themselves to each other, but didn't think
@@ -94,10 +94,10 @@ export function OurStory(): JSX.Element {
           with a photoshoot at the festival. However, Mike had more planned than
           just a photoshoot.
         </p>
-        <strong className="text-lg">
-          On April 4th, 2025 Michael proposed in front of the first blooms of
-          Spring:
-        </strong>
+        <p className="text-lg">
+          On April 4th, 2025 Mike proposed in front of the first blooms of
+          Spring.
+        </p>
         <ResponsiveFigure
           src={`${CDN_URL}/proposal.jpg`}
           alt=""
