@@ -1,6 +1,6 @@
-import type { JSX } from 'react';
+import { useCallback, useState, type JSX } from 'react';
 import { AppWithHeader } from '../AppWithHeader';
-import { CollapsibleSection } from '../components/CollapsibleSection';
+import { AccordionItem } from '../components/AccordianItem';
 import { OpenInExternalLink } from '../components/OpenInExternalLink';
 import { PageWrapper } from '../components/PageWrapper';
 import { ResponsiveFigure } from '../components/ResponsiveFigure';
@@ -8,6 +8,15 @@ import { ResponsiveFigure } from '../components/ResponsiveFigure';
 const CDN_URL = import.meta.env.VITE_REACT_APP_ASSET_CDN_URL;
 
 export function Travel(): JSX.Element {
+  const [openSections, setOpenSections] = useState<Record<string, boolean>>({});
+
+  const toggleSection = useCallback((id: string) => {
+    setOpenSections(prev => ({
+      ...prev,
+      [id]: !prev[id],
+    }));
+  }, []);
+
   return (
     <AppWithHeader>
       <PageWrapper pageTitle="Travel">
@@ -32,7 +41,12 @@ export function Travel(): JSX.Element {
             you're here since it is some of the best times of the year to visit!
           </p>
 
-          <CollapsibleSection id="getting-here" title="Getting Here">
+          <AccordionItem
+            id="getting-here"
+            title="Getting Here"
+            isOpen={!!openSections['getting-here']}
+            onToggle={() => toggleSection('getting-here')}
+          >
             <>
               <p>
                 We understand that many of you will be traveling from out of
@@ -58,9 +72,14 @@ export function Travel(): JSX.Element {
                 </li>
               </ul>
             </>
-          </CollapsibleSection>
+          </AccordionItem>
 
-          <CollapsibleSection id="accommodations" title="Accommodations">
+          <AccordionItem
+            id="accommodations"
+            title="Accommodations"
+            isOpen={!!openSections['accommodations']}
+            onToggle={() => toggleSection('accommodations')}
+          >
             <>
               <p>
                 We have compiled a list of recommended accommodations in the
@@ -137,12 +156,19 @@ export function Travel(): JSX.Element {
                 visualization of the area.
               </p>
             </>
-          </CollapsibleSection>
-          <CollapsibleSection id="things-to-do" title="Things to Do">
-            <CollapsibleSection
+          </AccordionItem>
+          <AccordionItem
+            id="things-to-do"
+            title="Things to Do"
+            isOpen={!!openSections['things-to-do']}
+            onToggle={() => toggleSection('things-to-do')}
+          >
+            <AccordionItem
               id="coffee"
               title="☕ Coffee"
-              useSubHeading={true}
+              isOpen={!!openSections['coffee']}
+              onToggle={() => toggleSection('coffee')}
+              useSubHeading
             >
               <ul className="list-disc pl-6  text-md flex flex-col gap-2">
                 <li>
@@ -165,11 +191,13 @@ export function Travel(): JSX.Element {
                   ambiance.
                 </li>
               </ul>
-            </CollapsibleSection>
-            <CollapsibleSection
+            </AccordionItem>
+            <AccordionItem
               id="boba-tea"
               title="🧋 Boba Tea"
-              useSubHeading={true}
+              isOpen={!!openSections['boba-tea']}
+              onToggle={() => toggleSection('boba-tea')}
+              useSubHeading
             >
               <ul className="list-disc pl-6  text-md flex flex-col gap-2">
                 <li>
@@ -195,11 +223,13 @@ export function Travel(): JSX.Element {
                   and refreshing.
                 </li>
               </ul>
-            </CollapsibleSection>
-            <CollapsibleSection
+            </AccordionItem>
+            <AccordionItem
               id="favorite-food"
               title="🍽️ Favorite Food"
-              useSubHeading={true}
+              isOpen={!!openSections['favorite-food']}
+              onToggle={() => toggleSection('favorite-food')}
+              useSubHeading
             >
               <ul className="list-disc pl-6  text-md flex flex-col gap-2">
                 <li>
@@ -221,11 +251,13 @@ export function Travel(): JSX.Element {
                   for rotisserie chicken, and prime rib.
                 </li>
               </ul>
-            </CollapsibleSection>
-            <CollapsibleSection
+            </AccordionItem>
+            <AccordionItem
               id="outdoor-activities"
               title="⛰️ Hiking"
-              useSubHeading={true}
+              isOpen={!!openSections['outdoor-activities']}
+              onToggle={() => toggleSection('outdoor-activities')}
+              useSubHeading
             >
               <ul className="list-disc pl-6  text-md flex flex-col gap-2">
                 <li>
@@ -321,11 +353,13 @@ export function Travel(): JSX.Element {
                   caption="Mount Rainier on the trail"
                 />
               </ul>
-            </CollapsibleSection>
-            <CollapsibleSection
+            </AccordionItem>
+            <AccordionItem
               id="Outdoor-attractions"
               title="Other Attractions"
-              useSubHeading={true}
+              useSubHeading
+              isOpen={!!openSections['Outdoor-attractions']}
+              onToggle={() => toggleSection('Outdoor-attractions')}
             >
               <ul className="list-disc pl-6  text-md flex flex-col gap-2">
                 <li>
@@ -362,8 +396,8 @@ export function Travel(): JSX.Element {
                   hidden gem is a peaceful escape from the city buzz.
                 </li>
               </ul>
-            </CollapsibleSection>
-          </CollapsibleSection>
+            </AccordionItem>
+          </AccordionItem>
         </div>
       </PageWrapper>
     </AppWithHeader>

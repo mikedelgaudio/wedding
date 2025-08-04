@@ -1,6 +1,7 @@
-import { useState, type JSX } from 'react';
+import { useCallback, useState, type JSX } from 'react';
 import { Link } from 'react-router-dom';
 import { AppWithHeader } from '../AppWithHeader';
+import { AccordionItem } from '../components/AccordianItem';
 import { PageWrapper } from '../components/PageWrapper';
 
 interface FAQItem {
@@ -165,12 +166,12 @@ export function FrequentlyAskedQuestions(): JSX.Element {
   const [openStates, setOpenStates] = useState<Record<number, boolean>>({});
 
   // Function to toggle the open state for a specific item
-  const toggleAccordion = (id: number) => {
+  const toggleAccordion = useCallback((id: number) => {
     setOpenStates(prevStates => ({
       ...prevStates, // Keep the state of other items
       [id]: !prevStates[id], // Toggle the state for the clicked item
     }));
-  };
+  }, []);
 
   return (
     <AppWithHeader>
@@ -185,57 +186,17 @@ export function FrequentlyAskedQuestions(): JSX.Element {
           </a>
           .
         </p>
-        {faqData.map(item => {
-          const isOpen = !!openStates[item.id]; // Check if the current item is open
-          return (
-            <div
-              key={item.id}
-              className="border border-gray-200 rounded-lg overflow-hidden shadow-sm"
-            >
-              <h3>
-                <button
-                  type="button"
-                  onClick={() => toggleAccordion(item.id)}
-                  className="flex justify-between cursor-pointer items-center w-full p-4 md:p-5 text-left font-semibold text-gray-700 bg-gray-50 hover:bg-gray-100 focus-visible:border focus-visible:border-gray-950 focus:outline-none focus-visible:rounded-lg"
-                  aria-expanded={isOpen}
-                  aria-controls={`faq-answer-${item.id}`} // Link button to answer panel
-                >
-                  <span>{item.question}</span>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className={`w-5 h-5 transform transition-transform duration-300 ease-in-out ${
-                      isOpen ? 'rotate-180' : 'rotate-0'
-                    }`}
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M19 9l-7 7-7-7"
-                    />
-                  </svg>
-                </button>
-              </h3>
-              <div
-                id={`faq-answer-${item.id}`} // ID for ARIA
-                role="region" // Indicate this is a panel controlled by the button
-                aria-labelledby={`faq-question-${item.id}`} // Link panel back to button (optional but good practice)
-                className={`overflow-hidden transition-all duration-500 ease-in-out ${
-                  isOpen ? 'max-h-screen' : 'max-h-0' // Adjust max-h if needed
-                }`}
-                aria-hidden={!isOpen} // Hide from screen readers when collapsed
-                hidden={!isOpen} // Hide from the DOM when collapsed
-              >
-                <div className="p-4 md:p-5 border-t border-gray-200 bg-white text-gray-600 text-xl">
-                  {item.answer}
-                </div>
-              </div>
-            </div>
-          );
-        })}
+        {faqData.map(item => (
+          <AccordionItem
+            key={item.id}
+            id={item.id}
+            title={item.question}
+            isOpen={!!openStates[item.id]}
+            onToggle={() => toggleAccordion(item.id)}
+          >
+            {item.answer}
+          </AccordionItem>
+        ))}
       </PageWrapper>
     </AppWithHeader>
   );
