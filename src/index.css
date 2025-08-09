@@ -6,6 +6,7 @@ html {
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  scrollbar-gutter: stable;
 }
 
 body {
@@ -27,4 +28,14 @@ main :is(h2, p, img) {
       animation-range: entry-crossing 50% entry-crossing calc(50% + 100px);
     }
   }
+}
+
+/* Scrollbar hiding utilities */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
 }

@@ -4,7 +4,6 @@ import { useEvent } from '../hooks/useEvent';
 
 const NAV_LINKS = [
   { href: '/', label: 'Home' },
-  { href: '/ourstory', label: 'Our Story' },
   { href: '/schedule', label: 'Schedule' },
   { href: '/travel', label: 'Travel' },
   { href: '/rsvp', label: 'RSVP' },

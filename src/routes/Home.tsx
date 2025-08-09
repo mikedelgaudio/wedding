@@ -1,45 +1,30 @@
 import type { JSX } from 'react';
 import { Link } from 'react-router-dom';
 import { AppWithHeader } from '../AppWithHeader';
+import { AutoScrollCarousel } from '../components/AutoScrollCarousel';
+import { OurStoryCore } from '../components/OurStoryCore';
+import { PageWrapper } from '../components/PageWrapper';
 import { useEvent } from '../hooks/useEvent';
 
 const CDN_URL = import.meta.env.VITE_REACT_APP_ASSET_CDN_URL;
+
+const images = [
+  `${CDN_URL}/home.jpg`,
+  `${CDN_URL}/day.jpg`,
+  `${CDN_URL}/redField.jpg`,
+  `${CDN_URL}/heda.jpg`,
+  `${CDN_URL}/photos.jpg`,
+];
 
 export function Home(): JSX.Element {
   const event = useEvent();
 
   return (
     <AppWithHeader>
-      <div className="flex justify-center items-center">
-        <div className="w-full max-w-[1000px]">
-          <div className="relative w-full h-[calc(100dvh-400px)] md:h-[calc(100dvh-172px)] overflow-hidden group">
-            <img
-              src={`${CDN_URL}/home.jpg`}
-              alt=""
-              width="1920"
-              height="1080"
-              loading="eager"
-              onError={e => {
-                e.currentTarget.parentElement!.style.display = 'none';
-              }}
-              className="
-              absolute inset-0
-              w-full h-full
-              object-cover
-              object-[50%_27%] sm:object-[50%_45%] md:object-[50%_42%] lg:object-[50%_40%]
-              scale-200
-              sm:scale-125
-              max-w-none
-              motion-safe:transition-transform
-              motion-safe:duration-[2000ms]
-              motion-safe:ease-out
-              motion-safe:group-hover:scale-150
-              motion-safe:sm:group-hover:scale-125
-              motion-safe:lg:group-hover:scale-135"
-            />
-          </div>
-
-          <div className="grid grid-cols-1 gap-6 md:justify-items-center py-6 pl-6">
+      <div className="flex flex-col justify-center items-center">
+        <AutoScrollCarousel images={images} />
+        <PageWrapper>
+          <div className="grid grid-cols-1 gap-6 md:justify-items-center py-6">
             <div>
               <h1 className="text-7xl md:text-8xl font-bold md:hidden block">
                 Lynh & Michael
@@ -53,13 +38,14 @@ export function Home(): JSX.Element {
               )}
             </div>
             <Link
-              className="text-xl md:text-2xl focus:outline-none w-fit px-6 py-2 focus:ring cursor-pointer bg-stone-900 text-white mr-8 rounded hover:bg-stone-700 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="text-xl md:text-2xl focus:outline-none w-fit px-6 py-2 focus:ring cursor-pointer bg-stone-900 text-white rounded hover:bg-stone-700 disabled:opacity-50 disabled:cursor-not-allowed"
               to={'/rsvp'}
             >
               RSVP
             </Link>
           </div>
-        </div>
+          <OurStoryCore />
+        </PageWrapper>
       </div>
     </AppWithHeader>
   );

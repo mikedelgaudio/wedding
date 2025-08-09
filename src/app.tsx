@@ -8,7 +8,6 @@ import { Home } from './routes/Home';
 import { Login } from './routes/Login';
 import { Logout } from './routes/Logout';
 import { NotFound } from './routes/NotFound';
-import { OurStory } from './routes/OurStory';
 import { Rsvp } from './routes/Rsvp';
 import { Schedule } from './routes/Schedule';
 import { Travel } from './routes/Travel';
@@ -32,7 +31,6 @@ export function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/" element={<ProtectedLayout />}>
           <Route index element={<Home />} />
-          <Route path="ourstory" element={<OurStory />} />
           <Route path="schedule" element={<Schedule />} />
           <Route path="rsvp" element={<Rsvp />} />
           <Route path="faq" element={<FrequentlyAskedQuestions />} />
