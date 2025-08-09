@@ -1,14 +1,16 @@
 import dotenv from 'dotenv';
-import * as admin from 'firebase-admin';
+import { initializeApp } from 'firebase-admin/app';
+import { getAuth } from 'firebase-admin/auth';
 import * as functions from 'firebase-functions';
 import { logger } from 'firebase-functions';
 
 dotenv.config();
 
 // Initialize Firebase Admin
-if (!admin.apps.length) {
-  admin.initializeApp();
-}
+initializeApp({
+  serviceAccountId:
+    'wedding-functions@wedding-rsvp-25b5b.iam.gserviceaccount.com',
+});
 
 // Environment-based shared password
 const SHARED_PASSWORD = process.env.AUTH_PASSWORD;
@@ -51,7 +53,12 @@ export const passwordLogin = functions.https.onCall(async request => {
   logger.info('Password accepted');
 
   const uid = 'site-guest';
-  const token = await admin.auth().createCustomToken(uid);
 
-  return { token };
+  try {
+    const token = await getAuth().createCustomToken(uid);
+    return { token };
+  } catch (err) {
+    logger.error('Token creation failed', err);
+    throw new functions.https.HttpsError('internal', 'Token generation failed');
+  }
 });
