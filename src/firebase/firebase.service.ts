@@ -1,8 +1,8 @@
 import { initializeApp } from 'firebase/app';
 import { initializeAppCheck, ReCaptchaV3Provider } from 'firebase/app-check';
-import { connectAuthEmulator, getAuth } from 'firebase/auth';
-import { connectFirestoreEmulator, getFirestore } from 'firebase/firestore';
-import { connectFunctionsEmulator, getFunctions } from 'firebase/functions';
+import { getAuth } from 'firebase/auth';
+import { getFirestore } from 'firebase/firestore';
+import { getFunctions } from 'firebase/functions';
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_REACT_APP_FIREBASE_API_KEY,
@@ -33,8 +33,3 @@ initializeAppCheck(app, {
 export const db = getFirestore(app);
 export const auth = getAuth(app);
 export const functions = getFunctions(app);
-
-// Optional: connect to emulators
-connectFirestoreEmulator(db, 'localhost', 8080);
-connectFunctionsEmulator(functions, 'localhost', 5001);
-connectAuthEmulator(auth, 'http://localhost:9099'); // Optional
