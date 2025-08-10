@@ -39,7 +39,7 @@ export function Login() {
   }, [user, checking, navigate, from]);
 
   return (
-    <div className="h-lvh grid grid-cols-1 md:grid-cols-2">
+    <div className="h-lvh grid grid-cols-1 md:grid-cols-2 grid-rows-2 md:grid-rows-1">
       <div className="flex items-center justify-center p-8">
         <form onSubmit={handleSubmit} className="max-w-lg w-full">
           <h1 className="text-2xl font-bold">Welcome family and friends</h1>
@@ -79,11 +79,12 @@ export function Login() {
               {showPassword ? 'Hide' : 'Show'}
             </button>
           </div>
-
           {error && (
-            <p role="alert" className="text-red-500 my-3">
-              {error}
-            </p>
+            <div className="bg-red-700 font-bold text-white my-2 p-4 rounded">
+              <p id="rsvp-error" role="alert">
+                {error}
+              </p>
+            </div>
           )}
           <button
             type="submit"
@@ -94,7 +95,7 @@ export function Login() {
           </button>
         </form>
       </div>
-      <div className="h-full w-full">
+      <div className="h-[calc(100dvh-369px)] w-full">
         <img
           src="https://cdn-wedding.delgaudio.dev/public-hero.jpg"
           alt="Our Story"

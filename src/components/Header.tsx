@@ -65,13 +65,11 @@ export function Header(): JSX.Element {
             style={{ fontFamily: 'Tangerine' }}
             to="/"
           >
-            L & M
+            Lynh & Michael
           </Link>
-          {event?.date && event?.location && (
-            <span className="md:block hidden text-lg">
-              {event.date} &nbsp;&middot;&nbsp; {event.location}
-            </span>
-          )}
+          <span className="md:block hidden text-lg">
+            {event?.date} &nbsp;&middot;&nbsp; {event?.location}
+          </span>
         </div>
       </header>
       <div

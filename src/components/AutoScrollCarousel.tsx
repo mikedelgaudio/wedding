@@ -1,15 +1,22 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 
-interface CarouselProps {
-  images: string[];
-}
+const CDN_URL = import.meta.env.VITE_REACT_APP_ASSET_CDN_URL;
 
-export function AutoScrollCarousel({ images }: CarouselProps) {
+const images = [
+  `${CDN_URL}/home.jpg`,
+  `${CDN_URL}/day.jpg`,
+  `${CDN_URL}/redField.jpg`,
+  `${CDN_URL}/heda.jpg`,
+  `${CDN_URL}/photos.jpg`,
+];
+
+const tripleImages = [...images, ...images, ...images];
+
+export function AutoScrollCarousel() {
   const scrollRef = useRef<HTMLDivElement>(null);
   const animationRef = useRef<number>(0);
   const scrollPositionRef = useRef(0);
   const [isStarted, setIsStarted] = useState(false);
-  const [isPaused, setIsPaused] = useState(false);
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
 
   // Calculate responsive scroll speed
@@ -17,10 +24,9 @@ export function AutoScrollCarousel({ images }: CarouselProps) {
     const width = window.innerWidth;
 
     // Optimal speeds for different breakpoints
-    if (width < 480) return 20; // Small mobile
-    if (width < 768) return 30; // Large mobile
-    if (width < 1024) return 40; // Tablet
-    return 45; // Desktop
+    if (width < 480) return 25; // Small mobile
+    if (width < 1024) return 30; // Tablet
+    return 35; // Desktop
   }, []);
 
   const [currentScrollSpeed, setCurrentScrollSpeed] = useState(getScrollSpeed);
@@ -72,7 +78,7 @@ export function AutoScrollCarousel({ images }: CarouselProps) {
 
   const animate = useCallback(() => {
     const scrollContainer = scrollRef.current;
-    if (!scrollContainer || !isStarted || isPaused) return;
+    if (!scrollContainer || !isStarted) return;
 
     scrollPositionRef.current += currentScrollSpeed / 60;
 
@@ -85,10 +91,10 @@ export function AutoScrollCarousel({ images }: CarouselProps) {
 
     scrollContainer.scrollLeft = scrollPositionRef.current;
     animationRef.current = requestAnimationFrame(animate);
-  }, [images.length, currentScrollSpeed, isStarted, isPaused]);
+  }, [currentScrollSpeed, isStarted]);
 
   useEffect(() => {
-    if (isStarted && !isPaused) {
+    if (isStarted) {
       animate();
     } else if (animationRef.current) {
       cancelAnimationFrame(animationRef.current);
@@ -99,9 +105,7 @@ export function AutoScrollCarousel({ images }: CarouselProps) {
         cancelAnimationFrame(animationRef.current);
       }
     };
-  }, [animate, isStarted, isPaused]);
-
-  const tripleImages = [...images, ...images, ...images];
+  }, [animate, isStarted]);
 
   return (
     <div className="w-full h-[calc(100dvh-72px)] md:h-[calc(100dvh-172px)] flex flex-col">
@@ -123,10 +127,6 @@ export function AutoScrollCarousel({ images }: CarouselProps) {
             scrollbarWidth: 'none',
             msOverflowStyle: 'none',
           }}
-          onMouseEnter={() => setIsPaused(true)}
-          onMouseLeave={() => setIsPaused(false)}
-          onTouchStart={() => setIsPaused(true)}
-          onTouchEnd={() => setIsPaused(false)}
         >
           <div
             className="flex h-full"
