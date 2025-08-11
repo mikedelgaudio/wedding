@@ -14,8 +14,8 @@ export function OurStoryCore(): JSX.Element {
         loading="eager"
       />
       <p className="text-2xl">
-        <span className="font-bold text-3xl">Lynh and Mike</span> met during the
-        summer of 2021 while interning at the same company in Redmond, WA.
+        <span className="font-bold text-3xl">Lynh and Michael</span> met during
+        the summer of 2021 while interning at the same company in Redmond, WA.
         During orientation, interns were seated by the organization they'd be
         working for—and that's how Mike ended up next to Lynh. They exchanged a
         few words but didn't think much of it at the time. From what they
@@ -33,10 +33,13 @@ export function OurStoryCore(): JSX.Element {
         In the evenings, the interns staying at the Residence Inn Redmond would
         often gather in the lobby to hang out and play games. One night, someone
         suggested poker—one of Lynh's favorite games. Mike had never played
-        before, so Lynh offered to teach him… but not for free. With no poker
-        chips, the interns resorted to verbal bets. Mike's first loss earned
-        Lynh a week of rides to work (he was the only one who had rented a car
-        that summer). That “week” quickly turned into the rest of the summer.
+        before, so Lynh offered to teach him… but not for free.
+      </p>
+      <p className="text-2xl">
+        With no poker chips, the interns resorted to verbal bets. Mike's first
+        loss earned Lynh a week of rides to work (he was the only one who had
+        rented a car that summer). That “week” quickly turned into the rest of
+        the summer.
       </p>
       <p className="text-2xl">
         Mike, ever proud of his air fryer purchase from Costco, boasted about

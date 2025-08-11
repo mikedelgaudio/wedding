@@ -69,9 +69,15 @@ const faqData: FAQItem[] = [
         <p>
           Your presence is truly the greatest gift of all, and we are so
           thankful to have you celebrate with us. If you're unable to attend but
-          would still like to send a gift, we warmly encourage you to reach out
-          to us or our families for a mailing address. Your thoughtfulness means
-          the world to us.
+          would still like to send a gift, we warmly encourage you to{' '}
+          <a
+            href="mailto:wedding@delgaudio.dev"
+            className="underline hover:no-underline focus-visible:border focus-visible:border-gray-950 focus:outline-none focus-visible:rounded-lg"
+          >
+            reach out to us
+          </a>{' '}
+          or our families for a mailing address. Your thoughtfulness means the
+          world to us.
         </p>
       </>
     ),
