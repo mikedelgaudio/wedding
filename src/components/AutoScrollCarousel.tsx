@@ -14,10 +14,13 @@ const tripleImages = [...images, ...images, ...images];
 
 export function AutoScrollCarousel() {
   const scrollRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
   const animationRef = useRef<number>(0);
   const scrollPositionRef = useRef(0);
   const [isStarted, setIsStarted] = useState(false);
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
+  const [secondImageLoaded, setSecondImageLoaded] = useState(false);
+  const [scrollY, setScrollY] = useState(0);
 
   // Calculate responsive scroll speed
   const getScrollSpeed = useCallback(() => {
@@ -30,6 +33,17 @@ export function AutoScrollCarousel() {
   }, []);
 
   const [currentScrollSpeed, setCurrentScrollSpeed] = useState(getScrollSpeed);
+
+  // Handle window scroll for parallax effect
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollPosition = window.scrollY;
+      setScrollY(scrollPosition);
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   useEffect(() => {
     // Check for reduced motion preference
@@ -57,29 +71,26 @@ export function AutoScrollCarousel() {
   }, [getScrollSpeed]);
 
   useEffect(() => {
-    // Check for reduced motion preference
-    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
-    setPrefersReducedMotion(mediaQuery.matches);
-
-    const handleChange = (e: MediaQueryListEvent) => {
-      setPrefersReducedMotion(e.matches);
-    };
-
-    mediaQuery.addEventListener('change', handleChange);
-    return () => mediaQuery.removeEventListener('change', handleChange);
+    // Preload the second image and track when it loads
+    if (images.length > 1) {
+      const img = new Image();
+      img.onload = () => setSecondImageLoaded(true);
+      img.src = images[1]; // Load the second image
+    }
   }, []);
 
   useEffect(() => {
-    if (prefersReducedMotion) return; // Don't start timer if motion is reduced
+    if (prefersReducedMotion || !secondImageLoaded) return;
 
     const startTimer = setTimeout(() => setIsStarted(true), 1000);
     return () => clearTimeout(startTimer);
-  }, [prefersReducedMotion]);
+  }, [prefersReducedMotion, secondImageLoaded]);
 
   const animate = useCallback(() => {
     const scrollContainer = scrollRef.current;
     if (!scrollContainer || !isStarted) return;
 
+    // Always continue auto-scrolling regardless of scroll position
     scrollPositionRef.current += currentScrollSpeed / 60;
 
     const containerWidth = scrollContainer.offsetWidth;
@@ -107,8 +118,21 @@ export function AutoScrollCarousel() {
     };
   }, [animate, isStarted]);
 
+  // Calculate parallax offset
+  const getParallaxOffset = (index: number) => {
+    if (prefersReducedMotion) return 0;
+
+    // Create different parallax speeds for different images
+    const baseSpeed = 0.2;
+    const layerSpeed = baseSpeed + (index % images.length) * 0.05;
+    return scrollY * layerSpeed;
+  };
+
   return (
-    <div className="w-full h-[calc(100dvh-72px)] md:h-[calc(100dvh-172px)] flex flex-col">
+    <div
+      ref={containerRef}
+      className="w-full h-[calc(100dvh-72px)] md:h-[calc(100dvh-172px)] flex flex-col"
+    >
       <div className="flex-1 relative overflow-hidden">
         <span className="text-7xl sm:text-9xl text-white opacity-95 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10 whitespace-nowrap">
           <span>L </span>
@@ -135,11 +159,16 @@ export function AutoScrollCarousel() {
             {tripleImages.map((image, index) => (
               <div
                 key={index}
-                className="flex-shrink-0 w-screen h-full relative"
+                className="flex-shrink-0 w-screen h-full relative overflow-hidden"
               >
                 <img
                   src={image}
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-cover transition-transform duration-75 ease-out"
+                  style={{
+                    transform: `translateY(${getParallaxOffset(
+                      index,
+                    )}px) scale(1.05)`,
+                  }}
                   loading={index === 0 ? 'eager' : 'lazy'}
                 />
               </div>
