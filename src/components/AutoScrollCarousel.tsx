@@ -173,7 +173,7 @@ export function AutoScrollCarousel() {
   return (
     <div
       ref={containerRef}
-      className="w-full h-[calc(100dvh-72px)] md:h-[calc(100dvh-172px)] flex flex-col"
+      className="w-full h-[calc(100dvh-364px)] md:h-[calc(100dvh-172px)] flex flex-col"
     >
       <div className="flex-1 relative overflow-hidden">
         {/* Optimize text overlay with GPU acceleration */}
@@ -196,7 +196,7 @@ export function AutoScrollCarousel() {
 
         <div
           ref={scrollRef}
-          className="h-[calc(100dvh-72px)] md:h-[calc(100dvh-172px)] overflow-x-scroll overflow-y-hidden"
+          className="h-[calc(100dvh-364px)] md:h-[calc(100dvh-172px)] overflow-x-scroll overflow-y-hidden"
           style={{
             scrollbarWidth: 'none',
             msOverflowStyle: 'none',
