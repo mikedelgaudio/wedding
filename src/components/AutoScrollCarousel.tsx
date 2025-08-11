@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 const CDN_URL = import.meta.env.VITE_REACT_APP_ASSET_CDN_URL;
 
@@ -10,6 +10,7 @@ const images = [
   `${CDN_URL}/photos.jpg`,
 ];
 
+// Memoize the tripled images array to prevent recreation on every render
 const tripleImages = [...images, ...images, ...images];
 
 export function AutoScrollCarousel() {
@@ -17,15 +18,17 @@ export function AutoScrollCarousel() {
   const containerRef = useRef<HTMLDivElement>(null);
   const animationRef = useRef<number>(0);
   const scrollPositionRef = useRef(0);
+  const lastScrollY = useRef(0);
+  const ticking = useRef(false);
+
   const [isStarted, setIsStarted] = useState(false);
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
   const [secondImageLoaded, setSecondImageLoaded] = useState(false);
   const [scrollY, setScrollY] = useState(0);
 
-  // Calculate responsive scroll speed
+  // Memoize responsive scroll speed calculation
   const getScrollSpeed = useCallback(() => {
     const width = window.innerWidth;
-
     // Optimal speeds for different breakpoints
     if (width < 480) return 25; // Small mobile
     if (width < 1024) return 30; // Tablet
@@ -34,19 +37,34 @@ export function AutoScrollCarousel() {
 
   const [currentScrollSpeed, setCurrentScrollSpeed] = useState(getScrollSpeed);
 
-  // Handle window scroll for parallax effect
-  useEffect(() => {
-    const handleScroll = () => {
-      const scrollPosition = window.scrollY;
-      setScrollY(scrollPosition);
-    };
-
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
+  // Throttled scroll handler using requestAnimationFrame for better performance
+  const updateScrollY = useCallback(() => {
+    setScrollY(lastScrollY.current);
+    ticking.current = false;
   }, []);
 
+  const handleScroll = useCallback(() => {
+    lastScrollY.current = window.scrollY;
+
+    if (!ticking.current) {
+      requestAnimationFrame(updateScrollY);
+      ticking.current = true;
+    }
+  }, [updateScrollY]);
+
+  // Handle window scroll for parallax effect with optimized throttling
   useEffect(() => {
-    // Check for reduced motion preference
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      if (ticking.current) {
+        cancelAnimationFrame(animationRef.current);
+      }
+    };
+  }, [handleScroll]);
+
+  // Memoize reduced motion check
+  useEffect(() => {
     const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
     setPrefersReducedMotion(mediaQuery.matches);
 
@@ -58,27 +76,39 @@ export function AutoScrollCarousel() {
     return () => mediaQuery.removeEventListener('change', handleChange);
   }, []);
 
+  // Debounced resize handler
   useEffect(() => {
-    // Check if mobile and update scroll speed on resize
+    let resizeTimer: NodeJS.Timeout;
+
     const updateDeviceType = () => {
-      setCurrentScrollSpeed(getScrollSpeed());
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(() => {
+        setCurrentScrollSpeed(getScrollSpeed());
+      }, 100); // 100ms debounce
     };
 
     updateDeviceType(); // Initial check
 
     window.addEventListener('resize', updateDeviceType);
-    return () => window.removeEventListener('resize', updateDeviceType);
+    return () => {
+      window.removeEventListener('resize', updateDeviceType);
+      clearTimeout(resizeTimer);
+    };
   }, [getScrollSpeed]);
 
+  // Optimized image preloading
   useEffect(() => {
-    // Preload the second image and track when it loads
     if (images.length > 1) {
       const img = new Image();
       img.onload = () => setSecondImageLoaded(true);
-      img.src = images[1]; // Load the second image
+      img.onerror = () => setSecondImageLoaded(true); // Still start even if image fails
+      img.src = images[1];
+    } else {
+      setSecondImageLoaded(true);
     }
   }, []);
 
+  // Start animation with proper cleanup
   useEffect(() => {
     if (prefersReducedMotion || !secondImageLoaded) return;
 
@@ -86,18 +116,20 @@ export function AutoScrollCarousel() {
     return () => clearTimeout(startTimer);
   }, [prefersReducedMotion, secondImageLoaded]);
 
+  // Optimized animation loop with better frame timing
   const animate = useCallback(() => {
     const scrollContainer = scrollRef.current;
     if (!scrollContainer || !isStarted) return;
 
-    // Always continue auto-scrolling regardless of scroll position
+    // Use consistent timing for smooth animation
     scrollPositionRef.current += currentScrollSpeed / 60;
 
     const containerWidth = scrollContainer.offsetWidth;
     const resetPoint = containerWidth * images.length;
 
+    // More efficient reset logic
     if (scrollPositionRef.current >= resetPoint) {
-      scrollPositionRef.current = 0;
+      scrollPositionRef.current = scrollPositionRef.current - resetPoint;
     }
 
     scrollContainer.scrollLeft = scrollPositionRef.current;
@@ -106,7 +138,7 @@ export function AutoScrollCarousel() {
 
   useEffect(() => {
     if (isStarted) {
-      animate();
+      animationRef.current = requestAnimationFrame(animate);
     } else if (animationRef.current) {
       cancelAnimationFrame(animationRef.current);
     }
@@ -118,15 +150,25 @@ export function AutoScrollCarousel() {
     };
   }, [animate, isStarted]);
 
-  // Calculate parallax offset
-  const getParallaxOffset = (index: number) => {
-    if (prefersReducedMotion) return 0;
+  // Memoized parallax calculation for better performance
+  const parallaxOffsets = useMemo(() => {
+    if (prefersReducedMotion) return tripleImages.map(() => 0);
 
-    // Create different parallax speeds for different images
     const baseSpeed = 0.2;
-    const layerSpeed = baseSpeed + (index % images.length) * 0.05;
-    return scrollY * layerSpeed;
-  };
+    return tripleImages.map((_, index) => {
+      const layerSpeed = baseSpeed + (index % images.length) * 0.05;
+      return scrollY * layerSpeed;
+    });
+  }, [scrollY, prefersReducedMotion]);
+
+  // Memoized transform styles to prevent recalculation
+  const transformStyles = useMemo(() => {
+    return parallaxOffsets.map(offset => ({
+      transform: `translate3d(0, ${offset}px, 0) scale(1.05)`,
+      // Use translate3d and will-change for hardware acceleration
+      willChange: 'transform',
+    }));
+  }, [parallaxOffsets]);
 
   return (
     <div
@@ -134,7 +176,14 @@ export function AutoScrollCarousel() {
       className="w-full h-[calc(100dvh-72px)] md:h-[calc(100dvh-172px)] flex flex-col"
     >
       <div className="flex-1 relative overflow-hidden">
-        <span className="text-7xl sm:text-9xl text-white opacity-95 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10 whitespace-nowrap">
+        {/* Optimize text overlay with GPU acceleration */}
+        <span
+          className="text-7xl sm:text-9xl text-white opacity-95 absolute top-1/2 left-1/2 z-10 whitespace-nowrap pointer-events-none"
+          style={{
+            transform: 'translate(-50%, -50%)',
+            willChange: 'transform',
+          }}
+        >
           <span>L </span>
           <span
             className="text-6xl md:text-9xl"
@@ -144,32 +193,35 @@ export function AutoScrollCarousel() {
           </span>{' '}
           <span>M</span>
         </span>
+
         <div
           ref={scrollRef}
-          className="h-[calc(100dvh-72px)] md:h-[calc(100dvh-172px)] overflow-x-scroll overflow-y-hidden scrollbar-hide"
+          className="h-[calc(100dvh-72px)] md:h-[calc(100dvh-172px)] overflow-x-scroll overflow-y-hidden"
           style={{
             scrollbarWidth: 'none',
             msOverflowStyle: 'none',
+            WebkitOverflowScrolling: 'touch', // Smooth scrolling on iOS
           }}
         >
           <div
             className="flex h-full"
-            style={{ width: `${tripleImages.length * 100}vw` }}
+            style={{
+              width: `${tripleImages.length * 100}vw`,
+              willChange: 'scroll-position', // Hint for scroll optimization
+            }}
           >
             {tripleImages.map((image, index) => (
               <div
-                key={index}
+                key={`${image}-${index}`} // More specific key for better reconciliation
                 className="flex-shrink-0 w-screen h-full relative overflow-hidden"
               >
                 <img
                   src={image}
-                  className="w-full h-full object-cover transition-transform duration-75 ease-out"
-                  style={{
-                    transform: `translateY(${getParallaxOffset(
-                      index,
-                    )}px) scale(1.05)`,
-                  }}
+                  alt=""
+                  className="w-full h-full object-cover"
+                  style={transformStyles[index]}
                   loading={index === 0 ? 'eager' : 'lazy'}
+                  decoding="async"
                 />
               </div>
             ))}
