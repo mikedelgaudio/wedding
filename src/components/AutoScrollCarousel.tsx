@@ -21,6 +21,11 @@ export function AutoScrollCarousel() {
   const lastScrollY = useRef(0);
   const ticking = useRef(false);
 
+  // New refs for manual scroll handling
+  const isUserScrollingRef = useRef(false);
+  const userScrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const lastUserScrollLeft = useRef(0);
+
   const [isStarted, setIsStarted] = useState(false);
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
   const [secondImageLoaded, setSecondImageLoaded] = useState(false);
@@ -36,6 +41,67 @@ export function AutoScrollCarousel() {
   }, []);
 
   const [currentScrollSpeed, setCurrentScrollSpeed] = useState(getScrollSpeed);
+
+  // Handle manual scroll detection
+  const handleManualScroll = useCallback(() => {
+    const scrollContainer = scrollRef.current;
+    if (!scrollContainer) return;
+
+    // Check if this is a user-initiated scroll
+    const currentScrollLeft = scrollContainer.scrollLeft;
+    const isManualScroll =
+      Math.abs(currentScrollLeft - scrollPositionRef.current) > 2;
+
+    if (isManualScroll && !isUserScrollingRef.current) {
+      // User started scrolling
+      isUserScrollingRef.current = true;
+
+      // Cancel auto-scroll animation
+      if (animationRef.current) {
+        cancelAnimationFrame(animationRef.current);
+      }
+    }
+
+    // Update our internal position to match user scroll
+    if (isUserScrollingRef.current) {
+      scrollPositionRef.current = currentScrollLeft;
+      lastUserScrollLeft.current = currentScrollLeft;
+    }
+
+    // Clear existing timeout
+    if (userScrollTimeoutRef.current) {
+      clearTimeout(userScrollTimeoutRef.current);
+    }
+
+    // Set timeout to resume auto-scroll after user stops
+    userScrollTimeoutRef.current = setTimeout(() => {
+      isUserScrollingRef.current = false;
+
+      // Resume auto-scroll from current position
+      if (isStarted && !prefersReducedMotion) {
+        animationRef.current = requestAnimationFrame(animate);
+      }
+    }, 1000); // Resume after 1 second of no manual scrolling
+
+    // eslint-disable-next-line
+  }, [isStarted, prefersReducedMotion]);
+
+  // Add scroll event listener to carousel
+  useEffect(() => {
+    const scrollContainer = scrollRef.current;
+    if (!scrollContainer) return;
+
+    scrollContainer.addEventListener('scroll', handleManualScroll, {
+      passive: true,
+    });
+
+    return () => {
+      scrollContainer.removeEventListener('scroll', handleManualScroll);
+      if (userScrollTimeoutRef.current) {
+        clearTimeout(userScrollTimeoutRef.current);
+      }
+    };
+  }, [handleManualScroll]);
 
   // Throttled scroll handler using requestAnimationFrame for better performance
   const updateScrollY = useCallback(() => {
@@ -119,7 +185,7 @@ export function AutoScrollCarousel() {
   // Optimized animation loop with better frame timing
   const animate = useCallback(() => {
     const scrollContainer = scrollRef.current;
-    if (!scrollContainer || !isStarted) return;
+    if (!scrollContainer || !isStarted || isUserScrollingRef.current) return;
 
     // Use consistent timing for smooth animation
     scrollPositionRef.current += currentScrollSpeed / 60;
@@ -137,7 +203,7 @@ export function AutoScrollCarousel() {
   }, [currentScrollSpeed, isStarted]);
 
   useEffect(() => {
-    if (isStarted) {
+    if (isStarted && !isUserScrollingRef.current) {
       animationRef.current = requestAnimationFrame(animate);
     } else if (animationRef.current) {
       cancelAnimationFrame(animationRef.current);

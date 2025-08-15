@@ -23,7 +23,7 @@ const faqData: FAQItem[] = [
         >
           RSVP form
         </Link>{' '}
-        and fill it out by your RSVP's deadline.
+        and fill it out by your RSVP's deadline listed on your invitation.
       </>
     ),
   },

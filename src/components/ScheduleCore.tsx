@@ -4,6 +4,8 @@ import { Fragment } from 'react/jsx-runtime';
 import { db } from '../firebase/firebase.service';
 import { OpenInExternalLink } from './OpenInExternalLink';
 
+const CDN_URL = import.meta.env.VITE_REACT_APP_ASSET_CDN_URL;
+
 interface IEvent {
   time: string;
   header: string;
@@ -11,6 +13,7 @@ interface IEvent {
   address: string;
   attire: string;
   date: string;
+  imageSrc: string;
 }
 
 export function ScheduleCore() {
@@ -49,7 +52,7 @@ export function ScheduleCore() {
             <span className="text-md mr-[2px] leading-3">{event.date}</span>
           </div>
           <div>
-            <div>
+            <div className="flex gap-2 items-center">
               <h2 className="font-bold text-2xl">{event.header}</h2>
             </div>
             <div>
@@ -60,6 +63,17 @@ export function ScheduleCore() {
                 googleMaps={{ address: event.address }}
               />
               <p className="mt-6">Attire: {event.attire}</p>
+              <img
+                className="w-full object-contain"
+                src={`${CDN_URL}/${event.imageSrc}`}
+                alt=""
+                width={500}
+                height={300}
+                loading="eager"
+                onError={e => {
+                  e.currentTarget.style.display = 'none';
+                }}
+              />
             </div>
           </div>
           {index < events.length - 1 && (
