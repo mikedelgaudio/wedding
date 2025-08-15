@@ -35,7 +35,6 @@ export function AutoScrollCarousel() {
   const getScrollSpeed = useCallback(() => {
     const width = window.innerWidth;
     // Optimal speeds for different breakpoints
-    if (width < 480) return 25; // Small mobile
     if (width < 1024) return 30; // Tablet
     return 35; // Desktop
   }, []);
