@@ -10,8 +10,18 @@ interface PasswordLoginResponse {
   token: string;
 }
 
-export async function tryPasswordLogin(password: string): Promise<boolean> {
-  if (auth.currentUser) return true;
+interface ITryPasswordLoginResult {
+  success: boolean;
+  error?: {
+    code: string;
+    message: string;
+  };
+}
+
+export async function tryPasswordLogin(
+  password: string,
+): Promise<ITryPasswordLoginResult> {
+  if (auth.currentUser) return { success: true };
 
   try {
     const passwordLogin = httpsCallable<
@@ -20,8 +30,10 @@ export async function tryPasswordLogin(password: string): Promise<boolean> {
     >(functions, 'passwordLogin');
 
     if (!password || password.trim() === '') {
-      console.warn('Password is required');
-      return false;
+      return {
+        success: false,
+        error: { code: 'invalid_password', message: 'Password is required' },
+      };
     }
 
     const result = await passwordLogin({ password });
@@ -29,9 +41,15 @@ export async function tryPasswordLogin(password: string): Promise<boolean> {
     await signInWithCustomToken(auth, result.data.token);
 
     // Successfully authenticated
-    return true;
-  } catch (e) {
-    console.error('Login failed:', e);
-    return false;
+    return { success: true };
+    // eslint-disable-next-line
+  } catch (e: any) {
+    return {
+      success: false,
+      error: {
+        code: e?.code || 'unknown_error',
+        message: e?.message || 'An unknown error occurred',
+      },
+    };
   }
 }

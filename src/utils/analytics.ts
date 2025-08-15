@@ -71,10 +71,11 @@ export const trackLoginSuccess = (): void => {
 };
 
 // 7. Track failed login
-export const trackLoginFailed = (reason: string): void => {
+export const trackLoginFailed = (code?: string, message?: string): void => {
   if (analytics) {
     logEvent(analytics, 'login_failed', {
-      failure_reason: reason,
+      failure_reason: code || 'unknown_error',
+      failure_message: message || 'An unknown error occurred',
     });
   }
 };

@@ -26,11 +26,11 @@ export function Login() {
     // Track form submit button click
     trackFormSubmit('login_form');
 
-    const success = await tryPasswordLogin(password);
+    const result = await tryPasswordLogin(password);
 
-    if (!success) {
+    if (!result.success) {
       // Track login failure
-      trackLoginFailed('invalid_password');
+      trackLoginFailed(result.error?.code, result.error?.message);
 
       setError(
         'The password entered may be invalid or an error occurred. Please try again by checking your password or refreshing the page.',
