@@ -2,6 +2,12 @@ import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { tryPasswordLogin } from '../firebase/auth/tryPasswordLogin';
 import { useAuth } from '../hooks/useAuth';
+import {
+  trackFormSubmit,
+  trackLoginFailed,
+  trackLoginSuccess,
+  trackPageView,
+} from '../utils/analytics';
 
 export function Login() {
   const [password, setPassword] = useState('');
@@ -17,15 +23,24 @@ export function Login() {
     setSubmitting(true);
     setError('');
 
+    // Track form submit button click
+    trackFormSubmit('login_form');
+
     const success = await tryPasswordLogin(password);
 
     if (!success) {
+      // Track login failure
+      trackLoginFailed('invalid_password');
+
       setError(
         'The password entered may be invalid or an error occurred. Please try again by checking your password or refreshing the page.',
       );
       setSubmitting(false);
       return;
     }
+
+    // Track successful login
+    trackLoginSuccess();
 
     // If success, let useEffect redirect — no need to navigate manually
   }
@@ -37,6 +52,11 @@ export function Login() {
       navigate(from, { replace: true });
     }
   }, [user, checking, navigate, from]);
+
+  // Track page view and successful load
+  useEffect(() => {
+    trackPageView('/login');
+  }, []);
 
   return (
     <div className="h-lvh grid grid-cols-1 md:grid-cols-2 grid-rows-2 md:grid-rows-1 ">
