@@ -115,10 +115,10 @@ export function Login() {
           </button>
         </form>
       </div>
-      <div className="h-[calc(100dvh-334px)] md:h-full w-full">
+      <div className="h-[calc(100vh-334px)] md:h-full w-full">
         <img
           src="https://cdn-wedding.delgaudio.dev/public-hero.jpg"
-          alt="Our Story"
+          alt=""
           className="object-cover w-full h-full"
           loading="eager"
         />

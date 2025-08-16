@@ -5,9 +5,9 @@ const CDN_URL = import.meta.env.VITE_REACT_APP_ASSET_CDN_URL;
 const images = [
   `${CDN_URL}/home.jpg`,
   `${CDN_URL}/day.jpg`,
-  `${CDN_URL}/redField.jpg`,
-  `${CDN_URL}/heda.jpg`,
+  `${CDN_URL}/stare.jpg`,
   `${CDN_URL}/photos.jpg`,
+  `${CDN_URL}/facing.jpg`,
 ];
 
 // Memoize the tripled images array to prevent recreation on every render
@@ -30,16 +30,9 @@ export function AutoScrollCarousel() {
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
   const [secondImageLoaded, setSecondImageLoaded] = useState(false);
   const [scrollY, setScrollY] = useState(0);
+  const [chevronOpacity, setChevronOpacity] = useState(1);
 
-  // Memoize responsive scroll speed calculation
-  const getScrollSpeed = useCallback(() => {
-    const width = window.innerWidth;
-    // Optimal speeds for different breakpoints
-    if (width < 1024) return 30; // Tablet
-    return 35; // Desktop
-  }, []);
-
-  const [currentScrollSpeed, setCurrentScrollSpeed] = useState(getScrollSpeed);
+  const currentScrollSpeed = 20;
 
   // Handle manual scroll detection
   const handleManualScroll = useCallback(() => {
@@ -102,11 +95,29 @@ export function AutoScrollCarousel() {
     };
   }, [handleManualScroll]);
 
+  // Update chevron opacity based on scroll position
+  const updateChevronOpacity = useCallback(() => {
+    const scrollPosition = window.scrollY;
+    const fadeStart = 100; // Start fading after 100px
+    const fadeEnd = 300; // Fully hidden after 300px
+
+    if (scrollPosition <= fadeStart) {
+      setChevronOpacity(1);
+    } else if (scrollPosition >= fadeEnd) {
+      setChevronOpacity(0);
+    } else {
+      // Calculate opacity between fadeStart and fadeEnd
+      const fadeProgress = (scrollPosition - fadeStart) / (fadeEnd - fadeStart);
+      setChevronOpacity(1 - fadeProgress);
+    }
+  }, []);
+
   // Throttled scroll handler using requestAnimationFrame for better performance
   const updateScrollY = useCallback(() => {
     setScrollY(lastScrollY.current);
+    updateChevronOpacity(); // Update chevron opacity along with scroll position
     ticking.current = false;
-  }, []);
+  }, [updateChevronOpacity]);
 
   const handleScroll = useCallback(() => {
     lastScrollY.current = window.scrollY;
@@ -140,26 +151,6 @@ export function AutoScrollCarousel() {
     mediaQuery.addEventListener('change', handleChange);
     return () => mediaQuery.removeEventListener('change', handleChange);
   }, []);
-
-  // Debounced resize handler
-  useEffect(() => {
-    let resizeTimer: NodeJS.Timeout;
-
-    const updateDeviceType = () => {
-      clearTimeout(resizeTimer);
-      resizeTimer = setTimeout(() => {
-        setCurrentScrollSpeed(getScrollSpeed());
-      }, 100); // 100ms debounce
-    };
-
-    updateDeviceType(); // Initial check
-
-    window.addEventListener('resize', updateDeviceType);
-    return () => {
-      window.removeEventListener('resize', updateDeviceType);
-      clearTimeout(resizeTimer);
-    };
-  }, [getScrollSpeed]);
 
   // Optimized image preloading
   useEffect(() => {
@@ -238,10 +229,9 @@ export function AutoScrollCarousel() {
   return (
     <div
       ref={containerRef}
-      className="w-full h-[calc(100dvh-72px)] md:h-[calc(100dvh-172px)] flex flex-col"
+      className="w-full h-[calc(100vh-72px)] md:h-[calc(100vh-172px)] flex flex-col relative"
     >
       <div className="flex-1 relative overflow-hidden">
-        {/* Optimize text overlay with GPU acceleration */}
         <span
           className="text-7xl sm:text-9xl text-white opacity-95 absolute top-1/2 left-1/2 z-10 whitespace-nowrap pointer-events-none"
           style={{
@@ -261,7 +251,7 @@ export function AutoScrollCarousel() {
 
         <div
           ref={scrollRef}
-          className="h-[calc(100dvh-72px)] md:h-[calc(100dvh-172px)] overflow-x-scroll overflow-y-hidden"
+          className="h-[calc(100vh-72px)] md:h-[calc(100vh-172px)] overflow-x-scroll overflow-y-hidden"
           style={{
             scrollbarWidth: 'none',
             msOverflowStyle: 'none',
@@ -291,6 +281,31 @@ export function AutoScrollCarousel() {
               </div>
             ))}
           </div>
+        </div>
+      </div>
+
+      <div
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 pointer-events-none transition-opacity duration-300 ease-out"
+        style={{
+          opacity: chevronOpacity,
+        }}
+      >
+        <div
+          className={`text-white text-4xl drop-shadow-lg ${
+            !prefersReducedMotion ? 'animate-[bounce_2s_infinite]' : ''
+          }`}
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            fill="none"
+          >
+            <path
+              fill="#fff"
+              d="M4.293 8.293a1 1 0 0 1 1.414 0L12 14.586l6.293-6.293a1 1 0 1 1 1.414 1.414l-7 7a1 1 0 0 1-1.414 0l-7-7a1 1 0 0 1 0-1.414Z"
+            />
+          </svg>
         </div>
       </div>
     </div>

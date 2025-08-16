@@ -1,4 +1,3 @@
-// src/utils/analytics.ts
 import { logEvent } from 'firebase/analytics';
 import { analytics } from '../firebase/firebase.service';
 
@@ -13,7 +12,6 @@ const PAGE_NAMES: Record<string, string> = {
   '/login': 'login',
 };
 
-// 1. Track page visits (engagement/hits)
 export const trackPageView = (path: string): void => {
   if (analytics) {
     const pageName = PAGE_NAMES[path] || path.replace(/[^a-zA-Z0-9]/g, '_');
@@ -24,7 +22,6 @@ export const trackPageView = (path: string): void => {
   }
 };
 
-// 3. Track form submit button clicks
 export const trackFormSubmit = (formName: string): void => {
   if (analytics) {
     logEvent(analytics, 'form_submit_clicked', {
@@ -33,44 +30,12 @@ export const trackFormSubmit = (formName: string): void => {
   }
 };
 
-// 4. Track form submission errors
-export const trackFormError = (
-  formName: string,
-  errorMessage: string,
-  errorType?: string,
-): void => {
-  if (analytics) {
-    logEvent(analytics, 'form_error', {
-      form_name: formName,
-      error_message: errorMessage,
-      error_type: errorType || 'validation_error',
-    });
-  }
-};
-
-// 5. Track server errors from forms
-export const trackServerError = (
-  formName: string,
-  statusCode: number,
-  errorMessage: string,
-): void => {
-  if (analytics) {
-    logEvent(analytics, 'server_error', {
-      form_name: formName,
-      status_code: statusCode,
-      error_message: errorMessage,
-    });
-  }
-};
-
-// 6. Track successful login
 export const trackLoginSuccess = (): void => {
   if (analytics) {
     logEvent(analytics, 'login_success');
   }
 };
 
-// 7. Track failed login
 export const trackLoginFailed = (code?: string, message?: string): void => {
   if (analytics) {
     logEvent(analytics, 'login_failed', {
