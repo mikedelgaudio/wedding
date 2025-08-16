@@ -6,6 +6,10 @@ export function Schedule() {
   return (
     <AppWithHeader>
       <PageWrapper pageTitle="Schedule">
+        <p className="text-lg">
+          We're so excited to celebrate with you! Below you'll find all the
+          details you need to plan your day with us.
+        </p>
         <ScheduleCore />
       </PageWrapper>
     </AppWithHeader>

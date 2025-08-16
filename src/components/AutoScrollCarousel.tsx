@@ -32,7 +32,7 @@ export function AutoScrollCarousel() {
   const [scrollY, setScrollY] = useState(0);
   const [chevronOpacity, setChevronOpacity] = useState(1);
 
-  const currentScrollSpeed = 20;
+  const currentScrollSpeed = 30;
 
   // Handle manual scroll detection
   const handleManualScroll = useCallback(() => {
