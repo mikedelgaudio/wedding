@@ -217,9 +217,9 @@ export function RsvpForm({ snapshot }: RsvpFormProps) {
           </p>
         )}
         <p>
-          Our wedding is invite only to ensure we can accommodate all our guests
-          comfortably in the venue. Guests are listed on the RSVP or will
-          receive their own. If you need help or have questions, email us at{' '}
+          We hope to celebrate with you! Due to venue capacity, we've planned
+          for the guests listed on each invitation. If you have any questions
+          about your RSVP, please reach out to us at{' '}
           <a
             className="underline hover:no-underline"
             href="mailto:wedding@delgaudio.dev"

@@ -11,7 +11,6 @@ import {
 
 export function Login() {
   const [password, setPassword] = useState('');
-  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   const navigate = useNavigate();
   const location = useLocation();
@@ -63,7 +62,7 @@ export function Login() {
       <div className="flex items-center justify-center p-8">
         <form onSubmit={handleSubmit} className="max-w-lg w-full">
           <h1 className="text-3xl font-bold">Welcome family and friends</h1>
-          <p className="m-0 text-gray-600">
+          <p className="m-0">
             Please use the site password from your invitation to access the
             site.
           </p>
@@ -71,33 +70,27 @@ export function Login() {
             <label htmlFor="site-password" className="text-lg font-bold">
               Site Password
             </label>
-            <p className="text-sm">
-              Questions?{' '}
-              <a
-                className="underline focus:outline-none focus:ring hover:no-underline"
-                href="mailto:wedding@delgaudio.dev"
-              >
-                Contact us
-              </a>
-            </p>
           </div>
           <div className="relative w-full">
             <input
               id="site-password"
-              type={showPassword ? 'text' : 'password'}
+              type={'text'}
               value={password}
               onChange={e => setPassword(e.target.value)}
               placeholder="Password"
               className="w-full p-2 border rounded pr-10 focus:outline-none focus:ring"
               required
             />
-            <button
-              type="button"
-              onClick={() => setShowPassword(prev => !prev)}
-              className="absolute cursor-pointer right-2 top-1/2 -translate-y-1/2 text-sm text-black-600 hover:underline focus:outline-none"
-            >
-              {showPassword ? 'Hide' : 'Show'}
-            </button>
+            <p className="text-sm">
+              Questions? Email us at{' '}
+              <a
+                className="underline focus:outline-none focus:ring hover:no-underline"
+                href="mailto:wedding@delgaudio.dev"
+              >
+                wedding@delgaudio.dev
+              </a>
+              .
+            </p>
           </div>
           {error && (
             <div className="bg-red-700 font-bold text-white my-2 p-4 rounded">

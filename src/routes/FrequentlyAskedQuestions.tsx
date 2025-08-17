@@ -38,10 +38,17 @@ const faqData: FAQItem[] = [
     question: 'Can I bring a plus one?',
     answer: (
       <>
-        Our wedding is invite only. Guests with a plus-one will be formally
-        invited. If your invite does not mention a plus-one, then we are nearing
-        capacity of our venue. We appreciate your understanding as we want to
-        ensure we accommodate all our guests comfortably.
+        Due to venue capacity, we're only able to invite a specific number of
+        guests. If you have a plus-one, it will be clearly indicated on your{' '}
+        <Link
+          className="underline hover:no-underline focus-visible:border focus-visible:border-gray-950 focus:outline-none focus-visible:rounded-lg"
+          to="/rsvp"
+        >
+          RSVP form
+        </Link>
+        . We know it can be disappointing not to bring someone special, and we
+        truly appreciate your understanding as we work to accommodate everyone
+        comfortably.
       </>
     ),
   },
@@ -63,28 +70,28 @@ const faqData: FAQItem[] = [
     question: 'Where is the registry?',
     answer: (
       <>
-        <p>
-          We are incredibly grateful for your love and support. While we do not
-          have a traditional registry, we wanted to share a meaningful custom
-          from both our Vietnamese and Italian backgrounds. At the reception,
-          it's customary for the couple to visit each table, and if guests wish
-          to give a gift, it is often presented in a traditionally red envelope
-          known as a <i lang="vi">lì xì</i> in Vietnamese culture, or known as{' '}
-          <i lang="it">busta</i> in Italian.
-        </p>
-        <p>
-          Your presence is truly the greatest gift of all, and we are so
-          thankful to have you celebrate with us. If you're unable to attend but
-          would still like to send a gift, we warmly encourage you to{' '}
-          <a
-            href="mailto:wedding@delgaudio.dev"
-            className="underline hover:no-underline focus-visible:border focus-visible:border-gray-950 focus:outline-none focus-visible:rounded-lg"
-          >
-            reach out to us
-          </a>{' '}
-          or our families for a mailing address. Your thoughtfulness means the
-          world to us.
-        </p>
+        We are incredibly grateful for your love and support. While we do not
+        have a traditional registry, we wanted to share a meaningful custom from
+        both our Vietnamese and Italian backgrounds. At the reception, it's
+        customary for the couple to visit each table, and if guests wish to give
+        a gift, it is often presented in a traditionally red envelope known as a{' '}
+        <i lang="vi">lì xì</i> in Vietnamese culture, or known as{' '}
+        <i lang="it">busta</i> in Italian.
+      </>
+    ),
+  },
+  {
+    question: 'What is your mailing address?',
+    answer: (
+      <>
+        Please email us at{' '}
+        <a
+          className="underline hover:no-underline focus-visible:border focus-visible:border-gray-950 focus:outline-none focus-visible:rounded-lg"
+          href="mailto:wedding@delgaudio.dev"
+        >
+          wedding@delgaudio.dev
+        </a>{' '}
+        for our mailing address or reach out to our families. Thank you!
       </>
     ),
   },
@@ -173,7 +180,7 @@ export function FrequentlyAskedQuestions(): JSX.Element {
     <AppWithHeader>
       <PageWrapper pageTitle="Frequently Asked Questions">
         <p>
-          If your question isn't here, please reach out to us by emailing{' '}
+          If your question isn't here, please email us at{' '}
           <a
             className="underline hover:no-underline focus-visible:border focus-visible:border-gray-950 focus:outline-none focus-visible:rounded-lg"
             href="mailto:wedding@delgaudio.dev"

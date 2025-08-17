@@ -129,15 +129,6 @@ export function RsvpSignIn({ onSuccess }: RsvpSignInProps) {
           >
             Enter your RSVP code
           </label>
-          <p className="text-sm">
-            Questions?{' '}
-            <a
-              className="underline focus:outline-none focus:ring  hover:no-underline"
-              href="mailto:wedding@delgaudio.dev"
-            >
-              Contact us
-            </a>
-          </p>
         </div>
         <input
           type="text"
@@ -159,6 +150,16 @@ export function RsvpSignIn({ onSuccess }: RsvpSignInProps) {
         <p className="text-md">
           The RSVP code is on your invitation in the format{' '}
           <strong>XXXX-XXXX</strong>.
+        </p>
+        <p className="text-sm">
+          Questions? Email us at{' '}
+          <a
+            className="underline focus:outline-none focus:ring hover:no-underline"
+            href="mailto:wedding@delgaudio.dev"
+          >
+            wedding@delgaudio.dev
+          </a>
+          .
         </p>
         <button
           type="submit"

@@ -13,6 +13,10 @@ const images = [
 // Memoize the tripled images array to prevent recreation on every render
 const tripleImages = [...images, ...images, ...images];
 
+const currentScrollSpeed = 30;
+
+const HEADER_HEIGHT_IN_PX = 72;
+
 export function AutoScrollCarousel() {
   const scrollRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -34,7 +38,20 @@ export function AutoScrollCarousel() {
   const [chevronOpacity, setChevronOpacity] = useState(1);
   const [isVisible, setIsVisible] = useState(true); // Add visibility state
 
-  const currentScrollSpeed = 30;
+  // Handle chevron click to scroll to next section
+  const handleChevronClick = useCallback(() => {
+    const currentScrollY = window.scrollY;
+    const windowHeight = window.innerHeight;
+
+    // Calculate the next section position (next viewport height)
+    const nextSectionY = currentScrollY + windowHeight - HEADER_HEIGHT_IN_PX;
+
+    // Smooth scroll to the next section
+    window.scrollTo({
+      top: nextSectionY,
+      behavior: 'smooth',
+    });
+  }, []);
 
   // Handle page visibility changes
   useEffect(() => {
@@ -333,11 +350,13 @@ export function AutoScrollCarousel() {
         </div>
       </div>
 
-      <div
-        className="absolute bottom-2 left-1/2 -translate-x-1/2 z-20 pointer-events-none transition-opacity duration-300 ease-out"
+      <button
+        onClick={handleChevronClick}
+        className="absolute cursor-pointer bottom-2 left-1/2 -translate-x-1/2 z-20 transition-opacity duration-300 ease-out hover:opacity-80 focus:outline-none focus-visible::ring-2 focus-visible::ring-white focus-visible::ring-opacity-50 rounded-full p-2"
         style={{
           opacity: chevronOpacity,
         }}
+        aria-label="Scroll to next section"
       >
         <div
           className={`text-white text-4xl drop-shadow-lg ${
@@ -356,7 +375,7 @@ export function AutoScrollCarousel() {
             />
           </svg>
         </div>
-      </div>
+      </button>
     </div>
   );
 }
