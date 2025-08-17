@@ -44,7 +44,11 @@ export function RsvpSignIn({ onSuccess }: RsvpSignInProps) {
     const trimmed = code.trim().toUpperCase();
     if (!CODE_FORMAT.test(trimmed)) {
       // Track validation error
-      trackRsvpError('validation_error', 'invalid_code_format');
+      trackRsvpError(
+        'validation_error',
+        'invalid_code_format',
+        'Invalid RSVP code format',
+      );
 
       setError(
         'Please enter your code in the format of XXXX-XXXX. Make sure to include the dash.',
@@ -62,13 +66,21 @@ export function RsvpSignIn({ onSuccess }: RsvpSignInProps) {
 
       if (!snap.exists()) {
         // Track document not found error
-        trackRsvpError('not_found_error', 'rsvp_code_not_found');
+        trackRsvpError(
+          'not_found_error',
+          'rsvp_code_not_found',
+          'RSVP ' + cleaned + ' not found',
+        );
         setError(GENERIC_ERROR_MESSAGE);
       } else {
         const data = snap.data();
         if (data.rsvpDeadline.toDate() < new Date()) {
           // Track deadline passed error
-          trackRsvpError('deadline_error', 'rsvp_deadline_passed');
+          trackRsvpError(
+            'deadline_error',
+            'rsvp_deadline_passed',
+            'RSVP ' + cleaned + ' deadline passed',
+          );
           setError(RSVP_DEADLINE_PASSED_ERROR_MESSAGE);
         } else {
           // Track successful lookup
