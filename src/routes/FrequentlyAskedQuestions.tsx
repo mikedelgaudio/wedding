@@ -3,6 +3,9 @@ import { Link } from 'react-router-dom';
 import { AppWithHeader } from '../AppWithHeader';
 import { AccordionItem } from '../components/AccordianItem';
 import { PageWrapper } from '../components/PageWrapper';
+import { ResponsiveFigure } from '../components/ResponsiveFigure';
+
+const CDN_URL = import.meta.env.VITE_REACT_APP_ASSET_CDN_URL;
 
 interface FAQItem {
   question: string;
@@ -56,13 +59,15 @@ const faqData: FAQItem[] = [
     question: 'Is there a dress code?',
     answer: (
       <>
-        While formal attire will be worn by many guests, please feel free to
-        wear whatever makes you feel most comfortable—whether that's an áo dài
-        (traditional Vietnamese dress), a leopard print suit, or something more
-        casual. We love seeing everyone's unique style and want your personality
-        to shine! The ceremony will take place outdoors, so please dress for the
-        weather. We also recommend comfortable shoes, as there will be some
-        walking on gravel paths and grass.
+        While many guests will be in formal attire, please feel free to wear
+        whatever makes you most comfortable. Whether that's an áo dài
+        (traditional Vietnamese dress), a pastel suit, or something more
+        relaxed. Picture a summer garden celebration: bright colors, playful
+        prints, and outfits that show off your unique style are highly
+        encouraged! The ceremony will be outdoors, so please dress for the
+        weather and keep in mind there will be some walking on gravel paths and
+        grass (comfortable shoes recommended). We are so excited to see your
+        personality shine through in what you wear!
       </>
     ),
   },
@@ -99,8 +104,24 @@ const faqData: FAQItem[] = [
     question: 'Where can I park?',
     answer: (
       <>
-        There is parking at the venue. There will be parking attendants to
-        direct you once you get to the venue.
+        <p className="mb-2">
+          For the Church, there is plenty of parking available in the church
+          lot.
+        </p>
+        <p>
+          At Château Lill, parking attendants will be on-site to guide you once
+          you arrive. Please note that the driveway up to the Château is narrow
+          and only allows for one car at a time, so use caution when arriving in
+          case another vehicle is coming down.
+        </p>
+        <ResponsiveFigure
+          src={`${CDN_URL}/driveway.jpg`}
+          alt=""
+          loading="lazy"
+          width={500}
+          height={500}
+          caption="Driveway into Château Lill"
+        ></ResponsiveFigure>
       </>
     ),
   },

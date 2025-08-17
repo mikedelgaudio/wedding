@@ -2,8 +2,12 @@ export function SuccessScreen() {
   return (
     <div className="min-h-[300px] flex flex-col items-center justify-center bg-green-50 p-6 rounded-xl">
       <h1 className="text-3xl font-bold text-green-800 mb-2">🎉 All Set!</h1>
-      <p className="text-green-700 mb-4">
-        Your RSVP was submitted successfully. Thank you for your response!
+      <p className="text-green-700">
+        Thank you, your RSVP was submitted successfully.
+      </p>
+      <p className="text-green-700 text-center mb-4">
+        If you need to make any changes, submit another response with your RSVP
+        code.
       </p>
       <button
         onClick={() => window.location.reload()}

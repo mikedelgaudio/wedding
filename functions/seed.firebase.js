@@ -76,6 +76,79 @@ async function seed() {
   await rsvpRef.set(rsvpData);
 
   console.log('✅ Seeded: rsvp/ABCD1234');
+
+  const rsvpRef2 = db.collection('rsvp').doc('ABCD4321');
+
+  const rsvpData2 = {
+    invitee: {
+      name: 'Tony Soprano',
+      dietaryRestrictions: null,
+      attending: null,
+    },
+    guests: null,
+    inviteCode: 'ABCD4321',
+    lastModified: null,
+    rsvpDeadline: new Date('2028-06-18T00:00:00-07:00'),
+  };
+
+  await rsvpRef2.set(rsvpData2);
+
+  console.log('✅ Seeded: rsvp/ABCD4321');
+
+  const rsvpRef3 = db.collection('rsvp').doc('DCBA1234');
+
+  const rsvpData3 = {
+    invitee: {
+      name: 'Alice Johnson',
+      dietaryRestrictions: null,
+      attending: null,
+    },
+    guests: [
+      {
+        name: null,
+        dietaryRestrictions: null,
+        attending: null,
+        isNameEditable: true,
+      },
+      {
+        name: null,
+        dietaryRestrictions: null,
+        attending: null,
+        isNameEditable: true,
+      },
+    ],
+    inviteCode: 'DCBA1234',
+    lastModified: null,
+    rsvpDeadline: new Date('2028-06-18T00:00:00-07:00'),
+  };
+
+  await rsvpRef3.set(rsvpData3);
+
+  console.log('✅ Seeded: rsvp/DCBA1234');
+
+  const rsvpRef4 = db.collection('rsvp').doc('DCBA4321');
+
+  const rsvpData4 = {
+    invitee: {
+      name: 'Bob Brown',
+      dietaryRestrictions: null,
+      attending: null,
+    },
+    guests: [
+      {
+        name: 'Jane Doe',
+        dietaryRestrictions: null,
+        attending: null,
+        isNameEditable: false,
+      },
+    ],
+    inviteCode: 'DCBA4321',
+    lastModified: null,
+    rsvpDeadline: new Date('2028-06-18T00:00:00-07:00'),
+  };
+
+  await rsvpRef4.set(rsvpData4);
+  console.log('✅ Seeded: rsvp/DCBA4321');
 }
 
 seed().catch(err => {

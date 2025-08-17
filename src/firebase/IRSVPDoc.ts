@@ -17,6 +17,6 @@ export interface IRSVPDoc {
   inviteCode: string;
   rsvpDeadline: Timestamp;
   invitee: IInvitee;
-  guests: IGuest[];
+  guests?: IGuest[] | null;
   lastModified: Timestamp;
 }

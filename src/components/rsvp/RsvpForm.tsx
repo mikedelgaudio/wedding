@@ -32,21 +32,31 @@ interface RsvpFormProps {
 export function RsvpForm({ snapshot }: RsvpFormProps) {
   const data = snapshot.data()!;
 
+  // Normalize guests early - convert null/undefined to empty array
+  const normalizedGuests = useMemo((): IGuest[] => {
+    if (
+      !data.guests ||
+      !Array.isArray(data.guests) ||
+      data.guests.length === 0
+    ) {
+      return [];
+    }
+    return data.guests.map(g => ({
+      name: g.name ?? '',
+      attending: g.attending ?? null,
+      dietaryRestrictions: g.dietaryRestrictions ?? '',
+      isNameEditable: g.isNameEditable ?? false,
+    }));
+  }, [data.guests]);
+
   // 1) Keep originals in refs
   const initialInviteeRef = useRef({
     attending: data.invitee.attending ?? null,
     dietaryRestrictions: data.invitee.dietaryRestrictions ?? '',
   });
-  const initialGuestsRef = useRef<IGuest[]>(
-    data.guests.map(g => ({
-      name: g.name ?? '',
-      attending: g.attending ?? null,
-      dietaryRestrictions: g.dietaryRestrictions ?? '',
-      isNameEditable: g.isNameEditable ?? false,
-    })),
-  );
+  const initialGuestsRef = useRef<IGuest[]>(normalizedGuests);
 
-  // 2) Local state
+  // 2) Local state - guests is now always an array
   const [isAttending, setIsAttending] = useState<boolean | null>(
     initialInviteeRef.current.attending,
   );
@@ -72,7 +82,6 @@ export function RsvpForm({ snapshot }: RsvpFormProps) {
       const formatter = new Intl.DateTimeFormat('en-US', {
         timeZone: 'America/Los_Angeles',
         dateStyle: 'long',
-        timeStyle: 'short',
       });
       const saveButtonText = lastModifiedDate ? 'Update RSVP' : 'Submit RSVP';
       return {
@@ -83,7 +92,7 @@ export function RsvpForm({ snapshot }: RsvpFormProps) {
       };
     }, [data.rsvpDeadline, data.lastModified]);
 
-  // 4) Compute "dirty"
+  // 4) Compute "dirty" - now safe with guaranteed arrays
   const origInvitee = initialInviteeRef.current;
   const origGuests = initialGuestsRef.current;
   const isDirty =
@@ -91,7 +100,8 @@ export function RsvpForm({ snapshot }: RsvpFormProps) {
     dietNotes !== origInvitee.dietaryRestrictions ||
     guestResponses.length !== origGuests.length ||
     guestResponses.some((cur, i) => {
-      const orig = origGuests[i]!;
+      const orig = origGuests[i];
+      if (!orig) return true; // Safety check - if original guest missing, consider dirty
       return (
         cur.name !== orig.name ||
         cur.attending !== orig.attending ||
@@ -113,32 +123,46 @@ export function RsvpForm({ snapshot }: RsvpFormProps) {
     if (isAttending == null) {
       return 'Please select Yes or No for your attendance.';
     }
-    for (let i = 0; i < guestResponses.length; i++) {
-      const g = guestResponses[i]!;
-      if (g.attending == null) {
-        return `Please select Yes or No for Guest ${i + 1}.`;
-      }
-      if (g.attending && g.isNameEditable && !g.name?.trim()) {
-        return `Please enter a name for Guest ${i + 1}.`;
+
+    // Only validate guests if there are any
+    if (guestResponses.length > 0) {
+      for (let i = 0; i < guestResponses.length; i++) {
+        const g = guestResponses[i];
+        if (!g) continue; // Safety check
+
+        if (g.attending == null) {
+          return `Please select Yes or No for Guest ${i + 1}.`;
+        }
+        if (g.attending && g.isNameEditable && !g.name?.trim()) {
+          return `Please enter a name for Guest ${i + 1}.`;
+        }
       }
     }
   }
 
   function makePayload(): UpdateData<IRSVPDoc> {
-    return {
+    const payload: UpdateData<IRSVPDoc> = {
       invitee: {
         name: data.invitee.name,
         attending: isAttending,
         dietaryRestrictions: dietNotes || null,
       },
-      guests: guestResponses.map<IGuest>(g => ({
+      lastModified: serverTimestamp(),
+    };
+
+    // Only include guests field if there are guests
+    if (guestResponses.length > 0) {
+      payload.guests = guestResponses.map<IGuest>(g => ({
         name: g.name,
         attending: g.attending as boolean,
         dietaryRestrictions: g.dietaryRestrictions || null,
         isNameEditable: g.isNameEditable,
-      })),
-      lastModified: serverTimestamp(),
-    };
+      }));
+    } else {
+      payload.guests = [];
+    }
+
+    return payload;
   }
 
   async function handleSubmit(e: FormEvent) {
@@ -164,12 +188,12 @@ export function RsvpForm({ snapshot }: RsvpFormProps) {
       const ref = doc(db, 'rsvp', snapshot.id);
       await updateDoc(ref, makePayload());
 
-      // 5) Reset “original” refs to the just-saved values
+      // 5) Reset "original" refs to the just-saved values
       initialInviteeRef.current = {
         attending: isAttending,
         dietaryRestrictions: dietNotes,
       };
-      initialGuestsRef.current = guestResponses.map(g => ({ ...g }));
+      initialGuestsRef.current = [...guestResponses]; // Create new array reference
 
       setSuccessFlag(true);
       trackRsvpSaveSuccess();
@@ -202,13 +226,16 @@ export function RsvpForm({ snapshot }: RsvpFormProps) {
         <h2 className="text-3xl font-semibold m-0 break-all">
           {data.invitee.name}{' '}
           {guestResponses.length > 0 ? (
-            <span className="text-lg">and {guestResponses.length} guests</span>
+            <span className="text-lg">
+              and {guestResponses.length} guest
+              {guestResponses.length > 1 ? 's' : ''}
+            </span>
           ) : null}
         </h2>
         {lastModifiedDate ? (
           <p>
             Your RSVP was last modified on{' '}
-            <strong>{formatter.format(lastModifiedDate)} PDT</strong>.
+            <strong>{formatter.format(lastModifiedDate)}</strong>.
           </p>
         ) : (
           <p>
@@ -262,64 +289,68 @@ export function RsvpForm({ snapshot }: RsvpFormProps) {
         </div>
       </fieldset>
 
-      {guestResponses.map((resp, idx) => (
-        <fieldset key={idx} className="space-y-4 border p-4 rounded">
-          <legend className="font-medium m-0">Guest {idx + 1}</legend>
-          <div>
-            {resp.isNameEditable ? (
-              <Fragment>
-                <label
-                  htmlFor={`guestName-${idx}`}
-                  className="block mb-1 font-medium"
-                >
-                  Guest {idx + 1} Full Name{' '}
-                  <span className="text-red-600">*</span>
-                </label>
-                <input
-                  id={`guestName-${idx}`}
-                  type="text"
-                  value={resp.name ?? ''}
-                  onChange={e => handleGuestChange(idx, 'name', e.target.value)}
-                  placeholder={`Guest ${idx + 1} Full Name`}
-                  required={resp.attending === true}
-                  className="w-full p-2 border rounded focus:outline-none focus:ring"
-                />
-              </Fragment>
-            ) : (
-              <p className="text-xl font-bold break-all">{resp.name}</p>
-            )}
-          </div>
-          <div className="grid md:grid-cols-2 items-center gap-2">
-            <p className="font-medium">
-              Will they be attending? <span className="text-red-600">*</span>
-            </p>
-            <RadioGroup
-              name={`guestAttending-${idx}`}
-              value={resp.attending}
-              onChange={v => handleGuestChange(idx, 'attending', v)}
-              required
-            />
-          </div>
-          <div>
-            <label
-              className="block mb-1 font-medium"
-              htmlFor={`dietaryRestrictions-${idx}`}
-            >
-              Dietary Restrictions
-            </label>
-            <input
-              id={`dietaryRestrictions-${idx}`}
-              type="text"
-              value={resp.dietaryRestrictions ?? ''}
-              onChange={e =>
-                handleGuestChange(idx, 'dietaryRestrictions', e.target.value)
-              }
-              placeholder="e.g. Vegetarian, Gluten-free…"
-              className="w-full p-2 border rounded focus:outline-none focus:ring"
-            />
-          </div>
-        </fieldset>
-      ))}
+      {/* Only render guest sections if there are guests */}
+      {guestResponses.length > 0 &&
+        guestResponses.map((resp, idx) => (
+          <fieldset key={idx} className="space-y-4 border p-4 rounded">
+            <legend className="font-medium m-0">Guest {idx + 1}</legend>
+            <div>
+              {resp.isNameEditable ? (
+                <Fragment>
+                  <label
+                    htmlFor={`guestName-${idx}`}
+                    className="block mb-1 font-medium"
+                  >
+                    Guest {idx + 1} Full Name{' '}
+                    <span className="text-red-600">*</span>
+                  </label>
+                  <input
+                    id={`guestName-${idx}`}
+                    type="text"
+                    value={resp.name ?? ''}
+                    onChange={e =>
+                      handleGuestChange(idx, 'name', e.target.value)
+                    }
+                    placeholder={`Guest ${idx + 1} Full Name`}
+                    required={resp.attending === true}
+                    className="w-full p-2 border rounded focus:outline-none focus:ring"
+                  />
+                </Fragment>
+              ) : (
+                <p className="text-xl font-bold break-all">{resp.name}</p>
+              )}
+            </div>
+            <div className="grid md:grid-cols-2 items-center gap-2">
+              <p className="font-medium">
+                Will they be attending? <span className="text-red-600">*</span>
+              </p>
+              <RadioGroup
+                name={`guestAttending-${idx}`}
+                value={resp.attending}
+                onChange={v => handleGuestChange(idx, 'attending', v)}
+                required
+              />
+            </div>
+            <div>
+              <label
+                className="block mb-1 font-medium"
+                htmlFor={`dietaryRestrictions-${idx}`}
+              >
+                Dietary Restrictions
+              </label>
+              <input
+                id={`dietaryRestrictions-${idx}`}
+                type="text"
+                value={resp.dietaryRestrictions ?? ''}
+                onChange={e =>
+                  handleGuestChange(idx, 'dietaryRestrictions', e.target.value)
+                }
+                placeholder="e.g. Vegetarian, Gluten-free…"
+                className="w-full p-2 border rounded focus:outline-none focus:ring"
+              />
+            </div>
+          </fieldset>
+        ))}
 
       {errorMessage && (
         <div className="bg-red-700 font-bold text-white p-4 rounded">
