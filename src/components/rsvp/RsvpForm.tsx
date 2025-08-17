@@ -175,7 +175,10 @@ export function RsvpForm({ snapshot }: RsvpFormProps) {
     >
       <div className="space-y-2 bg-black text-white p-6 rounded">
         <h2 className="text-3xl font-semibold m-0 break-all">
-          {data.invitee.name}
+          {data.invitee.name}{' '}
+          {guestResponses.length > 0 ? (
+            <span className="text-lg">and {guestResponses.length} guests</span>
+          ) : null}
         </h2>
         {lastModifiedDate ? (
           <p>
@@ -189,13 +192,16 @@ export function RsvpForm({ snapshot }: RsvpFormProps) {
           </p>
         )}
         <p>
-          If you need help or have questions, email us at{' '}
+          Our wedding is invite only to ensure we can accommodate all our guests
+          comfortably in the venue. Guests are listed on the RSVP or will
+          receive their own. If you need help or have questions, email us at{' '}
           <a
             className="underline hover:no-underline"
             href="mailto:wedding@delgaudio.dev"
           >
             wedding@delgaudio.dev
           </a>
+          .
         </p>
       </div>
 

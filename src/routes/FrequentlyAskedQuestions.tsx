@@ -5,14 +5,12 @@ import { AccordionItem } from '../components/AccordianItem';
 import { PageWrapper } from '../components/PageWrapper';
 
 interface FAQItem {
-  id: number;
   question: string;
   answer: JSX.Element;
 }
 
 const faqData: FAQItem[] = [
   {
-    id: 1,
     question: 'How can I RSVP?',
     answer: (
       <>
@@ -28,7 +26,6 @@ const faqData: FAQItem[] = [
     ),
   },
   {
-    id: 2,
     question: 'When is the RSVP deadline?',
     answer: (
       <>
@@ -38,7 +35,17 @@ const faqData: FAQItem[] = [
     ),
   },
   {
-    id: 3,
+    question: 'Can I bring a plus one?',
+    answer: (
+      <>
+        Our wedding is invite only. Guests with a plus-one will be formally
+        invited. If your invite does not mention a plus-one, then we are nearing
+        capacity of our venue. We appreciate your understanding as we want to
+        ensure we accommodate all our guests comfortably.
+      </>
+    ),
+  },
+  {
     question: 'Is there a dress code?',
     answer: (
       <>
@@ -53,7 +60,6 @@ const faqData: FAQItem[] = [
     ),
   },
   {
-    id: 4,
     question: 'Where is the registry?',
     answer: (
       <>
@@ -83,7 +89,6 @@ const faqData: FAQItem[] = [
     ),
   },
   {
-    id: 5,
     question: 'Where can I park?',
     answer: (
       <>
@@ -92,28 +97,8 @@ const faqData: FAQItem[] = [
       </>
     ),
   },
+
   {
-    id: 6,
-    question: 'Is transportation provided?',
-    answer: (
-      <>
-        We recommend renting a car if you're flying in, as it will give you the
-        flexibility to explore the beautiful Pacific Northwest. However, if you
-        prefer not to drive, there are several ride-sharing options available in
-        the area. On the big day, we'll be sharing an Uber voucher code. Please
-        send an email to{' '}
-        <a
-          className="underline hover:no-underline focus-visible:border focus-visible:border-gray-950 focus:outline-none focus-visible:rounded-lg"
-          href="mailto:voucher@delgaudio.dev?subject=Uber%20Voucher%20Request&body=Hi, I'd%20like%20to%20request%20an%20Uber%20voucher%20for%20the%20wedding."
-        >
-          voucher@delgaudio.dev
-        </a>{' '}
-        to be added to the voucher pool.
-      </>
-    ),
-  },
-  {
-    id: 7,
     question: 'Will your wedding be indoors or outdoors?',
     answer: (
       <>
@@ -123,7 +108,6 @@ const faqData: FAQItem[] = [
     ),
   },
   {
-    id: 8,
     question: 'Where is the closest airport if I’m flying in?',
     answer: (
       <>
@@ -133,7 +117,6 @@ const faqData: FAQItem[] = [
     ),
   },
   {
-    id: 9,
     question: 'Is there a hotel block for guests?',
     answer: (
       <>
@@ -153,14 +136,21 @@ const faqData: FAQItem[] = [
     ),
   },
   {
-    id: 10,
-    question: 'Can I bring a plus one?',
+    question: 'Is transportation provided?',
     answer: (
       <>
-        Our wedding is invite only. Guests with a plus-one will be formally
-        invited. If your invite does not mention a plus-one, then we are nearing
-        capacity of our venue. We appreciate your understanding as we want to
-        ensure we accommodate all our guests comfortably.
+        We recommend renting a car if you're flying in, as it will give you the
+        flexibility to explore the beautiful Pacific Northwest. However, if you
+        prefer not to drive, there are several ride-sharing options available in
+        the area. On the big day, we'll be sharing an Uber voucher code. Please
+        send an email to{' '}
+        <a
+          className="underline hover:no-underline focus-visible:border focus-visible:border-gray-950 focus:outline-none focus-visible:rounded-lg"
+          href="mailto:voucher@delgaudio.dev?subject=Uber%20Voucher%20Request&body=Hi, I'd%20like%20to%20request%20an%20Uber%20voucher%20for%20the%20wedding."
+        >
+          voucher@delgaudio.dev
+        </a>{' '}
+        to be added to the voucher pool.
       </>
     ),
   },
@@ -192,13 +182,13 @@ export function FrequentlyAskedQuestions(): JSX.Element {
           </a>
           .
         </p>
-        {faqData.map(item => (
+        {faqData.map((item, index) => (
           <AccordionItem
-            key={item.id}
-            id={item.id}
+            key={index}
+            id={index}
             title={item.question}
-            isOpen={!!openStates[item.id]}
-            onToggle={() => toggleAccordion(item.id)}
+            isOpen={!!openStates[index]}
+            onToggle={() => toggleAccordion(index)}
           >
             {item.answer}
           </AccordionItem>
