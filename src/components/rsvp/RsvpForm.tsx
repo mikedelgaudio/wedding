@@ -5,9 +5,23 @@ import {
   type DocumentSnapshot,
   type UpdateData,
 } from 'firebase/firestore';
-import { Fragment, useMemo, useRef, useState, type FormEvent } from 'react';
+import {
+  Fragment,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  type FormEvent,
+} from 'react';
 import type { IGuest, IRSVPDoc } from '../../firebase/IRSVPDoc';
 import { db } from '../../firebase/firebase.service';
+import {
+  trackRsvpFormLoaded,
+  trackRsvpFormSubmit,
+  trackRsvpSaveError,
+  trackRsvpSaveSuccess,
+  trackRsvpSaveSuccessNoOp,
+} from '../../utils/analytics';
 import { RadioGroup } from './RadioGroup';
 import { SuccessScreen } from './SuccessScreen';
 
@@ -45,6 +59,10 @@ export function RsvpForm({ snapshot }: RsvpFormProps) {
   const [isSaving, setIsSaving] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [successFlag, setSuccessFlag] = useState(false);
+
+  useEffect(() => {
+    trackRsvpFormLoaded();
+  }, []);
 
   // 3) Dates, formatter, button text, deadline flag
   const { deadlineDate, lastModifiedDate, formatter, saveButtonText } =
@@ -125,10 +143,12 @@ export function RsvpForm({ snapshot }: RsvpFormProps) {
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
+    trackRsvpFormSubmit();
     setErrorMessage(null);
 
     const err = validate();
     if (err) {
+      trackRsvpSaveError('validation_error', undefined, err);
       setErrorMessage(err);
       return;
     }
@@ -137,6 +157,7 @@ export function RsvpForm({ snapshot }: RsvpFormProps) {
     try {
       if (!isDirty) {
         setSuccessFlag(true);
+        trackRsvpSaveSuccessNoOp();
         return;
       }
 
@@ -150,11 +171,15 @@ export function RsvpForm({ snapshot }: RsvpFormProps) {
       };
       initialGuestsRef.current = guestResponses.map(g => ({ ...g }));
 
-      // swap to success screen
       setSuccessFlag(true);
+      trackRsvpSaveSuccess();
     } catch (err) {
-      // eslint-disable-next-line no-console
-      console.error('RSVP save error:', err);
+      const firebaseError = err as { code?: string; message?: string };
+      trackRsvpSaveError(
+        'firebase_error',
+        firebaseError.code,
+        firebaseError.message,
+      );
       setErrorMessage(
         'An error occurred while saving your RSVP. Please try again or contact us.',
       );

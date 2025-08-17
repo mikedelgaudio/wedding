@@ -20,6 +20,7 @@ export function AutoScrollCarousel() {
   const scrollPositionRef = useRef(0);
   const lastScrollY = useRef(0);
   const ticking = useRef(false);
+  const lastTimeRef = useRef<number>(0); // Add timestamp tracking
 
   // New refs for manual scroll handling
   const isUserScrollingRef = useRef(false);
@@ -31,8 +32,27 @@ export function AutoScrollCarousel() {
   const [secondImageLoaded, setSecondImageLoaded] = useState(false);
   const [scrollY, setScrollY] = useState(0);
   const [chevronOpacity, setChevronOpacity] = useState(1);
+  const [isVisible, setIsVisible] = useState(true); // Add visibility state
 
   const currentScrollSpeed = 30;
+
+  // Handle page visibility changes
+  useEffect(() => {
+    const handleVisibilityChange = () => {
+      const visible = !document.hidden;
+      setIsVisible(visible);
+
+      if (visible) {
+        // Reset timestamp when becoming visible again
+        lastTimeRef.current = performance.now();
+      }
+    };
+
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    return () => {
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+    };
+  }, []);
 
   // Handle manual scroll detection
   const handleManualScroll = useCallback(() => {
@@ -69,14 +89,17 @@ export function AutoScrollCarousel() {
     userScrollTimeoutRef.current = setTimeout(() => {
       isUserScrollingRef.current = false;
 
+      // Reset timestamp when resuming after manual scroll
+      lastTimeRef.current = performance.now();
+
       // Resume auto-scroll from current position
-      if (isStarted && !prefersReducedMotion) {
+      if (isStarted && !prefersReducedMotion && isVisible) {
         animationRef.current = requestAnimationFrame(animate);
       }
     }, 1000); // Resume after 1 second of no manual scrolling
 
     // eslint-disable-next-line
-  }, [isStarted, prefersReducedMotion]);
+  }, [isStarted, prefersReducedMotion, isVisible]);
 
   // Add scroll event listener to carousel
   useEffect(() => {
@@ -168,32 +191,58 @@ export function AutoScrollCarousel() {
   useEffect(() => {
     if (prefersReducedMotion || !secondImageLoaded) return;
 
-    const startTimer = setTimeout(() => setIsStarted(true), 1000);
+    const startTimer = setTimeout(() => {
+      setIsStarted(true);
+      lastTimeRef.current = performance.now(); // Initialize timestamp
+    }, 1000);
     return () => clearTimeout(startTimer);
   }, [prefersReducedMotion, secondImageLoaded]);
 
-  // Optimized animation loop with better frame timing
-  const animate = useCallback(() => {
-    const scrollContainer = scrollRef.current;
-    if (!scrollContainer || !isStarted || isUserScrollingRef.current) return;
+  // Optimized animation loop with time-based movement
+  const animate = useCallback(
+    (currentTime: number) => {
+      const scrollContainer = scrollRef.current;
+      if (
+        !scrollContainer ||
+        !isStarted ||
+        isUserScrollingRef.current ||
+        !isVisible
+      ) {
+        return;
+      }
 
-    // Use consistent timing for smooth animation
-    scrollPositionRef.current += currentScrollSpeed / 60;
+      // Initialize timestamp on first run
+      if (lastTimeRef.current === 0) {
+        lastTimeRef.current = currentTime;
+      }
 
-    const containerWidth = scrollContainer.offsetWidth;
-    const resetPoint = containerWidth * images.length;
+      // Calculate time delta in seconds
+      const deltaTime = (currentTime - lastTimeRef.current) / 1000;
+      lastTimeRef.current = currentTime;
 
-    // More efficient reset logic
-    if (scrollPositionRef.current >= resetPoint) {
-      scrollPositionRef.current = scrollPositionRef.current - resetPoint;
-    }
+      // Cap deltaTime to prevent huge jumps (e.g., when tab becomes visible again)
+      const cappedDeltaTime = Math.min(deltaTime, 1 / 30); // Max 30fps equivalent
 
-    scrollContainer.scrollLeft = scrollPositionRef.current;
-    animationRef.current = requestAnimationFrame(animate);
-  }, [currentScrollSpeed, isStarted]);
+      // Use time-based movement instead of fixed increment
+      scrollPositionRef.current += currentScrollSpeed * cappedDeltaTime;
+
+      const containerWidth = scrollContainer.offsetWidth;
+      const resetPoint = containerWidth * images.length;
+
+      // More efficient reset logic
+      if (scrollPositionRef.current >= resetPoint) {
+        scrollPositionRef.current = scrollPositionRef.current - resetPoint;
+      }
+
+      scrollContainer.scrollLeft = scrollPositionRef.current;
+      animationRef.current = requestAnimationFrame(animate);
+    },
+    [currentScrollSpeed, isStarted, isVisible],
+  );
 
   useEffect(() => {
-    if (isStarted && !isUserScrollingRef.current) {
+    if (isStarted && !isUserScrollingRef.current && isVisible) {
+      lastTimeRef.current = performance.now(); // Reset timestamp
       animationRef.current = requestAnimationFrame(animate);
     } else if (animationRef.current) {
       cancelAnimationFrame(animationRef.current);
@@ -204,7 +253,7 @@ export function AutoScrollCarousel() {
         cancelAnimationFrame(animationRef.current);
       }
     };
-  }, [animate, isStarted]);
+  }, [animate, isStarted, isVisible]);
 
   // Memoized parallax calculation for better performance
   const parallaxOffsets = useMemo(() => {
@@ -285,7 +334,7 @@ export function AutoScrollCarousel() {
       </div>
 
       <div
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 pointer-events-none transition-opacity duration-300 ease-out"
+        className="absolute bottom-2 left-1/2 -translate-x-1/2 z-20 pointer-events-none transition-opacity duration-300 ease-out"
         style={{
           opacity: chevronOpacity,
         }}

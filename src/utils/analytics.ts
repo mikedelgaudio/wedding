@@ -22,11 +22,9 @@ export const trackPageView = (path: string): void => {
   }
 };
 
-export const trackFormSubmit = (formName: string): void => {
+export const trackLoginFormSubmit = (): void => {
   if (analytics) {
-    logEvent(analytics, 'form_submit_clicked', {
-      form_name: formName,
-    });
+    logEvent(analytics, 'login_form_submit_clicked');
   }
 };
 
@@ -39,8 +37,75 @@ export const trackLoginSuccess = (): void => {
 export const trackLoginFailed = (code?: string, message?: string): void => {
   if (analytics) {
     logEvent(analytics, 'login_failed', {
-      failure_reason: code || 'unknown_error',
-      failure_message: message || 'An unknown error occurred',
+      failure_code: code || 'unknown',
+      failure_message: message || 'unknown',
     });
+  }
+};
+
+// Track RSVP form events
+export const trackRsvpFormLookupSubmit = (): void => {
+  if (analytics) {
+    logEvent(analytics, 'rsvp_form_lookup_submit_clicked');
+  }
+};
+
+export const trackRsvpError = (
+  errorType: string,
+  firebaseCode?: string,
+  firebaseMessage?: string,
+): void => {
+  if (analytics) {
+    logEvent(analytics, 'rsvp_form_lookup_error', {
+      error_type: errorType,
+      failure_code: firebaseCode || 'unknown',
+      failure_message: firebaseMessage || 'unknown',
+    });
+  }
+};
+
+// Update success tracking too
+export const trackRsvpSuccess = (): void => {
+  if (analytics) {
+    logEvent(analytics, 'rsvp_form_lookup_success');
+  }
+};
+
+export const trackRsvpFormLoaded = (): void => {
+  if (analytics) {
+    logEvent(analytics, 'rsvp_form_loaded');
+  }
+};
+
+// Track RSVP form submission attempt
+export const trackRsvpFormSubmit = (): void => {
+  if (analytics) {
+    logEvent(analytics, 'rsvp_form_submit_clicked');
+  }
+};
+
+export const trackRsvpSaveError = (
+  errorType: string,
+  firebaseCode?: string,
+  firebaseMessage?: string,
+): void => {
+  if (analytics) {
+    logEvent(analytics, 'rsvp_form_save_error', {
+      error_type: errorType,
+      failure_code: firebaseCode || 'unknown',
+      failure_message: firebaseMessage || 'unknown',
+    });
+  }
+};
+
+export const trackRsvpSaveSuccess = (): void => {
+  if (analytics) {
+    logEvent(analytics, 'rsvp_form_save_success');
+  }
+};
+
+export const trackRsvpSaveSuccessNoOp = (): void => {
+  if (analytics) {
+    logEvent(analytics, 'rsvp_form_save_success_no_op');
   }
 };

@@ -3,8 +3,8 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { tryPasswordLogin } from '../firebase/auth/tryPasswordLogin';
 import { useAuth } from '../hooks/useAuth';
 import {
-  trackFormSubmit,
   trackLoginFailed,
+  trackLoginFormSubmit,
   trackLoginSuccess,
   trackPageView,
 } from '../utils/analytics';
@@ -24,7 +24,7 @@ export function Login() {
     setError('');
 
     // Track form submit button click
-    trackFormSubmit('login_form');
+    trackLoginFormSubmit();
 
     const result = await tryPasswordLogin(password);
 
