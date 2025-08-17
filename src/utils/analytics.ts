@@ -46,7 +46,7 @@ export const trackLoginFailed = (code?: string, message?: string): void => {
 // Track RSVP form events
 export const trackRsvpFormLookupSubmit = (): void => {
   if (analytics) {
-    logEvent(analytics, 'rsvp_form_lookup_submit_clicked');
+    logEvent(analytics, 'rsvp_lookup_submit_clicked');
   }
 };
 
@@ -56,7 +56,7 @@ export const trackRsvpError = (
   firebaseMessage?: string,
 ): void => {
   if (analytics) {
-    logEvent(analytics, 'rsvp_form_lookup_error', {
+    logEvent(analytics, 'rsvp_lookup_error', {
       error_type: errorType,
       failure_code: firebaseCode || 'unknown',
       failure_message: firebaseMessage || 'unknown',
@@ -67,7 +67,7 @@ export const trackRsvpError = (
 // Update success tracking too
 export const trackRsvpSuccess = (): void => {
   if (analytics) {
-    logEvent(analytics, 'rsvp_form_lookup_success');
+    logEvent(analytics, 'rsvp_lookup_success');
   }
 };
 
