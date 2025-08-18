@@ -15,7 +15,7 @@ service cloud.firestore {
       allow update: if
         request.auth.uid == 'site-guest'
         // they can’t change the inviteCode itself
-        && request.resource.data.inviteCode == resource.id
+        && request.resource.data.inviteCode == resource.data.inviteCode
         // must be before the RSVP deadline
         && request.time < resource.data.rsvpDeadline
         // payload must validate
@@ -49,7 +49,6 @@ function validateRsvp(data) {
          'attendingCeremony',
          'attendingReception',
          'attendingBrunch',
-         'allowedToAttendBrunch',
          'dietaryRestrictions'
        ])
     && data.invitee.name is string
@@ -57,7 +56,6 @@ function validateRsvp(data) {
     && data.invitee.attendingCeremony is bool
     && data.invitee.attendingReception is bool
     && (data.invitee.attendingBrunch is bool || data.invitee.attendingBrunch == null)
-    && data.invitee.allowedToAttendBrunch is bool
     && (
          data.invitee.dietaryRestrictions == null
          || (

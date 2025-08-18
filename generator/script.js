@@ -96,11 +96,10 @@ async function generateRSVPInvitations(invitationsData, rsvpDeadline) {
                 attendingCeremony: null,
                 attendingReception: null,
                 attendingBrunch: null,
-                allowedToAttendBrunch: false,
-                isNameEditable: guest.name ? false : true, // If no name provided, make it editable
                 allowedToAttendBrunch: guest.allowedToAttendBrunch ?? false,
+                isNameEditable: guest.name ? false : true, // If no name provided, make it editable
               }))
-            : null,
+            : [],
         inviteCode,
         lastModified: null,
         rsvpDeadline: Timestamp.fromDate(rsvpDeadline),

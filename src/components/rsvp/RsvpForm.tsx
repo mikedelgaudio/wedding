@@ -184,7 +184,6 @@ export function RsvpForm({ snapshot }: RsvpFormProps) {
         attendingCeremony,
         attendingReception,
         attendingBrunch,
-        allowedToAttendBrunch: data.invitee.allowedToAttendBrunch,
         dietaryRestrictions: dietNotes || null,
       },
       lastModified: serverTimestamp(),
@@ -192,19 +191,19 @@ export function RsvpForm({ snapshot }: RsvpFormProps) {
 
     // Only include guests field if there are guests
     if (guestResponses.length > 0) {
-      payload.guests = guestResponses.map<IGuest>(g => ({
+      payload.guests = guestResponses.map<
+        Omit<IGuest, 'allowedToAttendBrunch'>
+      >(g => ({
         name: g.name,
         attendingCeremony: g.attendingCeremony,
         attendingReception: g.attendingReception,
         attendingBrunch: g.attendingBrunch,
-        allowedToAttendBrunch: g.allowedToAttendBrunch,
         dietaryRestrictions: g.dietaryRestrictions || null,
         isNameEditable: g.isNameEditable,
       }));
     } else {
       payload.guests = [];
     }
-
     return payload;
   }
 
@@ -244,6 +243,7 @@ export function RsvpForm({ snapshot }: RsvpFormProps) {
       trackRsvpSaveSuccess();
     } catch (err) {
       const firebaseError = err as { code?: string; message?: string };
+      console.log(err);
       trackRsvpSaveError(
         'firebase_error',
         firebaseError.code,
