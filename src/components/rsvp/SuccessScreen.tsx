@@ -2,7 +2,7 @@ export function SuccessScreen() {
   return (
     <div className="min-h-[300px] flex flex-col items-center justify-center bg-green-50 p-6 rounded-xl">
       <h1 className="text-3xl font-bold text-green-800 mb-2">🎉 All Set!</h1>
-      <p className="text-green-700">
+      <p className="text-green-700 text-center">
         Thank you, your RSVP was submitted successfully.
       </p>
       <p className="text-green-700 text-center mb-4">

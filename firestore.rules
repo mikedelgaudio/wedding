@@ -46,12 +46,18 @@ function validateRsvp(data) {
     // invitee sub‐map
     && data.invitee.keys().hasOnly([
          'name',
-         'attending',
+         'attendingCeremony',
+         'attendingReception',
+         'attendingBrunch',
+         'allowedToAttendBrunch',
          'dietaryRestrictions'
        ])
     && data.invitee.name is string
     && data.invitee.name.size() > 0
-    && data.invitee.attending is bool
+    && data.invitee.attendingCeremony is bool
+    && data.invitee.attendingReception is bool
+    && (data.invitee.attendingBrunch is bool || data.invitee.attendingBrunch == null)
+    && data.invitee.allowedToAttendBrunch is bool
     && (
          data.invitee.dietaryRestrictions == null
          || (

@@ -1,14 +1,19 @@
 import type { Timestamp } from 'firebase/firestore';
 
-export interface IInvitee {
+interface IAttending {
+  attendingCeremony: boolean | null;
+  attendingReception: boolean | null;
+  attendingBrunch: boolean | null;
+  allowedToAttendBrunch: boolean;
+}
+
+export interface IInvitee extends IAttending {
   name: string;
-  attending: boolean | null;
   dietaryRestrictions: string | null;
 }
 
-export interface IGuest {
+export interface IGuest extends IAttending {
   name: string | null;
-  attending: boolean | null;
   dietaryRestrictions: string | null;
   isNameEditable: boolean;
 }

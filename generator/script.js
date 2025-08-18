@@ -83,15 +83,22 @@ async function generateRSVPInvitations(invitationsData, rsvpDeadline) {
         invitee: {
           name: invitation.inviteeName,
           dietaryRestrictions: null,
-          attending: null,
+          attendingCeremony: null,
+          attendingReception: null,
+          attendingBrunch: null,
+          allowedToAttendBrunch: invitation.allowedToAttendBrunch ?? false,
         },
         guests:
           invitation.guests && invitation.guests.length > 0
             ? invitation.guests.map(guest => ({
                 name: guest.name ?? null,
                 dietaryRestrictions: null,
-                attending: null,
+                attendingCeremony: null,
+                attendingReception: null,
+                attendingBrunch: null,
+                allowedToAttendBrunch: false,
                 isNameEditable: guest.name ? false : true, // If no name provided, make it editable
+                allowedToAttendBrunch: guest.allowedToAttendBrunch ?? false,
               }))
             : null,
         inviteCode,
@@ -133,24 +140,37 @@ async function example() {
   const sampleInvitations = [
     {
       inviteeName: 'Steven Smith',
+      allowedToAttendBrunch: false,
       guests: [
-        { name: 'Mikey Bolognese' },
-        { name: null }, // Guest with editable name
+        { name: 'Mikey Bolognese', allowedToAttendBrunch: false }, // Guest with fixed name
+        { name: null, allowedToAttendBrunch: true }, // Guest with editable name
       ],
     },
     {
       inviteeName: 'Jane Doe',
-      guests: [{ name: 'John Doe' }],
+      allowedToAttendBrunch: true,
+      guests: [{ name: 'John Doe', allowedToAttendBrunch: true }],
+    },
+    {
+      inviteeName: 'Jane Doe2',
+      allowedToAttendBrunch: false,
+      guests: [{ name: 'John Doe2', allowedToAttendBrunch: false }],
     },
     {
       inviteeName: 'Alice Johnson',
+      allowedToAttendBrunch: false,
       guests: [
-        { name: null }, // Plus one with editable name
-        { name: null }, // Another plus one
+        { name: null, allowedToAttendBrunch: false }, // Plus one with editable name
+        { name: null, allowedToAttendBrunch: false }, // Another plus one
       ],
     },
     {
       inviteeName: 'Bob Brown',
+      allowedToAttendBrunch: true,
+    },
+    {
+      inviteeName: 'Bob Brown2',
+      allowedToAttendBrunch: false,
     },
   ];
 

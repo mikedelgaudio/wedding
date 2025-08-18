@@ -30,7 +30,10 @@ async function exportRSVPToCSV(outputFileName = 'rsvp-export.csv') {
     // CSV Headers
     const headers = [
       'Name',
-      'Attending',
+      'Attending Ceremony',
+      'Attending Reception',
+      'Attending Brunch',
+      'Allowed Brunch',
       'Dietary Restrictions',
       'Invite Code',
       'Leader',
@@ -55,7 +58,18 @@ async function exportRSVPToCSV(outputFileName = 'rsvp-export.csv') {
       // Add invitee row
       rows.push({
         Name: data.invitee?.name || '',
-        Attending: data.invitee?.attending ? data.invitee.attending : false,
+        'Attending Ceremony': data.invitee?.attendingCeremony
+          ? data.invitee.attendingCeremony
+          : false,
+        'Attending Reception': data.invitee?.attendingReception
+          ? data.invitee.attendingReception
+          : false,
+        'Attending Brunch': data.invitee?.attendingBrunch
+          ? data.invitee.attendingBrunch
+          : false,
+        'Allowed Brunch': data.invitee?.allowedToAttendBrunch
+          ? data.invitee.allowedToAttendBrunch
+          : false,
         'Dietary Restrictions': data.invitee?.dietaryRestrictions || '',
         'Invite Code': inviteCode,
         Leader: leader,
@@ -67,7 +81,18 @@ async function exportRSVPToCSV(outputFileName = 'rsvp-export.csv') {
         data.guests.forEach(guest => {
           rows.push({
             Name: guest.name || '',
-            Attending: guest.attending ? guest.attending : false,
+            'Attending Ceremony': guest.attendingCeremony
+              ? guest.attendingCeremony
+              : false,
+            'Attending Reception': guest.attendingReception
+              ? guest.attendingReception
+              : false,
+            'Attending Brunch': guest.attendingBrunch
+              ? guest.attendingBrunch
+              : false,
+            'Allowed Brunch': guest.allowedToAttendBrunch
+              ? guest.allowedToAttendBrunch
+              : false,
             'Dietary Restrictions': guest.dietaryRestrictions || '',
             'Invite Code': inviteCode,
             Leader: leader,

@@ -43,7 +43,10 @@ export function RsvpForm({ snapshot }: RsvpFormProps) {
     }
     return data.guests.map(g => ({
       name: g.name ?? '',
-      attending: g.attending ?? null,
+      attendingCeremony: g.attendingCeremony ?? null,
+      attendingReception: g.attendingReception ?? null,
+      attendingBrunch: g.attendingBrunch ?? null,
+      allowedToAttendBrunch: g.allowedToAttendBrunch ?? false,
       dietaryRestrictions: g.dietaryRestrictions ?? '',
       isNameEditable: g.isNameEditable ?? false,
     }));
@@ -51,14 +54,22 @@ export function RsvpForm({ snapshot }: RsvpFormProps) {
 
   // 1) Keep originals in refs
   const initialInviteeRef = useRef({
-    attending: data.invitee.attending ?? null,
+    attendingCeremony: data.invitee.attendingCeremony ?? null,
+    attendingReception: data.invitee.attendingReception ?? null,
+    attendingBrunch: data.invitee.attendingBrunch ?? null,
     dietaryRestrictions: data.invitee.dietaryRestrictions ?? '',
   });
   const initialGuestsRef = useRef<IGuest[]>(normalizedGuests);
 
   // 2) Local state - guests is now always an array
-  const [isAttending, setIsAttending] = useState<boolean | null>(
-    initialInviteeRef.current.attending,
+  const [attendingCeremony, setAttendingCeremony] = useState<boolean | null>(
+    initialInviteeRef.current.attendingCeremony,
+  );
+  const [attendingReception, setAttendingReception] = useState<boolean | null>(
+    initialInviteeRef.current.attendingReception,
+  );
+  const [attendingBrunch, setAttendingBrunch] = useState<boolean | null>(
+    initialInviteeRef.current.attendingBrunch,
   );
   const [dietNotes, setDietNotes] = useState<string>(
     initialInviteeRef.current.dietaryRestrictions,
@@ -96,7 +107,9 @@ export function RsvpForm({ snapshot }: RsvpFormProps) {
   const origInvitee = initialInviteeRef.current;
   const origGuests = initialGuestsRef.current;
   const isDirty =
-    isAttending !== origInvitee.attending ||
+    attendingCeremony !== origInvitee.attendingCeremony ||
+    attendingReception !== origInvitee.attendingReception ||
+    attendingBrunch !== origInvitee.attendingBrunch ||
     dietNotes !== origInvitee.dietaryRestrictions ||
     guestResponses.length !== origGuests.length ||
     guestResponses.some((cur, i) => {
@@ -104,7 +117,9 @@ export function RsvpForm({ snapshot }: RsvpFormProps) {
       if (!orig) return true; // Safety check - if original guest missing, consider dirty
       return (
         cur.name !== orig.name ||
-        cur.attending !== orig.attending ||
+        cur.attendingCeremony !== orig.attendingCeremony ||
+        cur.attendingReception !== orig.attendingReception ||
+        cur.attendingBrunch !== orig.attendingBrunch ||
         cur.dietaryRestrictions !== orig.dietaryRestrictions
       );
     });
@@ -120,8 +135,14 @@ export function RsvpForm({ snapshot }: RsvpFormProps) {
   }
 
   function validate(): string | undefined {
-    if (isAttending == null) {
-      return 'Please select Yes or No for your attendance.';
+    if (attendingCeremony == null) {
+      return 'Please select Yes or No for ceremony attendance.';
+    }
+    if (attendingReception == null) {
+      return 'Please select Yes or No for reception attendance.';
+    }
+    if (data.invitee.allowedToAttendBrunch && attendingBrunch == null) {
+      return 'Please select Yes or No for brunch attendance.';
     }
 
     // Only validate guests if there are any
@@ -130,10 +151,26 @@ export function RsvpForm({ snapshot }: RsvpFormProps) {
         const g = guestResponses[i];
         if (!g) continue; // Safety check
 
-        if (g.attending == null) {
-          return `Please select Yes or No for Guest ${i + 1}.`;
+        if (g.attendingCeremony == null) {
+          return `Please select Yes or No for Guest ${
+            i + 1
+          } ceremony attendance.`;
         }
-        if (g.attending && g.isNameEditable && !g.name?.trim()) {
+        if (g.attendingReception == null) {
+          return `Please select Yes or No for Guest ${
+            i + 1
+          } reception attendance.`;
+        }
+        if (g.allowedToAttendBrunch && g.attendingBrunch == null) {
+          return `Please select Yes or No for Guest ${
+            i + 1
+          } brunch attendance.`;
+        }
+        if (
+          (g.attendingCeremony || g.attendingReception || g.attendingBrunch) &&
+          g.isNameEditable &&
+          !g.name?.trim()
+        ) {
           return `Please enter a name for Guest ${i + 1}.`;
         }
       }
@@ -144,7 +181,10 @@ export function RsvpForm({ snapshot }: RsvpFormProps) {
     const payload: UpdateData<IRSVPDoc> = {
       invitee: {
         name: data.invitee.name,
-        attending: isAttending,
+        attendingCeremony,
+        attendingReception,
+        attendingBrunch,
+        allowedToAttendBrunch: data.invitee.allowedToAttendBrunch,
         dietaryRestrictions: dietNotes || null,
       },
       lastModified: serverTimestamp(),
@@ -154,7 +194,10 @@ export function RsvpForm({ snapshot }: RsvpFormProps) {
     if (guestResponses.length > 0) {
       payload.guests = guestResponses.map<IGuest>(g => ({
         name: g.name,
-        attending: g.attending,
+        attendingCeremony: g.attendingCeremony,
+        attendingReception: g.attendingReception,
+        attendingBrunch: g.attendingBrunch,
+        allowedToAttendBrunch: g.allowedToAttendBrunch,
         dietaryRestrictions: g.dietaryRestrictions || null,
         isNameEditable: g.isNameEditable,
       }));
@@ -190,7 +233,9 @@ export function RsvpForm({ snapshot }: RsvpFormProps) {
 
       // 5) Reset "original" refs to the just-saved values
       initialInviteeRef.current = {
-        attending: isAttending,
+        attendingCeremony,
+        attendingReception,
+        attendingBrunch,
         dietaryRestrictions: dietNotes,
       };
       initialGuestsRef.current = [...guestResponses]; // Create new array reference
@@ -258,18 +303,55 @@ export function RsvpForm({ snapshot }: RsvpFormProps) {
 
       <fieldset className="space-y-4 border p-4 rounded">
         <legend className="font-medium m-0">Your Response</legend>
-        <p className="text-xl font-bold break-all">{data.invitee.name}</p>
-        <div className="grid md:grid-cols-2 items-center gap-2">
+        <div>
+          <p className="text-xl font-bold break-all m-0">{data.invitee.name}</p>
+          <p className="text-lg m-0">Will you be attending the...</p>
+        </div>
+        <div className="grid sm:grid-cols-2 items-center gap-2">
           <p className="font-medium">
-            Will you be attending? <span className="text-red-600">*</span>
+            Ceremony? <span className="text-red-600">*</span>
           </p>
           <RadioGroup
-            name="inviteeAttending"
-            value={isAttending}
-            onChange={setIsAttending}
+            name="inviteeAttendingCeremony"
+            value={attendingCeremony}
+            onChange={setAttendingCeremony}
             required
           />
         </div>
+
+        <div className="grid sm:grid-cols-2 items-center gap-2">
+          <p className="font-medium">
+            Reception? <span className="text-red-600">*</span>
+          </p>
+          <RadioGroup
+            name="inviteeAttendingReception"
+            value={attendingReception}
+            onChange={setAttendingReception}
+            required
+          />
+        </div>
+
+        {data.invitee.allowedToAttendBrunch && (
+          <div className="grid sm:grid-cols-2 items-center gap-2">
+            <div className="flex flex-col">
+              <p className="font-medium">
+                Day After Brunch? <span className="text-red-600">*</span>
+              </p>
+              <p className="text-sm">
+                Casual morning gathering the day after the wedding for close
+                friends and family at the Archer Hotel in Redmond, WA on June
+                19, 2026 at 10:00AM PDT.
+              </p>
+            </div>
+            <RadioGroup
+              name="inviteeAttendingBrunch"
+              value={attendingBrunch}
+              onChange={setAttendingBrunch}
+              required
+            />
+          </div>
+        )}
+
         <div>
           <label
             className="block mb-1 font-medium"
@@ -311,25 +393,65 @@ export function RsvpForm({ snapshot }: RsvpFormProps) {
                       handleGuestChange(idx, 'name', e.target.value)
                     }
                     placeholder={`Guest ${idx + 1} Full Name`}
-                    required={resp.attending === true}
+                    required={
+                      resp.attendingCeremony === true ||
+                      resp.attendingReception === true ||
+                      resp.attendingBrunch === true
+                    }
                     className="w-full p-2 border rounded focus:outline-none focus:ring"
                   />
                 </Fragment>
               ) : (
-                <p className="text-xl font-bold break-all">{resp.name}</p>
+                <p className="text-xl font-bold break-all m-0">{resp.name}</p>
               )}
+              <p className="text-lg m-0">Will they be attending the...</p>
             </div>
-            <div className="grid md:grid-cols-2 items-center gap-2">
+
+            <div className="grid sm:grid-cols-2 items-center gap-2">
               <p className="font-medium">
-                Will they be attending? <span className="text-red-600">*</span>
+                Ceremony? <span className="text-red-600">*</span>
               </p>
               <RadioGroup
-                name={`guestAttending-${idx}`}
-                value={resp.attending}
-                onChange={v => handleGuestChange(idx, 'attending', v)}
+                name={`guestAttendingCeremony-${idx}`}
+                value={resp.attendingCeremony}
+                onChange={v => handleGuestChange(idx, 'attendingCeremony', v)}
                 required
               />
             </div>
+
+            <div className="grid sm:grid-cols-2 items-center gap-2">
+              <p className="font-medium">
+                Reception? <span className="text-red-600">*</span>
+              </p>
+              <RadioGroup
+                name={`guestAttendingReception-${idx}`}
+                value={resp.attendingReception}
+                onChange={v => handleGuestChange(idx, 'attendingReception', v)}
+                required
+              />
+            </div>
+
+            {resp.allowedToAttendBrunch && (
+              <div className="grid sm:grid-cols-2 items-center gap-2">
+                <div className="flex flex-col">
+                  <p className="font-medium">
+                    Day After Brunch? <span className="text-red-600">*</span>
+                  </p>
+                  <p className="text-sm">
+                    Casual morning gathering the day after the wedding for close
+                    friends and family at the Archer Hotel in Redmond, WA on
+                    June 19, 2026 at 10:00AM PDT.
+                  </p>
+                </div>
+                <RadioGroup
+                  name={`guestAttendingBrunch-${idx}`}
+                  value={resp.attendingBrunch}
+                  onChange={v => handleGuestChange(idx, 'attendingBrunch', v)}
+                  required
+                />
+              </div>
+            )}
+
             <div>
               <label
                 className="block mb-1 font-medium"
