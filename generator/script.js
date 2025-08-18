@@ -1,6 +1,6 @@
 import crypto from 'crypto';
 import { cert, initializeApp } from 'firebase-admin/app';
-import { getFirestore } from 'firebase-admin/firestore';
+import { getFirestore, Timestamp } from 'firebase-admin/firestore';
 
 // Initialize Firebase Admin SDK for local usage
 // Option 1: Using service account key file
@@ -96,7 +96,7 @@ async function generateRSVPInvitations(invitationsData, rsvpDeadline) {
             : null,
         inviteCode,
         lastModified: null,
-        rsvpDeadline,
+        rsvpDeadline: Timestamp.fromDate(rsvpDeadline),
       };
 
       // Add to batch
@@ -180,4 +180,4 @@ export {
 };
 
 // Uncomment the line below to run the example
-// example();
+example();

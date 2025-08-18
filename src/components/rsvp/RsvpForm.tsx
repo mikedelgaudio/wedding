@@ -154,7 +154,7 @@ export function RsvpForm({ snapshot }: RsvpFormProps) {
     if (guestResponses.length > 0) {
       payload.guests = guestResponses.map<IGuest>(g => ({
         name: g.name,
-        attending: g.attending as boolean,
+        attending: g.attending,
         dietaryRestrictions: g.dietaryRestrictions || null,
         isNameEditable: g.isNameEditable,
       }));
@@ -239,8 +239,7 @@ export function RsvpForm({ snapshot }: RsvpFormProps) {
           </p>
         ) : (
           <p>
-            Please respond by{' '}
-            <strong>{formatter.format(deadlineDate)} PDT</strong>.
+            Please respond by <strong>{formatter.format(deadlineDate)}</strong>.
           </p>
         )}
         <p>
