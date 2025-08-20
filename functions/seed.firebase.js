@@ -1,3 +1,4 @@
+//seed.firebase.js
 const admin = require('firebase-admin');
 
 process.env.FIRESTORE_EMULATOR_HOST = 'localhost:8080';
@@ -8,6 +9,7 @@ admin.initializeApp({ projectId: 'wedding-rsvp-25b5b' });
 const db = admin.firestore();
 
 async function seed() {
+  // Seed site schedule data
   const siteDocRef = db.collection('site').doc('schedule');
 
   const events = [
@@ -30,9 +32,9 @@ async function seed() {
   ];
 
   await siteDocRef.set({ events });
-
   console.log('✅ Firestore emulator seeded with schedule data.');
 
+  // Seed site event data
   const eventDocRef = db.collection('site').doc('event');
   const eventData = {
     date: 'June 10, 2028',
@@ -41,142 +43,135 @@ async function seed() {
   await eventDocRef.set(eventData);
   console.log('✅ Seeded: site/event');
 
-  // --- Seed: rsvp/ABCD1234 ---
-  const rsvpRef = db.collection('rsvp').doc('ABCD1234');
+  // RSVP deadline
+  const rsvpDeadline = admin.firestore.Timestamp.fromDate(
+    new Date('2028-06-18T00:00:00-07:00'),
+  );
 
-  const rsvpData = {
-    invitee: {
-      name: 'Steven Smith',
-      dietaryRestrictions: null,
-      attendingCeremony: null,
-      attendingReception: null,
-      attendingBrunch: null,
+  // Test invitations with easy-to-remember codes
+  const testInvitations = [
+    // TEST-0001 - Single person, no brunch access
+    {
+      inviteCode: 'TEST-0001',
+      inviteeName: 'Steven Smith',
       allowedToAttendBrunch: false,
+      guests: [],
     },
-    guests: [
-      {
-        name: 'Mikey Bolognese',
-        dietaryRestrictions: null,
-        isNameEditable: false,
-        attendingCeremony: null,
-        attendingReception: null,
-        attendingBrunch: null,
-        allowedToAttendBrunch: false,
-      },
-      {
-        name: null,
-        dietaryRestrictions: null,
-        attending: null,
-        isNameEditable: true,
-        attendingCeremony: null,
-        attendingReception: null,
-        attendingBrunch: null,
-        allowedToAttendBrunch: false,
-      },
-    ],
-    inviteCode: 'ABCD1234',
-    lastModified: admin.firestore.Timestamp.fromDate(
-      new Date('2025-07-13T19:56:15-07:00'),
-    ),
-    rsvpDeadline: admin.firestore.Timestamp.fromDate(
-      new Date('2028-06-18T00:00:00-07:00'),
-    ),
-  };
 
-  await rsvpRef.set(rsvpData);
-
-  console.log('✅ Seeded: rsvp/ABCD1234');
-
-  const rsvpRef2 = db.collection('rsvp').doc('ABCD4321');
-
-  const rsvpData2 = {
-    invitee: {
-      name: 'Tony Soprano',
-      dietaryRestrictions: null,
-      attendingCeremony: null,
-      attendingReception: null,
-      attendingBrunch: null,
+    // TEST-0002 - Person with one named guest, both have brunch access
+    {
+      inviteCode: 'TEST-0002',
+      inviteeName: 'Jane Doe',
       allowedToAttendBrunch: true,
+      guests: [{ name: 'John Doe', allowedToAttendBrunch: true }],
     },
-    guests: null,
-    inviteCode: 'ABCD4321',
-    lastModified: null,
-    rsvpDeadline: new Date('2028-06-18T00:00:00-07:00'),
-  };
 
-  await rsvpRef2.set(rsvpData2);
-
-  console.log('✅ Seeded: rsvp/ABCD4321');
-
-  const rsvpRef3 = db.collection('rsvp').doc('DCBA1234');
-
-  const rsvpData3 = {
-    invitee: {
-      name: 'Alice Johnson',
-      dietaryRestrictions: null,
-      attendingCeremony: null,
-      attendingReception: null,
-      attendingBrunch: null,
+    // TEST-0003 - Person with mixed guest setup (named + unnamed)
+    {
+      inviteCode: 'TEST-0003',
+      inviteeName: 'Alice Johnson',
       allowedToAttendBrunch: true,
+      guests: [
+        { name: 'Bob Johnson', allowedToAttendBrunch: true }, // Named guest
+        { name: null, allowedToAttendBrunch: false }, // Unnamed plus-one
+      ],
     },
-    guests: [
-      {
-        name: null,
-        dietaryRestrictions: null,
-        attendingCeremony: null,
-        attendingReception: null,
-        attendingBrunch: null,
-        allowedToAttendBrunch: true,
-        isNameEditable: true,
-      },
-      {
-        name: null,
-        dietaryRestrictions: null,
-        attendingCeremony: null,
-        attendingReception: null,
-        attendingBrunch: null,
-        allowedToAttendBrunch: true,
-        isNameEditable: true,
-      },
-    ],
-    inviteCode: 'DCBA1234',
-    lastModified: null,
-    rsvpDeadline: new Date('2028-06-18T00:00:00-07:00'),
-  };
 
-  await rsvpRef3.set(rsvpData3);
-
-  console.log('✅ Seeded: rsvp/DCBA1234');
-
-  const rsvpRef4 = db.collection('rsvp').doc('DCBA4321');
-
-  const rsvpData4 = {
-    invitee: {
-      name: 'Bob Brown',
-      dietaryRestrictions: null,
-      attendingCeremony: null,
-      attendingReception: null,
-      attendingBrunch: null,
+    // TEST-0004 - Person with multiple unnamed guests (plus-ones)
+    {
+      inviteCode: 'TEST-0004',
+      inviteeName: 'Carol White',
       allowedToAttendBrunch: false,
+      guests: [
+        { name: null, allowedToAttendBrunch: false }, // Plus one
+        { name: null, allowedToAttendBrunch: false }, // Plus two
+      ],
     },
-    guests: [
-      {
-        name: 'Jane Doe',
+
+    // TEST-0005 - Person with no brunch, named guest with brunch (mixed permissions)
+    {
+      inviteCode: 'TEST-0005',
+      inviteeName: 'David Brown',
+      allowedToAttendBrunch: false,
+      guests: [
+        { name: 'Sarah Brown', allowedToAttendBrunch: true }, // Different brunch permission
+      ],
+    },
+
+    // ADMN-TEST - Admin test account with brunch access
+    {
+      inviteCode: 'ADMN-TEST',
+      inviteeName: 'Wedding Admin',
+      allowedToAttendBrunch: true,
+      guests: [],
+    },
+
+    // LRGE-PRTY - Large party for stress testing
+    {
+      inviteCode: 'LRGE-PRTY',
+      inviteeName: 'Tony Soprano',
+      allowedToAttendBrunch: true,
+      guests: [
+        { name: 'Carmela Soprano', allowedToAttendBrunch: true },
+        { name: 'Meadow Soprano', allowedToAttendBrunch: true },
+        { name: null, allowedToAttendBrunch: false }, // Plus one
+      ],
+    },
+
+    // SNGL-GUST - Person with no guests for minimal case testing
+    {
+      inviteCode: 'SNGL-GUST',
+      inviteeName: 'Single Guest',
+      allowedToAttendBrunch: false,
+      guests: [],
+    },
+  ];
+
+  // Create RSVP documents
+  for (const invitation of testInvitations) {
+    const docId = invitation.inviteCode.replace('-', ''); // Remove hyphen for document ID
+    const rsvpRef = db.collection('rsvp').doc(docId);
+
+    const rsvpData = {
+      invitee: {
+        name: invitation.inviteeName,
         dietaryRestrictions: null,
         attendingCeremony: null,
         attendingReception: null,
         attendingBrunch: null,
-        allowedToAttendBrunch: false,
-        isNameEditable: false,
+        allowedToAttendBrunch: invitation.allowedToAttendBrunch,
       },
-    ],
-    inviteCode: 'DCBA4321',
-    lastModified: null,
-    rsvpDeadline: new Date('2028-06-18T00:00:00-07:00'),
-  };
+      guests:
+        invitation.guests && invitation.guests.length > 0
+          ? invitation.guests.map(guest => ({
+              name: guest.name ?? null,
+              dietaryRestrictions: null,
+              attendingCeremony: null,
+              attendingReception: null,
+              attendingBrunch: null,
+              allowedToAttendBrunch: guest.allowedToAttendBrunch ?? false,
+              isNameEditable: guest.name ? false : true, // If no name provided, make it editable
+            }))
+          : [],
+      inviteCode: invitation.inviteCode,
+      lastModified: null,
+      rsvpDeadline: rsvpDeadline,
+    };
 
-  await rsvpRef4.set(rsvpData4);
-  console.log('✅ Seeded: rsvp/DCBA4321');
+    await rsvpRef.set(rsvpData);
+    console.log(`✅ Seeded: rsvp/${docId} (${invitation.inviteeName})`);
+  }
+
+  console.log('\n🎉 All test data seeded successfully!');
+  console.log('\nEasy test codes:');
+  console.log('TEST-0001 - Single person, no brunch');
+  console.log('TEST-0002 - Couple with brunch access');
+  console.log('TEST-0003 - Mixed guest setup');
+  console.log('TEST-0004 - Multiple plus-ones');
+  console.log('TEST-0005 - Mixed brunch permissions');
+  console.log('ADMN-TEST - Admin test account');
+  console.log('LRGE-PRTY - Large party test');
+  console.log('SNGL-GUST - Single person, minimal case');
 }
 
 seed().catch(err => {

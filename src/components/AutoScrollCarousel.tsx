@@ -254,7 +254,7 @@ export function AutoScrollCarousel() {
       scrollContainer.scrollLeft = scrollPositionRef.current;
       animationRef.current = requestAnimationFrame(animate);
     },
-    [currentScrollSpeed, isStarted, isVisible],
+    [isStarted, isVisible],
   );
 
   useEffect(() => {

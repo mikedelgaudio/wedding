@@ -25,7 +25,9 @@ export function Login() {
     // Track form submit button click
     trackLoginFormSubmit();
 
-    const result = await tryPasswordLogin(password);
+    const trimmedAndLoweredPassword = password.trim().toLowerCase();
+
+    const result = await tryPasswordLogin(trimmedAndLoweredPassword);
 
     if (!result.success) {
       // Track login failure
