@@ -24,7 +24,7 @@ export function RadioGroup({
   required = false,
 }: RadioGroupProps) {
   return (
-    <div className="flex items-center gap-6">
+    <div className="flex items-center gap-6 justify-end">
       {options.map(({ label, value: v }) => (
         <label
           key={label}

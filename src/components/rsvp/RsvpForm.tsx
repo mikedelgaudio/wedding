@@ -357,7 +357,7 @@ export function RsvpForm({ snapshot }: RsvpFormProps) {
             className="block mb-1 font-medium"
             htmlFor="dietaryRestrictions-invitee"
           >
-            Dietary Restrictions
+            Dietary Restrictions or Comments
           </label>
           <input
             type="text"
@@ -457,7 +457,7 @@ export function RsvpForm({ snapshot }: RsvpFormProps) {
                 className="block mb-1 font-medium"
                 htmlFor={`dietaryRestrictions-${idx}`}
               >
-                Dietary Restrictions
+                Dietary Restrictions or Comments
               </label>
               <input
                 id={`dietaryRestrictions-${idx}`}
