@@ -352,7 +352,7 @@ export function AutoScrollCarousel() {
 
       <button
         onClick={handleChevronClick}
-        className="absolute cursor-pointer bottom-2 left-1/2 -translate-x-1/2 z-20 transition-opacity duration-300 ease-out hover:opacity-80 focus:outline-none focus-visible::ring-2 focus-visible::ring-white focus-visible::ring-opacity-50 rounded-full p-2"
+        className="absolute cursor-pointer bottom-6 left-1/2 -translate-x-1/2 z-20 transition-opacity duration-300 ease-out hover:opacity-80 focus:outline-none focus-visible::ring-2 focus-visible::ring-white focus-visible::ring-opacity-50 rounded-full p-2"
         style={{
           opacity: chevronOpacity,
         }}
