@@ -5,7 +5,7 @@ import {
   type DocumentSnapshot,
   type UpdateData,
 } from 'firebase/firestore';
-import { Fragment, useEffect, useMemo, useState, type FormEvent } from 'react';
+import { useEffect, useMemo, useState, type FormEvent } from 'react';
 import { db } from '../../firebase/firebase.service';
 import type { IGuest, IRSVPDoc } from '../../firebase/IRSVPDoc';
 import {
@@ -14,14 +14,9 @@ import {
   trackRsvpSaveError,
   trackRsvpSaveSuccess,
 } from '../../utils/analytics';
-import { OpenInExternalLink } from '../OpenInExternalLink';
-import { RadioGroup } from './RadioGroup';
+import { PersonFieldset } from './PersonFieldset';
 import { SuccessScreen } from './SuccessScreen';
-import {
-  FOOD_OPTIONS,
-  isValidFoodOption,
-  type FoodOptionId,
-} from './utils/foodOptions';
+import { isValidFoodOption, type FoodOptionId } from './utils/foodOptions';
 import { validateRsvpForm } from './utils/validateRsvpForm';
 
 interface RsvpFormProps {
@@ -29,7 +24,12 @@ interface RsvpFormProps {
 }
 
 export function RsvpForm({ snapshot }: RsvpFormProps) {
-  const data = snapshot.data()!;
+  const data = snapshot.data();
+
+  if (!data) {
+    alert('No RSVP data found');
+    throw new Error('No RSVP data found');
+  }
 
   // Normalize guests early - convert null/undefined to empty array
   const normalizedGuests = useMemo((): IGuest[] => {
@@ -122,14 +122,14 @@ export function RsvpForm({ snapshot }: RsvpFormProps) {
       foodOption,
       contactInfo,
       guestResponses,
-      inviteeAllowedToAttendBrunch: data.invitee.allowedToAttendBrunch,
+      inviteeAllowedToAttendBrunch: !!data?.invitee.allowedToAttendBrunch,
     });
   }
 
   function makePayload(): UpdateData<IRSVPDoc> {
     const payload: UpdateData<IRSVPDoc> = {
       invitee: {
-        name: data.invitee.name,
+        name: data?.invitee.name,
         attendingCeremony,
         attendingReception,
         attendingBrunch,
@@ -238,326 +238,66 @@ export function RsvpForm({ snapshot }: RsvpFormProps) {
         </p>
       </div>
 
-      <fieldset className="space-y-4 border bg-[#e6e8df] p-4 rounded shadow">
-        <legend className="sr-only font-medium m-0">Your Response</legend>
-        <div>
-          <p className="text-xl font-bold break-all m-0">{data.invitee.name}</p>
-          <p className="text-lg m-0">Will you be attending the...</p>
-        </div>
-        <div className="grid sm:grid-cols-2 items-center gap-2">
-          <p className="font-medium">
-            Ceremony? <span className="text-red-600">*</span>
-          </p>
-          <RadioGroup
-            name="inviteeAttendingCeremony"
-            value={attendingCeremony}
-            onChange={setAttendingCeremony}
-            required
-          />
-        </div>
-
-        <div className="grid sm:grid-cols-2 items-center gap-2">
-          <p className="font-medium">
-            Reception? <span className="text-red-600">*</span>
-          </p>
-          <RadioGroup
-            name="inviteeAttendingReception"
-            value={attendingReception}
-            onChange={setAttendingReception}
-            required
-          />
-        </div>
-
-        {attendingReception === true && (
-          <div className="space-y-4 p-4">
-            <div>
-              <p className="font-medium text-lg">
-                Dinner Selection <span className="text-red-600">*</span>
-              </p>
-              <p className="text-sm mb-4">
-                Please select your preferred dinner option for the reception.
-              </p>
-            </div>
-
-            <div className="space-y-3">
-              {FOOD_OPTIONS.map(option => (
-                <label
-                  key={option.id}
-                  className={`flex items-start space-x-3 p-3  rounded cursor-pointer hover:bg-[#d1d4c2] focus-within:ring-2 ring-stone-500 ${
-                    foodOption === option.id ? 'ring-2' : ''
-                  }`}
-                >
-                  <input
-                    type="radio"
-                    name="inviteeFoodOption"
-                    value={option.id}
-                    checked={foodOption === option.id}
-                    onChange={e =>
-                      setFoodOption(e.target.value as FoodOptionId)
-                    }
-                    className="sr-only peer"
-                    required
-                  />
-                  <span className="w-5 h-5 flex-shrink-0 border rounded-full border-black peer-checked:-stone-600 peer-checked:bg-stone-600 transition mt-1" />
-                  <div className="flex-1">
-                    <div className="font-medium">{option.name}</div>
-                    <div className="text-sm ">{option.description}</div>
-                  </div>
-                </label>
-              ))}
-            </div>
-
-            {foodOption === 'unknown' && (
-              <div className="mt-4">
-                <label
-                  className="block mb-1 font-medium"
-                  htmlFor="contactInfo-invitee"
-                >
-                  Phone or Email <span className="text-red-600">*</span>
-                </label>
-                <input
-                  type="text"
-                  id="contactInfo-invitee"
-                  value={contactInfo}
-                  onChange={e => setContactInfo(e.target.value)}
-                  placeholder="Phone number or email address"
-                  className="w-full p-2 border bg-white rounded focus:outline-none focus:ring"
-                  required
-                />
-                <p className="text-sm  mt-1">
-                  We'll reach out to discuss your dinner options. If we are
-                  unable to connect, the Chicken Entrée will be selected by
-                  default.
-                </p>
-              </div>
-            )}
-          </div>
-        )}
-
-        {data.invitee.allowedToAttendBrunch && (
-          <div className="grid sm:grid-cols-2 items-center gap-2">
-            <div className="flex flex-col">
-              <p className="font-medium">
-                Day After Brunch? <span className="text-red-600">*</span>
-              </p>
-              <p className="text-sm">
-                Casual morning brunch the day after the wedding for close
-                friends and family at the{' '}
-                <OpenInExternalLink
-                  title="Archer Hotel"
-                  url="https://www.archerhotel.com/redmond"
-                />{' '}
-                in Redmond, WA on June 19, 2026 at 10:00AM PDT.
-              </p>
-            </div>
-            <RadioGroup
-              name="inviteeAttendingBrunch"
-              value={attendingBrunch}
-              onChange={setAttendingBrunch}
-              required
-            />
-          </div>
-        )}
-
-        <div>
-          <label
-            className="block mb-1 font-medium"
-            htmlFor="dietaryRestrictions-invitee"
-          >
-            Dietary Restrictions or Comments
-          </label>
-          <input
-            type="text"
-            value={dietNotes}
-            id="dietaryRestrictions-invitee"
-            onChange={e => setDietNotes(e.target.value)}
-            placeholder="e.g. Vegetarian, Gluten-free…"
-            className="w-full p-2 border rounded bg-white focus:outline-none focus:ring"
-          />
-        </div>
-      </fieldset>
+      <PersonFieldset
+        person={{
+          name: data.invitee.name,
+          attendingCeremony,
+          attendingReception,
+          attendingBrunch,
+          dietaryRestrictions: dietNotes,
+          foodOption,
+          contactInfo,
+          isNameEditable: false,
+          allowedToAttendBrunch: !!data.invitee.allowedToAttendBrunch,
+        }}
+        onPersonChange={{
+          attendingCeremony: setAttendingCeremony,
+          attendingReception: setAttendingReception,
+          attendingBrunch: setAttendingBrunch,
+          dietaryRestrictions: setDietNotes,
+          foodOption: setFoodOption,
+          contactInfo: setContactInfo,
+          name: () => {}, // Invitee name is not editable
+        }}
+        personType="invitee"
+      />
 
       {/* Only render guest sections if there are guests */}
       {guestResponses.length > 0 &&
         guestResponses.map((resp, idx) => (
-          <fieldset
+          <PersonFieldset
             key={idx}
-            className="space-y-4 border bg-[#e6e8df] p-4 rounded shadow"
-          >
-            <legend className="sr-only font-medium m-0">Guest {idx + 1}</legend>
-            <div>
-              {resp.isNameEditable ? (
-                <Fragment>
-                  <label
-                    htmlFor={`guestName-${idx}`}
-                    className="block mb-1 font-medium"
-                  >
-                    Guest {idx + 1} Full Name{' '}
-                    <span className="text-red-600">*</span>
-                  </label>
-                  <input
-                    id={`guestName-${idx}`}
-                    type="text"
-                    value={resp.name ?? ''}
-                    onChange={e =>
-                      handleGuestChange(idx, 'name', e.target.value)
-                    }
-                    placeholder={`Guest ${idx + 1} Full Name`}
-                    required={
-                      resp.attendingCeremony === true ||
-                      resp.attendingReception === true ||
-                      resp.attendingBrunch === true
-                    }
-                    className="w-full p-2 border rounded bg-white focus:outline-none focus:ring"
-                  />
-                </Fragment>
-              ) : (
-                <p className="text-xl font-bold break-all m-0">{resp.name}</p>
-              )}
-              <p className="text-lg m-0">Will they be attending the...</p>
-            </div>
-
-            <div className="grid sm:grid-cols-2 items-center gap-2">
-              <p className="font-medium">
-                Ceremony? <span className="text-red-600">*</span>
-              </p>
-              <RadioGroup
-                name={`guestAttendingCeremony-${idx}`}
-                value={resp.attendingCeremony}
-                onChange={v => handleGuestChange(idx, 'attendingCeremony', v)}
-                required
-              />
-            </div>
-
-            <div className="grid sm:grid-cols-2 items-center gap-2">
-              <p className="font-medium">
-                Reception? <span className="text-red-600">*</span>
-              </p>
-              <RadioGroup
-                name={`guestAttendingReception-${idx}`}
-                value={resp.attendingReception}
-                onChange={v => handleGuestChange(idx, 'attendingReception', v)}
-                required
-              />
-            </div>
-
-            {/* Guest food options - only show if attending reception */}
-            {resp.attendingReception === true && (
-              <div className="space-y-4 p-4 bg-[#e6e8df] rounded ">
-                <div>
-                  <p className="font-medium text-lg">
-                    Dinner Selection <span className="text-red-600">*</span>
-                  </p>
-                  <p className="text-sm  mb-4">
-                    Please select their preferred dinner option for the
-                    reception.
-                  </p>
-                </div>
-
-                <div className="space-y-3">
-                  {FOOD_OPTIONS.map(option => (
-                    <label
-                      key={option.id}
-                      className="flex items-start space-x-3 p-3  rounded cursor-pointer hover:bg-gray-100 focus-within:ring-2 focus-within:ring-stone-500 selected:ring-2 checked:ring-2"
-                    >
-                      <input
-                        type="radio"
-                        name={`guestFoodOption-${idx}`}
-                        value={option.id}
-                        checked={resp.foodOption === option.id}
-                        onChange={e =>
-                          handleGuestChange(
-                            idx,
-                            'foodOption',
-                            e.target.value as FoodOptionId,
-                          )
-                        }
-                        className="sr-only peer"
-                        required
-                      />
-                      <span className="w-5 h-5 flex-shrink-0 border rounded-full border-black peer-checked:-stone-600 peer-checked:bg-stone-600 transition mt-1" />
-                      <div className="flex-1">
-                        <div className="font-medium">{option.name}</div>
-                        <div className="text-sm ">{option.description}</div>
-                      </div>
-                    </label>
-                  ))}
-                </div>
-
-                {/* Guest contact info field - only show if "I don't know" is selected */}
-                {resp.foodOption === 'unknown' && (
-                  <div className="mt-4">
-                    <label
-                      className="block mb-1 font-medium"
-                      htmlFor={`contactInfo-${idx}`}
-                    >
-                      Phone or Email <span className="text-red-600">*</span>
-                    </label>
-                    <input
-                      type="text"
-                      id={`contactInfo-${idx}`}
-                      value={resp.contactInfo ?? ''}
-                      onChange={e =>
-                        handleGuestChange(idx, 'contactInfo', e.target.value)
-                      }
-                      placeholder="Phone number or email address"
-                      className="w-full p-2 border rounded bg-white focus:outline-none focus:ring"
-                      required
-                    />
-                    <p className="text-sm  mt-1">
-                      We'll reach out to discuss their dinner options. If we are
-                      unable to connect, the Chicken Entrée will be selected by
-                      default.
-                    </p>
-                  </div>
-                )}
-              </div>
-            )}
-
-            {resp.allowedToAttendBrunch && (
-              <div className="grid sm:grid-cols-2 items-center gap-2">
-                <div className="flex flex-col">
-                  <p className="font-medium">
-                    Day After Brunch? <span className="text-red-600">*</span>
-                  </p>
-                  <p className="text-sm">
-                    Casual morning brunch the day after the wedding for close
-                    friends and family at the{' '}
-                    <OpenInExternalLink
-                      title="Archer Hotel"
-                      url="https://www.archerhotel.com/redmond"
-                    />{' '}
-                    in Redmond, WA on June 19, 2026 at 10:00AM PDT.
-                  </p>
-                </div>
-                <RadioGroup
-                  name={`guestAttendingBrunch-${idx}`}
-                  value={resp.attendingBrunch}
-                  onChange={v => handleGuestChange(idx, 'attendingBrunch', v)}
-                  required
-                />
-              </div>
-            )}
-
-            <div>
-              <label
-                className="block mb-1 font-medium"
-                htmlFor={`dietaryRestrictions-${idx}`}
-              >
-                Dietary Restrictions or Comments
-              </label>
-              <input
-                id={`dietaryRestrictions-${idx}`}
-                type="text"
-                value={resp.dietaryRestrictions ?? ''}
-                onChange={e =>
-                  handleGuestChange(idx, 'dietaryRestrictions', e.target.value)
-                }
-                placeholder="e.g. Vegetarian, Gluten-free…"
-                className="w-full p-2 border rounded bg-white focus:outline-none focus:ring"
-              />
-            </div>
-          </fieldset>
+            person={{
+              name: resp.name,
+              attendingCeremony: resp.attendingCeremony,
+              attendingReception: resp.attendingReception,
+              attendingBrunch: resp.attendingBrunch,
+              dietaryRestrictions: resp.dietaryRestrictions ?? '',
+              foodOption: (() => {
+                const option = resp.foodOption ?? null;
+                return isValidFoodOption(option) ? option : null;
+              })(),
+              contactInfo: resp.contactInfo ?? '',
+              isNameEditable: resp.isNameEditable,
+              allowedToAttendBrunch: resp.allowedToAttendBrunch,
+            }}
+            onPersonChange={{
+              attendingCeremony: value =>
+                handleGuestChange(idx, 'attendingCeremony', value),
+              attendingReception: value =>
+                handleGuestChange(idx, 'attendingReception', value),
+              attendingBrunch: value =>
+                handleGuestChange(idx, 'attendingBrunch', value),
+              dietaryRestrictions: value =>
+                handleGuestChange(idx, 'dietaryRestrictions', value),
+              foodOption: value => handleGuestChange(idx, 'foodOption', value),
+              contactInfo: value =>
+                handleGuestChange(idx, 'contactInfo', value),
+              name: value => handleGuestChange(idx, 'name', value),
+            }}
+            personType="guest"
+            guestNumber={idx + 1}
+          />
         ))}
 
       {errorMessage && (
