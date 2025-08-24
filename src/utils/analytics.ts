@@ -103,9 +103,3 @@ export const trackRsvpSaveSuccess = (): void => {
     logEvent(analytics, 'rsvp_form_save_success');
   }
 };
-
-export const trackRsvpSaveSuccessNoOp = (): void => {
-  if (analytics) {
-    logEvent(analytics, 'rsvp_form_save_success_no_op');
-  }
-};

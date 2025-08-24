@@ -5,14 +5,7 @@ import {
   type DocumentSnapshot,
   type UpdateData,
 } from 'firebase/firestore';
-import {
-  Fragment,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-  type FormEvent,
-} from 'react';
+import { Fragment, useEffect, useMemo, useState, type FormEvent } from 'react';
 import { db } from '../../firebase/firebase.service';
 import type { IGuest, IRSVPDoc } from '../../firebase/IRSVPDoc';
 import {
@@ -20,7 +13,6 @@ import {
   trackRsvpFormSubmit,
   trackRsvpSaveError,
   trackRsvpSaveSuccess,
-  trackRsvpSaveSuccessNoOp,
 } from '../../utils/analytics';
 import {
   FOOD_OPTIONS,
@@ -62,42 +54,28 @@ export function RsvpForm({ snapshot }: RsvpFormProps) {
     });
   }, [data.guests]);
 
-  // 1) Keep originals in refs
-  const inviteeFoodOption = data.invitee.foodOption ?? null;
-  const initialInviteeRef = useRef({
-    attendingCeremony: data.invitee.attendingCeremony ?? null,
-    attendingReception: data.invitee.attendingReception ?? null,
-    attendingBrunch: data.invitee.attendingBrunch ?? null,
-    dietaryRestrictions: data.invitee.dietaryRestrictions ?? '',
-    foodOption: isValidFoodOption(inviteeFoodOption) ? inviteeFoodOption : null,
-    contactInfo: data.invitee.contactInfo ?? '',
-  });
-  const initialGuestsRef = useRef<IGuest[]>(normalizedGuests);
-
-  // 2) Local state - guests is now always an array
+  // Local state - initialize directly from data
   const [attendingCeremony, setAttendingCeremony] = useState<boolean | null>(
-    initialInviteeRef.current.attendingCeremony,
+    data.invitee.attendingCeremony ?? null,
   );
   const [attendingReception, setAttendingReception] = useState<boolean | null>(
-    initialInviteeRef.current.attendingReception,
+    data.invitee.attendingReception ?? null,
   );
   const [attendingBrunch, setAttendingBrunch] = useState<boolean | null>(
-    initialInviteeRef.current.attendingBrunch,
+    data.invitee.attendingBrunch ?? null,
   );
   const [dietNotes, setDietNotes] = useState<string>(
-    initialInviteeRef.current.dietaryRestrictions,
+    data.invitee.dietaryRestrictions ?? '',
   );
-  const [foodOption, setFoodOption] = useState<FoodOptionId | null>(
-    isValidFoodOption(initialInviteeRef.current.foodOption)
-      ? initialInviteeRef.current.foodOption
-      : null,
-  );
+  const [foodOption, setFoodOption] = useState<FoodOptionId | null>(() => {
+    const option = data.invitee.foodOption ?? null;
+    return isValidFoodOption(option) ? option : null;
+  });
   const [contactInfo, setContactInfo] = useState<string>(
-    initialInviteeRef.current.contactInfo,
+    data.invitee.contactInfo ?? '',
   );
-  const [guestResponses, setGuestResponses] = useState<IGuest[]>(
-    initialGuestsRef.current,
-  );
+  const [guestResponses, setGuestResponses] =
+    useState<IGuest[]>(normalizedGuests);
   const [isSaving, setIsSaving] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [successFlag, setSuccessFlag] = useState(false);
@@ -106,7 +84,7 @@ export function RsvpForm({ snapshot }: RsvpFormProps) {
     trackRsvpFormLoaded();
   }, []);
 
-  // 3) Dates, formatter, button text, deadline flag
+  // Date formatting and button text
   const { deadlineDate, lastModifiedDate, formatter, saveButtonText } =
     useMemo(() => {
       const deadlineDate = data.rsvpDeadline.toDate();
@@ -123,31 +101,6 @@ export function RsvpForm({ snapshot }: RsvpFormProps) {
         saveButtonText,
       };
     }, [data.rsvpDeadline, data.lastModified]);
-
-  // 4) Compute "dirty" - now safe with guaranteed arrays
-  const origInvitee = initialInviteeRef.current;
-  const origGuests = initialGuestsRef.current;
-  const isDirty =
-    attendingCeremony !== origInvitee.attendingCeremony ||
-    attendingReception !== origInvitee.attendingReception ||
-    attendingBrunch !== origInvitee.attendingBrunch ||
-    dietNotes !== origInvitee.dietaryRestrictions ||
-    foodOption !== origInvitee.foodOption ||
-    contactInfo !== origInvitee.contactInfo ||
-    guestResponses.length !== origGuests.length ||
-    guestResponses.some((cur, i) => {
-      const orig = origGuests[i];
-      if (!orig) return true; // Safety check - if original guest missing, consider dirty
-      return (
-        cur.name !== orig.name ||
-        cur.attendingCeremony !== orig.attendingCeremony ||
-        cur.attendingReception !== orig.attendingReception ||
-        cur.attendingBrunch !== orig.attendingBrunch ||
-        cur.dietaryRestrictions !== orig.dietaryRestrictions ||
-        cur.foodOption !== orig.foodOption ||
-        cur.contactInfo !== orig.contactInfo
-      );
-    });
 
   function handleGuestChange<K extends keyof IGuest>(
     idx: number,
@@ -266,25 +219,8 @@ export function RsvpForm({ snapshot }: RsvpFormProps) {
 
     setIsSaving(true);
     try {
-      if (!isDirty) {
-        setSuccessFlag(true);
-        trackRsvpSaveSuccessNoOp();
-        return;
-      }
-
       const ref = doc(db, 'rsvp', snapshot.id);
       await updateDoc(ref, makePayload());
-
-      // 5) Reset "original" refs to the just-saved values
-      initialInviteeRef.current = {
-        attendingCeremony,
-        attendingReception,
-        attendingBrunch,
-        dietaryRestrictions: dietNotes,
-        foodOption,
-        contactInfo,
-      };
-      initialGuestsRef.current = [...guestResponses]; // Create new array reference
 
       setSuccessFlag(true);
       trackRsvpSaveSuccess();
