@@ -14,6 +14,7 @@ import {
   trackRsvpSaveError,
   trackRsvpSaveSuccess,
 } from '../../utils/analytics';
+import { OpenInExternalLink } from '../OpenInExternalLink';
 import {
   FOOD_OPTIONS,
   isValidFoodOption,
@@ -283,7 +284,7 @@ export function RsvpForm({ snapshot }: RsvpFormProps) {
         </p>
       </div>
 
-      <fieldset className="space-y-4 bg-[#e6e8df] p-4 rounded shadow">
+      <fieldset className="space-y-4 border bg-[#e6e8df] p-4 rounded shadow">
         <legend className="sr-only font-medium m-0">Your Response</legend>
         <div>
           <p className="text-xl font-bold break-all m-0">{data.invitee.name}</p>
@@ -366,12 +367,13 @@ export function RsvpForm({ snapshot }: RsvpFormProps) {
                   value={contactInfo}
                   onChange={e => setContactInfo(e.target.value)}
                   placeholder="Phone number or email address"
-                  className="w-full p-2 border  rounded focus:outline-none focus:ring"
+                  className="w-full p-2 border bg-white rounded focus:outline-none focus:ring"
                   required
                 />
                 <p className="text-sm  mt-1">
-                  We'll contact you to discuss dietary preferences and food
-                  options.
+                  We'll reach out to discuss your dinner options. If we are
+                  unable to connect, the Chicken Entrée will be selected by
+                  default.
                 </p>
               </div>
             )}
@@ -385,9 +387,13 @@ export function RsvpForm({ snapshot }: RsvpFormProps) {
                 Day After Brunch? <span className="text-red-600">*</span>
               </p>
               <p className="text-sm">
-                Casual morning gathering the day after the wedding for close
-                friends and family at the Archer Hotel in Redmond, WA on June
-                19, 2026 at 10:00AM PDT.
+                Casual morning brunch the day after the wedding for close
+                friends and family at the{' '}
+                <OpenInExternalLink
+                  title="Archer Hotel"
+                  url="https://www.archerhotel.com/redmond"
+                />{' '}
+                in Redmond, WA on June 19, 2026 at 10:00AM PDT.
               </p>
             </div>
             <RadioGroup
@@ -412,7 +418,7 @@ export function RsvpForm({ snapshot }: RsvpFormProps) {
             id="dietaryRestrictions-invitee"
             onChange={e => setDietNotes(e.target.value)}
             placeholder="e.g. Vegetarian, Gluten-free…"
-            className="w-full p-2 border rounded focus:outline-none focus:ring"
+            className="w-full p-2 border rounded bg-white focus:outline-none focus:ring"
           />
         </div>
       </fieldset>
@@ -422,7 +428,7 @@ export function RsvpForm({ snapshot }: RsvpFormProps) {
         guestResponses.map((resp, idx) => (
           <fieldset
             key={idx}
-            className="space-y-4 bg-[#e6e8df] p-4 rounded shadow"
+            className="space-y-4 border bg-[#e6e8df] p-4 rounded shadow"
           >
             <legend className="sr-only font-medium m-0">Guest {idx + 1}</legend>
             <div>
@@ -448,7 +454,7 @@ export function RsvpForm({ snapshot }: RsvpFormProps) {
                       resp.attendingReception === true ||
                       resp.attendingBrunch === true
                     }
-                    className="w-full p-2 border rounded focus:outline-none focus:ring"
+                    className="w-full p-2 border rounded bg-white focus:outline-none focus:ring"
                   />
                 </Fragment>
               ) : (
@@ -483,7 +489,7 @@ export function RsvpForm({ snapshot }: RsvpFormProps) {
 
             {/* Guest food options - only show if attending reception */}
             {resp.attendingReception === true && (
-              <div className="space-y-4 p-4 bg-gray-50 rounded ">
+              <div className="space-y-4 p-4 bg-[#e6e8df] rounded ">
                 <div>
                   <p className="font-medium text-lg">
                     Dinner Selection <span className="text-red-600">*</span>
@@ -541,12 +547,13 @@ export function RsvpForm({ snapshot }: RsvpFormProps) {
                         handleGuestChange(idx, 'contactInfo', e.target.value)
                       }
                       placeholder="Phone number or email address"
-                      className="w-full p-2 border rounded focus:outline-none focus:ring"
+                      className="w-full p-2 border rounded bg-white focus:outline-none focus:ring"
                       required
                     />
                     <p className="text-sm  mt-1">
-                      We'll contact you to discuss their dietary preferences and
-                      food options.
+                      We'll reach out to discuss their dinner options. If we are
+                      unable to connect, the Chicken Entrée will be selected by
+                      default.
                     </p>
                   </div>
                 )}
@@ -560,9 +567,13 @@ export function RsvpForm({ snapshot }: RsvpFormProps) {
                     Day After Brunch? <span className="text-red-600">*</span>
                   </p>
                   <p className="text-sm">
-                    Casual morning gathering the day after the wedding for close
-                    friends and family at the Archer Hotel in Redmond, WA on
-                    June 19, 2026 at 10:00AM PDT.
+                    Casual morning brunch the day after the wedding for close
+                    friends and family at the{' '}
+                    <OpenInExternalLink
+                      title="Archer Hotel"
+                      url="https://www.archerhotel.com/redmond"
+                    />{' '}
+                    in Redmond, WA on June 19, 2026 at 10:00AM PDT.
                   </p>
                 </div>
                 <RadioGroup
@@ -589,7 +600,7 @@ export function RsvpForm({ snapshot }: RsvpFormProps) {
                   handleGuestChange(idx, 'dietaryRestrictions', e.target.value)
                 }
                 placeholder="e.g. Vegetarian, Gluten-free…"
-                className="w-full p-2 border rounded focus:outline-none focus:ring"
+                className="w-full p-2 border rounded bg-white focus:outline-none focus:ring"
               />
             </div>
           </fieldset>

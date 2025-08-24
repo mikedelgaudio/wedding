@@ -30,7 +30,7 @@ export function OpenInExternalLink({
       href={googleMapsUrl ?? url}
       target="_blank"
       rel="noopener noreferrer"
-      className="text-blue-600 underline hover:no-underline"
+      className="text-black underline hover:no-underline"
     >
       {title}
     </a>
