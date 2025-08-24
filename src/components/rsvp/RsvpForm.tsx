@@ -104,13 +104,27 @@ export function RsvpForm({ snapshot }: RsvpFormProps) {
       };
     }, [data.rsvpDeadline, data.lastModified]);
 
+  /**
+   * Updates a specific field for a guest at the given index.
+   * Uses TypeScript generics to ensure type safety between field name and value.
+   *
+   * @param idx - Index of the guest in the guestResponses array
+   * @param field - The field name to update (e.g., 'attendingCeremony', 'foodOption')
+   * @param value - The new value for the field (type-checked against the field)
+   */
   function handleGuestChange<K extends keyof IGuest>(
     idx: number,
     field: K,
     value: IGuest[K],
   ) {
+    // Immutably update the guest array - replace only the guest at the target index
     setGuestResponses(prev =>
-      prev.map((g, i) => (i === idx ? { ...g, [field]: value } : g)),
+      prev.map(
+        (guest, index) =>
+          index === idx
+            ? { ...guest, [field]: value } // Spread existing guest data, override the specific field
+            : guest, // Keep other guests unchanged
+      ),
     );
   }
 
@@ -187,7 +201,7 @@ export function RsvpForm({ snapshot }: RsvpFormProps) {
         firebaseError.message,
       );
       setErrorMessage(
-        'An error occurred while saving your RSVP. Please try again or contact us.',
+        'An error occurred while saving your RSVP. Please refresh the page and try again or contact us.',
       );
     } finally {
       setIsSaving(false);
@@ -204,7 +218,7 @@ export function RsvpForm({ snapshot }: RsvpFormProps) {
       className="space-y-6"
       aria-describedby={errorMessage ? 'form-error' : undefined}
     >
-      <div className="space-y-2 bg-[#78805e] shadow text-white p-6 rounded">
+      <div className="space-y-2 bg-flax-smoke-500 shadow text-white p-6 rounded">
         <h2 className="text-4xl font-semibold m-0 break-all">
           {data.invitee.name}{' '}
           {guestResponses.length > 0 ? (

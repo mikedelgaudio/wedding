@@ -16,7 +16,7 @@ export function Home(): JSX.Element {
         <AutoScrollCarousel />
         <div
           className="shadow-[inset_1px_26px_21px_0px_rgba(0,0,0,0.09)]
- w-full grid grid-cols-1 gap-6 md:justify-items-center py-20 md:py-30 px-2 bg-[#78805e] text-white"
+ w-full grid grid-cols-1 gap-6 md:justify-items-center py-20 md:py-30 px-2 bg-flax-smoke-500 text-white"
         >
           <div className="flex items-center justify-center flex-col">
             <AnimatedElement

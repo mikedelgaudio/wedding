@@ -1,1 +1,0 @@
-1. Focus box is being cut off in nav bar

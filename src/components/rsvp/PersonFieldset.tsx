@@ -55,7 +55,7 @@ export function PersonFieldset({
       person.attendingBrunch === true);
 
   return (
-    <fieldset className="space-y-4 border bg-[#e6e8df] p-4 rounded shadow">
+    <fieldset className="space-y-4 border bg-flax-smoke-100 p-4 rounded shadow">
       <legend className="sr-only font-medium m-0">{legendText}</legend>
       <div>
         {person.isNameEditable ? (
@@ -124,8 +124,10 @@ export function PersonFieldset({
             {FOOD_OPTIONS.map(option => (
               <label
                 key={option.id}
-                className={`flex items-start space-x-3 p-3 rounded cursor-pointer hover:bg-[#d1d4c2] focus-within:ring-2 ring-stone-500 ${
-                  person.foodOption === option.id ? 'ring-2 bg-[#d1d4c2]' : ''
+                className={`flex items-start space-x-3 p-3 rounded cursor-pointer hover:bg-flax-smoke-200 focus-within:ring-2 ring-stone-500 ${
+                  person.foodOption === option.id
+                    ? 'ring-2 bg-flax-smoke-200'
+                    : ''
                 }`}
               >
                 <input

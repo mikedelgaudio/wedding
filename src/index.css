@@ -13,7 +13,6 @@ body {
   font-family: 'EB Garamond', serif;
 }
 
-/* Scrollbar hiding utilities */
 .scrollbar-hide {
   -ms-overflow-style: none;
   scrollbar-width: none;
@@ -21,4 +20,18 @@ body {
 
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
+}
+
+@theme {
+  --color-flax-smoke-50: #f4f5f0;
+  --color-flax-smoke-100: #e6e8df;
+  --color-flax-smoke-200: #d1d4c2;
+  --color-flax-smoke-300: #b3b99d;
+  --color-flax-smoke-400: #979e7d;
+  --color-flax-smoke-500: #78805e;
+  --color-flax-smoke-600: #5e664a;
+  --color-flax-smoke-700: #4a503b;
+  --color-flax-smoke-800: #3e4232;
+  --color-flax-smoke-900: #36392e;
+  --color-flax-smoke-950: #1b1d16;
 }
