@@ -13,8 +13,8 @@ import {
   useState,
   type FormEvent,
 } from 'react';
-import type { IGuest, IRSVPDoc } from '../../firebase/IRSVPDoc';
 import { db } from '../../firebase/firebase.service';
+import type { IGuest, IRSVPDoc } from '../../firebase/IRSVPDoc';
 import {
   trackRsvpFormLoaded,
   trackRsvpFormSubmit,
@@ -22,6 +22,11 @@ import {
   trackRsvpSaveSuccess,
   trackRsvpSaveSuccessNoOp,
 } from '../../utils/analytics';
+import {
+  FOOD_OPTIONS,
+  isValidFoodOption,
+  type FoodOptionId,
+} from './foodOptions';
 import { RadioGroup } from './RadioGroup';
 import { SuccessScreen } from './SuccessScreen';
 
@@ -41,23 +46,31 @@ export function RsvpForm({ snapshot }: RsvpFormProps) {
     ) {
       return [];
     }
-    return data.guests.map(g => ({
-      name: g.name ?? '',
-      attendingCeremony: g.attendingCeremony ?? null,
-      attendingReception: g.attendingReception ?? null,
-      attendingBrunch: g.attendingBrunch ?? null,
-      allowedToAttendBrunch: g.allowedToAttendBrunch ?? false,
-      dietaryRestrictions: g.dietaryRestrictions ?? '',
-      isNameEditable: g.isNameEditable ?? false,
-    }));
+    return data.guests.map(g => {
+      const foodOption = g.foodOption ?? null;
+      return {
+        name: g.name ?? '',
+        attendingCeremony: g.attendingCeremony ?? null,
+        attendingReception: g.attendingReception ?? null,
+        attendingBrunch: g.attendingBrunch ?? null,
+        allowedToAttendBrunch: g.allowedToAttendBrunch ?? false,
+        dietaryRestrictions: g.dietaryRestrictions ?? '',
+        isNameEditable: g.isNameEditable ?? false,
+        foodOption: isValidFoodOption(foodOption) ? foodOption : null,
+        contactInfo: g.contactInfo ?? '',
+      };
+    });
   }, [data.guests]);
 
   // 1) Keep originals in refs
+  const inviteeFoodOption = data.invitee.foodOption ?? null;
   const initialInviteeRef = useRef({
     attendingCeremony: data.invitee.attendingCeremony ?? null,
     attendingReception: data.invitee.attendingReception ?? null,
     attendingBrunch: data.invitee.attendingBrunch ?? null,
     dietaryRestrictions: data.invitee.dietaryRestrictions ?? '',
+    foodOption: isValidFoodOption(inviteeFoodOption) ? inviteeFoodOption : null,
+    contactInfo: data.invitee.contactInfo ?? '',
   });
   const initialGuestsRef = useRef<IGuest[]>(normalizedGuests);
 
@@ -73,6 +86,14 @@ export function RsvpForm({ snapshot }: RsvpFormProps) {
   );
   const [dietNotes, setDietNotes] = useState<string>(
     initialInviteeRef.current.dietaryRestrictions,
+  );
+  const [foodOption, setFoodOption] = useState<FoodOptionId | null>(
+    isValidFoodOption(initialInviteeRef.current.foodOption)
+      ? initialInviteeRef.current.foodOption
+      : null,
+  );
+  const [contactInfo, setContactInfo] = useState<string>(
+    initialInviteeRef.current.contactInfo,
   );
   const [guestResponses, setGuestResponses] = useState<IGuest[]>(
     initialGuestsRef.current,
@@ -111,6 +132,8 @@ export function RsvpForm({ snapshot }: RsvpFormProps) {
     attendingReception !== origInvitee.attendingReception ||
     attendingBrunch !== origInvitee.attendingBrunch ||
     dietNotes !== origInvitee.dietaryRestrictions ||
+    foodOption !== origInvitee.foodOption ||
+    contactInfo !== origInvitee.contactInfo ||
     guestResponses.length !== origGuests.length ||
     guestResponses.some((cur, i) => {
       const orig = origGuests[i];
@@ -120,7 +143,9 @@ export function RsvpForm({ snapshot }: RsvpFormProps) {
         cur.attendingCeremony !== orig.attendingCeremony ||
         cur.attendingReception !== orig.attendingReception ||
         cur.attendingBrunch !== orig.attendingBrunch ||
-        cur.dietaryRestrictions !== orig.dietaryRestrictions
+        cur.dietaryRestrictions !== orig.dietaryRestrictions ||
+        cur.foodOption !== orig.foodOption ||
+        cur.contactInfo !== orig.contactInfo
       );
     });
 
@@ -141,6 +166,12 @@ export function RsvpForm({ snapshot }: RsvpFormProps) {
     if (attendingReception == null) {
       return 'Please select Yes or No for reception attendance.';
     }
+    if (attendingReception === true && !foodOption) {
+      return 'Please select a food option for the reception dinner.';
+    }
+    if (foodOption === 'unknown' && !contactInfo.trim()) {
+      return 'Please provide your phone number or email so we can contact you about food options.';
+    }
     if (data.invitee.allowedToAttendBrunch && attendingBrunch == null) {
       return 'Please select Yes or No for brunch attendance.';
     }
@@ -160,6 +191,16 @@ export function RsvpForm({ snapshot }: RsvpFormProps) {
           return `Please select Yes or No for Guest ${
             i + 1
           } reception attendance.`;
+        }
+        if (g.attendingReception === true && !g.foodOption) {
+          return `Please select a food option for Guest ${
+            i + 1
+          } reception dinner.`;
+        }
+        if (g.foodOption === 'unknown' && !g.contactInfo?.trim()) {
+          return `Please provide contact info for Guest ${
+            i + 1
+          } so we can discuss food options.`;
         }
         if (g.allowedToAttendBrunch && g.attendingBrunch == null) {
           return `Please select Yes or No for Guest ${
@@ -185,6 +226,8 @@ export function RsvpForm({ snapshot }: RsvpFormProps) {
         attendingReception,
         attendingBrunch,
         dietaryRestrictions: dietNotes || null,
+        foodOption: attendingReception ? foodOption : null,
+        contactInfo: (foodOption === 'unknown' ? contactInfo : '') || null,
       },
       lastModified: serverTimestamp(),
     };
@@ -200,6 +243,8 @@ export function RsvpForm({ snapshot }: RsvpFormProps) {
         attendingBrunch: g.attendingBrunch,
         dietaryRestrictions: g.dietaryRestrictions || null,
         isNameEditable: g.isNameEditable,
+        foodOption: g.attendingReception ? g.foodOption : null,
+        contactInfo: (g.foodOption === 'unknown' ? g.contactInfo : '') || null,
       }));
     } else {
       payload.guests = [];
@@ -236,6 +281,8 @@ export function RsvpForm({ snapshot }: RsvpFormProps) {
         attendingReception,
         attendingBrunch,
         dietaryRestrictions: dietNotes,
+        foodOption,
+        contactInfo,
       };
       initialGuestsRef.current = [...guestResponses]; // Create new array reference
 
@@ -243,7 +290,6 @@ export function RsvpForm({ snapshot }: RsvpFormProps) {
       trackRsvpSaveSuccess();
     } catch (err) {
       const firebaseError = err as { code?: string; message?: string };
-      console.log(err);
       trackRsvpSaveError(
         'firebase_error',
         firebaseError.code,
@@ -267,8 +313,8 @@ export function RsvpForm({ snapshot }: RsvpFormProps) {
       className="space-y-6"
       aria-describedby={errorMessage ? 'form-error' : undefined}
     >
-      <div className="space-y-2 bg-black text-white p-6 rounded">
-        <h2 className="text-3xl font-semibold m-0 break-all">
+      <div className="space-y-2 bg-[#78805e] shadow text-white p-6 rounded">
+        <h2 className="text-4xl font-semibold m-0 break-all">
           {data.invitee.name}{' '}
           {guestResponses.length > 0 ? (
             <span className="text-lg">
@@ -278,19 +324,19 @@ export function RsvpForm({ snapshot }: RsvpFormProps) {
           ) : null}
         </h2>
         {lastModifiedDate ? (
-          <p>
+          <p className="text-xl">
             Your RSVP was last modified on{' '}
             <strong>{formatter.format(lastModifiedDate)}</strong>.
           </p>
         ) : (
-          <p>
+          <p className="text-xl">
             Please respond by <strong>{formatter.format(deadlineDate)}</strong>.
           </p>
         )}
         <p>
-          We hope to celebrate with you! Due to venue capacity, we've planned
-          for the guests listed on each invitation. If you have any questions
-          about your RSVP, please reach out to us at{' '}
+          All plus-one guests are indicated on this RSVP or shared directly with
+          other guests. If you have any questions about your RSVP, please reach
+          out to us at{' '}
           <a
             className="underline hover:no-underline"
             href="mailto:wedding@delgaudio.dev"
@@ -301,8 +347,8 @@ export function RsvpForm({ snapshot }: RsvpFormProps) {
         </p>
       </div>
 
-      <fieldset className="space-y-4 border p-4 rounded">
-        <legend className="font-medium m-0">Your Response</legend>
+      <fieldset className="space-y-4 bg-[#e6e8df] p-4 rounded shadow">
+        <legend className="sr-only font-medium m-0">Your Response</legend>
         <div>
           <p className="text-xl font-bold break-all m-0">{data.invitee.name}</p>
           <p className="text-lg m-0">Will you be attending the...</p>
@@ -330,6 +376,71 @@ export function RsvpForm({ snapshot }: RsvpFormProps) {
             required
           />
         </div>
+
+        {attendingReception === true && (
+          <div className="space-y-4 p-4">
+            <div>
+              <p className="font-medium text-lg">
+                Dinner Selection <span className="text-red-600">*</span>
+              </p>
+              <p className="text-sm mb-4">
+                Please select your preferred dinner option for the reception.
+              </p>
+            </div>
+
+            <div className="space-y-3">
+              {FOOD_OPTIONS.map(option => (
+                <label
+                  key={option.id}
+                  className={`flex items-start space-x-3 p-3  rounded cursor-pointer hover:bg-[#d1d4c2] focus-within:ring-2 ring-stone-500 ${
+                    foodOption === option.id ? 'ring-2' : ''
+                  }`}
+                >
+                  <input
+                    type="radio"
+                    name="inviteeFoodOption"
+                    value={option.id}
+                    checked={foodOption === option.id}
+                    onChange={e =>
+                      setFoodOption(e.target.value as FoodOptionId)
+                    }
+                    className="sr-only peer"
+                    required
+                  />
+                  <span className="w-5 h-5 flex-shrink-0 border rounded-full border-black peer-checked:-stone-600 peer-checked:bg-stone-600 transition mt-1" />
+                  <div className="flex-1">
+                    <div className="font-medium">{option.name}</div>
+                    <div className="text-sm ">{option.description}</div>
+                  </div>
+                </label>
+              ))}
+            </div>
+
+            {foodOption === 'unknown' && (
+              <div className="mt-4">
+                <label
+                  className="block mb-1 font-medium"
+                  htmlFor="contactInfo-invitee"
+                >
+                  Phone or Email <span className="text-red-600">*</span>
+                </label>
+                <input
+                  type="text"
+                  id="contactInfo-invitee"
+                  value={contactInfo}
+                  onChange={e => setContactInfo(e.target.value)}
+                  placeholder="Phone number or email address"
+                  className="w-full p-2 border  rounded focus:outline-none focus:ring"
+                  required
+                />
+                <p className="text-sm  mt-1">
+                  We'll contact you to discuss dietary preferences and food
+                  options.
+                </p>
+              </div>
+            )}
+          </div>
+        )}
 
         {data.invitee.allowedToAttendBrunch && (
           <div className="grid sm:grid-cols-2 items-center gap-2">
@@ -373,8 +484,11 @@ export function RsvpForm({ snapshot }: RsvpFormProps) {
       {/* Only render guest sections if there are guests */}
       {guestResponses.length > 0 &&
         guestResponses.map((resp, idx) => (
-          <fieldset key={idx} className="space-y-4 border p-4 rounded">
-            <legend className="font-medium m-0">Guest {idx + 1}</legend>
+          <fieldset
+            key={idx}
+            className="space-y-4 bg-[#e6e8df] p-4 rounded shadow"
+          >
+            <legend className="sr-only font-medium m-0">Guest {idx + 1}</legend>
             <div>
               {resp.isNameEditable ? (
                 <Fragment>
@@ -430,6 +544,78 @@ export function RsvpForm({ snapshot }: RsvpFormProps) {
                 required
               />
             </div>
+
+            {/* Guest food options - only show if attending reception */}
+            {resp.attendingReception === true && (
+              <div className="space-y-4 p-4 bg-gray-50 rounded ">
+                <div>
+                  <p className="font-medium text-lg">
+                    Dinner Selection <span className="text-red-600">*</span>
+                  </p>
+                  <p className="text-sm  mb-4">
+                    Please select their preferred dinner option for the
+                    reception.
+                  </p>
+                </div>
+
+                <div className="space-y-3">
+                  {FOOD_OPTIONS.map(option => (
+                    <label
+                      key={option.id}
+                      className="flex items-start space-x-3 p-3  rounded cursor-pointer hover:bg-gray-100 focus-within:ring-2 focus-within:ring-stone-500 selected:ring-2 checked:ring-2"
+                    >
+                      <input
+                        type="radio"
+                        name={`guestFoodOption-${idx}`}
+                        value={option.id}
+                        checked={resp.foodOption === option.id}
+                        onChange={e =>
+                          handleGuestChange(
+                            idx,
+                            'foodOption',
+                            e.target.value as FoodOptionId,
+                          )
+                        }
+                        className="sr-only peer"
+                        required
+                      />
+                      <span className="w-5 h-5 flex-shrink-0 border rounded-full border-black peer-checked:-stone-600 peer-checked:bg-stone-600 transition mt-1" />
+                      <div className="flex-1">
+                        <div className="font-medium">{option.name}</div>
+                        <div className="text-sm ">{option.description}</div>
+                      </div>
+                    </label>
+                  ))}
+                </div>
+
+                {/* Guest contact info field - only show if "I don't know" is selected */}
+                {resp.foodOption === 'unknown' && (
+                  <div className="mt-4">
+                    <label
+                      className="block mb-1 font-medium"
+                      htmlFor={`contactInfo-${idx}`}
+                    >
+                      Phone or Email <span className="text-red-600">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      id={`contactInfo-${idx}`}
+                      value={resp.contactInfo ?? ''}
+                      onChange={e =>
+                        handleGuestChange(idx, 'contactInfo', e.target.value)
+                      }
+                      placeholder="Phone number or email address"
+                      className="w-full p-2 border rounded focus:outline-none focus:ring"
+                      required
+                    />
+                    <p className="text-sm  mt-1">
+                      We'll contact you to discuss their dietary preferences and
+                      food options.
+                    </p>
+                  </div>
+                )}
+              </div>
+            )}
 
             {resp.allowedToAttendBrunch && (
               <div className="grid sm:grid-cols-2 items-center gap-2">

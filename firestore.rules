@@ -49,7 +49,9 @@ function validateRsvp(data) {
          'attendingCeremony',
          'attendingReception',
          'attendingBrunch',
-         'dietaryRestrictions'
+         'dietaryRestrictions',
+         'foodOption',
+         'contactInfo'
        ])
     && data.invitee.name is string
     && data.invitee.name.size() > 0
@@ -61,6 +63,17 @@ function validateRsvp(data) {
          || (
            data.invitee.dietaryRestrictions is string
            && data.invitee.dietaryRestrictions.size() <= 200
+         )
+       )
+    && (
+         data.invitee.foodOption == null
+         || data.invitee.foodOption in ['option1', 'option2', 'option3', 'option4', 'unknown']
+       )
+    && (
+         data.invitee.contactInfo == null
+         || (
+           data.invitee.contactInfo is string
+           && data.invitee.contactInfo.size() <= 200
          )
        )
 

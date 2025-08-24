@@ -13,23 +13,6 @@ body {
   font-family: 'EB Garamond', serif;
 }
 
-@keyframes slide-fade-in {
-  from {
-    opacity: 0;
-    transform: translateY(5vh);
-  }
-}
-
-main :is(h2, p, img) {
-  @media (prefers-reduced-motion: no-preference) {
-    @supports (animation-timeline: view()) {
-      animation: slide-fade-in linear both;
-      animation-timeline: view();
-      animation-range: entry-crossing 50% entry-crossing calc(50% + 100px);
-    }
-  }
-}
-
 /* Scrollbar hiding utilities */
 .scrollbar-hide {
   -ms-overflow-style: none;

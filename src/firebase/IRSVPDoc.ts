@@ -10,11 +10,11 @@ interface IAttending {
 export interface IInvitee extends IAttending {
   name: string;
   dietaryRestrictions: string | null;
+  foodOption?: string | null;
+  contactInfo?: string | null;
 }
 
-export interface IGuest extends IAttending {
-  name: string | null;
-  dietaryRestrictions: string | null;
+export interface IGuest extends IInvitee {
   isNameEditable: boolean;
 }
 

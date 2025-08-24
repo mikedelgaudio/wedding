@@ -28,7 +28,7 @@ export function RadioGroup({
       {options.map(({ label, value: v }) => (
         <label
           key={label}
-          className="flex whitespace-nowrap items-center cursor-pointer m-0 focus-within:outline focus-within:outline-gray-950 focus-within:outline-offset-6"
+          className="flex whitespace-nowrap items-center cursor-pointer m-0 focus-within:ring-2 ring-stone-500 focus-within:outline-offset-6"
         >
           <input
             type="radio"
@@ -43,7 +43,7 @@ export function RadioGroup({
           <span
             className="
               w-5 h-5 flex-shrink-0 border-2 rounded-full 
-              border-gray-300 peer-checked:border-stone-600 
+              border-black peer-checked:border-stone-600 
               peer-checked:bg-stone-600 peer-disabled:border-gray-200 
               peer-disabled:bg-gray-100 transition
             "

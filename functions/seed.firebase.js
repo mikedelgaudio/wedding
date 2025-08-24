@@ -140,6 +140,8 @@ async function seed() {
         attendingReception: null,
         attendingBrunch: null,
         allowedToAttendBrunch: invitation.allowedToAttendBrunch,
+        foodOption: null,
+        contactInfo: null,
       },
       guests:
         invitation.guests && invitation.guests.length > 0
@@ -151,6 +153,8 @@ async function seed() {
               attendingBrunch: null,
               allowedToAttendBrunch: guest.allowedToAttendBrunch ?? false,
               isNameEditable: guest.name ? false : true, // If no name provided, make it editable
+              foodOption: null,
+              contactInfo: null,
             }))
           : [],
       inviteCode: invitation.inviteCode,

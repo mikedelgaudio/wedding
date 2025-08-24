@@ -35,6 +35,8 @@ async function exportRSVPToCSV(outputFileName = 'rsvp-export.csv') {
       'Attending Brunch',
       'Allowed Brunch',
       'Dietary Restrictions',
+      'Food Option',
+      'Contact Info',
       'Invite Code',
       'Leader',
       'When RSVPd',
@@ -71,6 +73,8 @@ async function exportRSVPToCSV(outputFileName = 'rsvp-export.csv') {
           ? data.invitee.allowedToAttendBrunch
           : false,
         'Dietary Restrictions': data.invitee?.dietaryRestrictions || '',
+        'Food Option': data.invitee?.foodOption || '',
+        'Contact Info': data.invitee?.contactInfo || '',
         'Invite Code': inviteCode,
         Leader: leader,
         'When RSVPd': whenRsvpd,
@@ -94,6 +98,8 @@ async function exportRSVPToCSV(outputFileName = 'rsvp-export.csv') {
               ? guest.allowedToAttendBrunch
               : false,
             'Dietary Restrictions': guest.dietaryRestrictions || '',
+            'Food Option': guest.foodOption || '',
+            'Contact Info': guest.contactInfo || '',
             'Invite Code': inviteCode,
             Leader: leader,
             'When RSVPd': whenRsvpd,

@@ -87,6 +87,8 @@ async function generateRSVPInvitations(invitationsData, rsvpDeadline) {
           attendingReception: null,
           attendingBrunch: null,
           allowedToAttendBrunch: invitation.allowedToAttendBrunch ?? false,
+          foodOption: null,
+          contactInfo: null,
         },
         guests:
           invitation.guests && invitation.guests.length > 0
@@ -98,6 +100,8 @@ async function generateRSVPInvitations(invitationsData, rsvpDeadline) {
                 attendingBrunch: null,
                 allowedToAttendBrunch: guest.allowedToAttendBrunch ?? false,
                 isNameEditable: guest.name ? false : true, // If no name provided, make it editable
+                foodOption: null,
+                contactInfo: null,
               }))
             : [],
         inviteCode,

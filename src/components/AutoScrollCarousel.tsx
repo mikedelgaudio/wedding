@@ -298,23 +298,6 @@ export function AutoScrollCarousel() {
       className="w-full h-[calc(100vh-72px)] md:h-[calc(100vh-172px)] flex flex-col relative"
     >
       <div className="flex-1 relative overflow-hidden">
-        <span
-          className="text-7xl sm:text-9xl text-white opacity-95 absolute top-1/2 left-1/2 z-10 whitespace-nowrap pointer-events-none"
-          style={{
-            transform: 'translate(-50%, -50%)',
-            willChange: 'transform',
-          }}
-        >
-          <span>L </span>
-          <span
-            className="text-6xl md:text-9xl"
-            style={{ fontFamily: 'Tangerine' }}
-          >
-            &
-          </span>{' '}
-          <span>M</span>
-        </span>
-
         <div
           ref={scrollRef}
           className="h-[calc(100vh-72px)] md:h-[calc(100vh-172px)] overflow-x-scroll overflow-y-hidden"
