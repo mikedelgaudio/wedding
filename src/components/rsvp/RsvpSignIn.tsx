@@ -136,7 +136,7 @@ export function RsvpSignIn({ onSuccess }: RsvpSignInProps) {
           value={code}
           onChange={e => setCode(e.target.value)}
           placeholder="Example: XXXX-XXXX"
-          className="w-full p-2 border rounded focus:outline-none focus:ring mb-2"
+          className="w-full p-2 border rounded bg-white focus:outline-none focus:ring mb-2"
           aria-invalid={!!error}
           aria-describedby={error ? 'rsvp-error' : undefined}
         />

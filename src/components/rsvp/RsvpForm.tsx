@@ -218,7 +218,7 @@ export function RsvpForm({ snapshot }: RsvpFormProps) {
       className="space-y-6"
       aria-describedby={errorMessage ? 'form-error' : undefined}
     >
-      <div className="space-y-2 bg-flax-smoke-500 shadow text-white p-6 rounded">
+      <div className="space-y-2 bg-flax-smoke-700 shadow text-white p-6 rounded">
         <h2 className="text-4xl font-semibold m-0 break-all">
           {data.invitee.name}{' '}
           {guestResponses.length > 0 ? (

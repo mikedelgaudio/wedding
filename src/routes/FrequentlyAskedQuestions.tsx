@@ -41,17 +41,22 @@ const faqData: FAQItem[] = [
     question: 'Can I bring a plus one?',
     answer: (
       <>
-        Due to venue capacity, we're only able to invite a specific number of
-        guests. If you have a plus-one, it will be clearly indicated on your{' '}
+        All plus-one guests are indicated on your{' '}
         <Link
           className="underline hover:no-underline focus-visible:border focus-visible:border-gray-950 focus:outline-none focus-visible:rounded-lg"
           to="/rsvp"
         >
           RSVP form
-        </Link>
-        . We know it can be disappointing not to bring someone special, and we
-        truly appreciate your understanding as we work to accommodate everyone
-        comfortably.
+        </Link>{' '}
+        or shared directly with other guests. If you have any questions, please
+        email us at{' '}
+        <a
+          className="underline hover:no-underline focus-visible:border focus-visible:border-gray-950 focus:outline-none focus-visible:rounded-lg"
+          href="mailto:wedding@delgaudio.dev"
+        >
+          wedding@delgaudio.dev
+        </a>
+        .
       </>
     ),
   },
