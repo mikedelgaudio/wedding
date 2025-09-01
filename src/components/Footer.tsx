@@ -2,7 +2,7 @@ import type { JSX } from 'react';
 
 export function Footer(): JSX.Element {
   return (
-    <footer className="bg-flax-smoke-500 text-white py-4">
+    <footer className="bg-flax-smoke-700 text-white py-4">
       <div className="flex flex-col items-center justify-center">
         <svg
           xmlns="http://www.w3.org/2000/svg"
