@@ -153,11 +153,11 @@ const faqData: FAQItem[] = [
     question: 'Is there a hotel block for guests?',
     answer: (
       <>
-        Since our guests will be arriving at different times—and many are either
-        staying in Downtown Redmond, where there are plenty of nearby hotel
-        options, or extending their trip to explore more of Seattle—we do not
-        have a hotel block at this time. That said, there are lots of great
-        places to stay in the area! We encourage you to use the{' '}
+        We've secured a hotel block at the Archer Hotel in Downtown Redmond! We
+        highly recommend booking early, as space is limited. If the hotel block
+        is full, don't worry - there are plenty of excellent accommodations
+        throughout the area. For our complete recommendations and helpful
+        booking links, please visit the{' '}
         <Link
           className="underline hover:no-underline focus-visible:border focus-visible:border-gray-950 focus:outline-none focus-visible:rounded-lg"
           to="/travel"
@@ -183,7 +183,7 @@ const faqData: FAQItem[] = [
         >
           voucher@delgaudio.dev
         </a>{' '}
-        to be added to the voucher pool.
+        to ensure you get notified!
       </>
     ),
   },
@@ -205,7 +205,7 @@ export function FrequentlyAskedQuestions(): JSX.Element {
   return (
     <AppWithHeader>
       <PageWrapper pageTitle="Frequently Asked Questions">
-        <p>
+        <p className="text-xl">
           If your question isn't here, please email us at{' '}
           <a
             className="underline hover:no-underline focus-visible:border focus-visible:border-gray-950 focus:outline-none focus-visible:rounded-lg"

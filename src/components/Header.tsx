@@ -31,7 +31,7 @@ export function Header(): JSX.Element {
 
   return (
     <div className="relative z-50">
-      <header className="flex items-center w-full px-6 md:pt-6 md:pb-4 py-4 max-w-5xl mx-auto z-50 bg-[#faf4f1] fixed top-0 left-0 md:relative">
+      <header className="flex items-center w-full px-6 md:pt-6 md:pb-4 py-4 max-w-5xl mx-auto z-50 bg-fantasy-50 fixed top-0 left-0 md:relative">
         <button
           className="md:hidden cursor-pointer md:invisible flex flex-col justify-center items-center w-10 h-10 space-y-1.5 focus-visible:outline focus-visible:outline-gray-950 focus-visible:outline-offset-6"
           onClick={toggleMenu}
@@ -54,14 +54,7 @@ export function Header(): JSX.Element {
 
         <div className="flex justify-center w-full flex-wrap">
           <Link
-            className="md:flex hidden focus-visible:outline focus-visible:outline-gray-950 text-6xl w-full justify-center"
-            style={{ fontFamily: 'Tangerine' }}
-            to="/"
-          >
-            Lynh & Michael
-          </Link>
-          <Link
-            className="md:hidden flex focus-visible:outline focus-visible:outline-gray-950  text-4xl w-full justify-center"
+            className="flex font-bold focus-visible:outline focus-visible:outline-gray-950 md:text-6xl text-4xl w-full justify-center"
             style={{ fontFamily: 'Tangerine' }}
             to="/"
           >
@@ -80,14 +73,13 @@ export function Header(): JSX.Element {
         }`}
       >
         <nav
-          className={`w-full overflow-hidden transition-transform transform origin-top duration-500 ease-in-out ${
+          className={`w-full bg-fantasy-50 overflow-hidden transition-transform transform origin-top duration-500 ease-in-out ${
             menuOpen ? 'scale-y-100' : 'scale-y-0'
           } flex flex-col items-center justify-start gap-10 pb-6`}
           style={{
             transformOrigin: 'top',
             transform: `translateY(${menuOpen ? '0' : '-100%'})`, // Ensures smooth roll-up animation
             transition: 'transform 0.5s ease-in-out',
-            backgroundColor: '#faf4f1', // TODO - You shouldn't be using hex colors, use tailwind classes instead
           }}
           onClick={e => e.stopPropagation()}
         >

@@ -23,6 +23,17 @@ body {
 }
 
 @theme {
+  --color-fantasy-50: #faf4f1;
+  --color-fantasy-100: #f4e7e0;
+  --color-fantasy-200: #e8ccc0;
+  --color-fantasy-300: #d9ab98;
+  --color-fantasy-400: #c9836e;
+  --color-fantasy-500: #bd6652;
+  --color-fantasy-600: #b05246;
+  --color-fantasy-700: #92423c;
+  --color-fantasy-800: #763836;
+  --color-fantasy-900: #60302e;
+  --color-fantasy-950: #331717;
   --color-flax-smoke-50: #f4f5f0;
   --color-flax-smoke-100: #e6e8df;
   --color-flax-smoke-200: #d1d4c2;

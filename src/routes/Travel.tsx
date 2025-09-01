@@ -20,7 +20,7 @@ export function Travel(): JSX.Element {
   return (
     <AppWithHeader>
       <PageWrapper pageTitle="Travel">
-        <div className="flex flex-col gap-4 text-lg">
+        <div className="flex flex-col gap-4 text-xl">
           <p>
             We are excited to welcome you to the Pacific Northwest for our
             wedding! We have lived in Redmond for over 3 years and are happy to
@@ -51,7 +51,7 @@ export function Travel(): JSX.Element {
               <p>
                 We understand that many of you will be traveling from out of
                 town and thank you for considering making the trip to celebrate
-                with us. We want to make your journey as smooth as possible.
+                with us.
               </p>
               <ul className="list-disc pl-6 text-lg">
                 <li>
@@ -66,9 +66,9 @@ export function Travel(): JSX.Element {
                   cost a premium and makes it less practical than renting a car.
                 </li>
                 <li>
-                  There are several accommodation options in Redmond, Seattle,
-                  and neighboring cities (Bellevue, Kirkland, Woodinville), and
-                  it all depends on your preferences.
+                  There are plentiful accommodation options in Redmond and
+                  neighboring cities (Bellevue, Kirkland, Woodinville), and it
+                  all depends on your preferences.
                 </li>
               </ul>
             </>
@@ -83,11 +83,36 @@ export function Travel(): JSX.Element {
             <>
               <p>
                 We have compiled a list of recommended accommodations in the
-                Redmond and Seattle area. Some of these options are located in
-                Downtown Redmond, which is closer to the wedding venue, while
-                others are in Seattle, which is about a 30 minute drive from
-                Redmond not accounting for traffic.
+                Downtown Redmond area. These options are the easiest to access
+                for the wedding festivities.
               </p>
+              <div className="p-4 mt-2 bg-blue-100 rounded-xl flex gap-4">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="800"
+                  height="800"
+                  className="w-12 h-auto"
+                  fill="none"
+                  viewBox="-0.5 0 25 25"
+                >
+                  <path
+                    stroke="#000"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="1.5"
+                    d="M12 21.5A9.25 9.25 0 1 0 12 3a9.25 9.25 0 0 0 0 18.5Z"
+                  />
+                  <path
+                    fill="#000"
+                    d="M12.93 8.15a.92.92 0 0 1-.93.9.9.9 0 1 1 .93-.9Zm-1.64 8.38v-5.38a.7.7 0 0 1 .71-.72.689.689 0 0 1 .69.72v5.38a.701.701 0 0 1-1.4 0Z"
+                  />
+                </svg>{' '}
+                <p>
+                  Note: Seattle is hosting the 2026 FIFA World Cup matches
+                  between June 15 and July 8, 2026. We recommend purchasing your
+                  travel accommodations as early as possible.
+                </p>
+              </div>
 
               <h3 className="text-xl font-bold mt-4">Redmond Accommodations</h3>
               <p>
@@ -105,7 +130,7 @@ export function Travel(): JSX.Element {
               </p>
               <ul className="list-disc pl-6 text-lg">
                 <li>
-                  <strong>Marriott Residence Inn Seattle East/Redmond: </strong>
+                  <strong>Marriott Residence Inn Redmond: </strong>
                   This is the hotel that we both stayed for 3 months when we
                   were interns. It offers spacious suites with kitchenettes (hot
                   plates and fridge), complimentary breakfast, and is located
@@ -116,6 +141,29 @@ export function Travel(): JSX.Element {
                   in Downtown Redmond, offering modern amenities and easy access
                   to local attractions. Mike's parents actually stayed here and
                   loved it!
+                  <div className="p-4 mt-2 bg-blue-100 rounded-xl flex gap-4">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="800"
+                      height="800"
+                      className="w-12 h-auto"
+                      fill="none"
+                      viewBox="-0.5 0 25 25"
+                    >
+                      <path
+                        stroke="#000"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="1.5"
+                        d="M12 21.5A9.25 9.25 0 1 0 12 3a9.25 9.25 0 0 0 0 18.5Z"
+                      />
+                      <path
+                        fill="#000"
+                        d="M12.93 8.15a.92.92 0 0 1-.93.9.9.9 0 1 1 .93-.9Zm-1.64 8.38v-5.38a.7.7 0 0 1 .71-.72.689.689 0 0 1 .69.72v5.38a.701.701 0 0 1-1.4 0Z"
+                      />
+                    </svg>{' '}
+                    <p>We have a hotel block at Archer hotel</p>
+                  </div>
                 </li>
                 <li>
                   <strong>Airbnb Options:</strong> There are many Airbnb options
@@ -124,19 +172,6 @@ export function Travel(): JSX.Element {
                   suit your needs.
                 </li>
               </ul>
-              <h3 className="text-xl font-bold mt-4">Seattle Accommodations</h3>
-              <p>
-                If you prefer to stay in Seattle for tourist attractions and
-                some great food, we recommend looking for hotels in the downtown
-                area or near Fremont. This will give you easy access to the
-                city's attractions and restaurants.
-              </p>
-              <p className="mt-2">
-                Please note that Seattle is about a 30 minute drive to Redmond,
-                not accounting for traffic. Traffic varies throughout the day
-                and peaks during typical rush hours.
-              </p>
-
               <h3 className="text-xl font-bold mt-4">
                 Other neighboring cities to consider
               </h3>
@@ -146,7 +181,7 @@ export function Travel(): JSX.Element {
                 close to Redmond and offer a variety of accommodations and
                 dining options.
               </p>
-              <p>
+              <p className="mt-2">
                 Bellevue is known for its upscale shopping and dining, while
                 Kirkland offers a charming waterfront area with parks and
                 restaurants. Woodinville is famous for its wineries and

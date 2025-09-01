@@ -14,9 +14,6 @@ export function OurStoryCore(): JSX.Element {
         rootMargin="100px"
         style={{ fontFamily: '"Tangerine", serif' }}
       >
-        <h2 className="text-8xl md:text-[13rem] leading-none text-center pb-4">
-          Our Story
-        </h2>
         <ResponsiveFigure
           src={`${CDN_URL}/public-hero.jpg`}
           alt=""

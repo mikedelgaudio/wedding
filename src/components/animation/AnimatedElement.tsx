@@ -28,7 +28,7 @@ export const AnimatedElement = forwardRef<HTMLElement, AnimatedElementProps>(
       delay = 0,
       duration = 600,
       threshold,
-      rootMargin,
+      rootMargin = '50px',
       triggerOnce,
       animationType = 'fade-up',
       style,
