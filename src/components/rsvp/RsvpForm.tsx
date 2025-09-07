@@ -149,7 +149,10 @@ export function RsvpForm({ snapshot }: RsvpFormProps) {
         attendingBrunch,
         dietaryRestrictions: dietNotes || null,
         foodOption: attendingReception ? foodOption : null,
-        contactInfo: (foodOption === 'unknown' ? contactInfo : '') || null,
+        contactInfo:
+          attendingCeremony || attendingReception || attendingBrunch
+            ? contactInfo || null
+            : null,
       },
       lastModified: serverTimestamp(),
     };
@@ -166,7 +169,10 @@ export function RsvpForm({ snapshot }: RsvpFormProps) {
         dietaryRestrictions: g.dietaryRestrictions || null,
         isNameEditable: g.isNameEditable,
         foodOption: g.attendingReception ? g.foodOption : null,
-        contactInfo: (g.foodOption === 'unknown' ? g.contactInfo : '') || null,
+        contactInfo:
+          g.attendingCeremony || g.attendingReception || g.attendingBrunch
+            ? g.contactInfo || null
+            : null,
       }));
     } else {
       payload.guests = [];
@@ -219,7 +225,7 @@ export function RsvpForm({ snapshot }: RsvpFormProps) {
       aria-describedby={errorMessage ? 'form-error' : undefined}
     >
       <div className="space-y-2 bg-flax-smoke-700 shadow text-white p-6 rounded">
-        <h2 className="text-4xl font-semibold m-0 break-all">
+        <h2 className="text-4xl font-semibold m-0 break-all flex items-baseline gap-0.5 flex-wrap mb-2">
           {data.invitee.name}{' '}
           {guestResponses.length > 0 ? (
             <span className="text-lg">
@@ -239,9 +245,9 @@ export function RsvpForm({ snapshot }: RsvpFormProps) {
           </p>
         )}
         <p>
-          All plus-one guests are indicated on this RSVP or shared directly with
-          other guests. If you have any questions about your RSVP, please reach
-          out to us at{' '}
+          All additional guests are indicated on this RSVP or shared directly
+          with other guests. If you have any questions about your RSVP, please
+          reach out to us at{' '}
           <a
             className="underline hover:no-underline"
             href="mailto:wedding@delgaudio.dev"

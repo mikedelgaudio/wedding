@@ -29,7 +29,21 @@ export function validateRsvpForm({
   if (attendingReception === true && !foodOption) {
     return 'Please select a food option for the reception dinner.';
   }
-  if (foodOption === 'unknown' && !contactInfo.trim()) {
+
+  // Check contact info requirements for invitee
+  const inviteeAttendingAnyEvent =
+    attendingCeremony === true ||
+    attendingReception === true ||
+    attendingBrunch === true;
+
+  if (inviteeAttendingAnyEvent && !contactInfo.trim()) {
+    return 'Please provide your phone number or email address.';
+  }
+  if (
+    attendingReception === true &&
+    foodOption === 'unknown' &&
+    !contactInfo.trim()
+  ) {
     return 'Please provide your phone number or email so we can contact you about food options.';
   }
   if (inviteeAllowedToAttendBrunch && attendingBrunch == null) {
@@ -57,7 +71,13 @@ export function validateRsvpForm({
           i + 1
         } reception dinner.`;
       }
-      if (g.foodOption === 'unknown' && !g.contactInfo?.trim()) {
+
+      // Only require contact info for guests when they select 'unknown' food option
+      if (
+        g.attendingReception === true &&
+        g.foodOption === 'unknown' &&
+        !g.contactInfo?.trim()
+      ) {
         return `Please provide contact info for Guest ${
           i + 1
         } so we can discuss food options.`;

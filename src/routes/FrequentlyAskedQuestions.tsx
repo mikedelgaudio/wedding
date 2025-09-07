@@ -141,7 +141,19 @@ const faqData: FAQItem[] = [
     ),
   },
   {
-    question: 'Where is the closest airport if I’m flying in?',
+    question: 'What will the weather be like?',
+    answer: (
+      <>
+        Welcome to the Pacific Northwest! In the early summer, you can expect
+        mild temperatures, typically ranging from the mid-70s to 60s °F.
+        However, it's always a good idea to check the forecast closer to the
+        date, as weather can be unpredictable. We recommend dressing in layers
+        and being prepared for both sun and clouds.
+      </>
+    ),
+  },
+  {
+    question: "Where is the closest airport if I'm flying in?",
     answer: (
       <>
         The closest airport is Seattle-Tacoma International Airport (SEA),

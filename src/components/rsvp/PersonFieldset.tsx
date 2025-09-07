@@ -55,7 +55,7 @@ export function PersonFieldset({
       person.attendingBrunch === true);
 
   return (
-    <fieldset className="space-y-4 border bg-flax-smoke-100 p-4 rounded shadow">
+    <fieldset className="space-y-4 border p-4 rounded shadow-xl">
       <legend className="sr-only font-medium m-0">{legendText}</legend>
       <div>
         {person.isNameEditable ? (
@@ -64,7 +64,8 @@ export function PersonFieldset({
               htmlFor={`${fieldPrefix}-name`}
               className="block mb-1 font-medium"
             >
-              {displayName} Full Name <span className="text-red-600">*</span>
+              {displayName} Full Name{' '}
+              {shouldRequireFields && <span className="text-red-600">*</span>}
             </label>
             <input
               id={`${fieldPrefix}-name`}
@@ -109,7 +110,7 @@ export function PersonFieldset({
       </div>
 
       {person.attendingReception === true && (
-        <div className="space-y-4 p-4">
+        <div className="space-y-4">
           <div>
             <p className="font-medium text-lg">
               Dinner Selection <span className="text-red-600">*</span>
@@ -124,9 +125,9 @@ export function PersonFieldset({
             {FOOD_OPTIONS.map(option => (
               <label
                 key={option.id}
-                className={`flex items-start space-x-3 p-3 rounded cursor-pointer hover:bg-flax-smoke-200 focus-within:ring-2 ring-stone-500 ${
+                className={`flex items-start space-x-3 p-3 rounded cursor-pointer hover:bg-flax-smoke-100 focus-within:ring-2 ring-stone-500 ${
                   person.foodOption === option.id
-                    ? 'ring-2 bg-flax-smoke-200'
+                    ? 'ring-2 bg-flax-smoke-100'
                     : ''
                 }`}
               >
@@ -152,32 +153,6 @@ export function PersonFieldset({
               </label>
             ))}
           </div>
-
-          {person.foodOption === 'unknown' && (
-            <div className="mt-4">
-              <label
-                className="block mb-1 font-medium"
-                htmlFor={`${fieldPrefix}-contactInfo`}
-              >
-                Phone or Email <span className="text-red-600">*</span>
-              </label>
-              <input
-                type="text"
-                id={`${fieldPrefix}-contactInfo`}
-                value={person.contactInfo}
-                onChange={e => onPersonChange.contactInfo(e.target.value)}
-                placeholder="Phone number or email address"
-                className="w-full p-2 border bg-white rounded focus:outline-none focus:ring"
-                required
-              />
-              <p className="text-sm mt-1">
-                We'll reach out to discuss{' '}
-                {personType === 'invitee' ? 'your' : 'their'} dinner options. If
-                we are unable to connect, the Chicken Entrée will be selected by
-                default.
-              </p>
-            </div>
-          )}
         </div>
       )}
 
@@ -187,7 +162,7 @@ export function PersonFieldset({
             <p className="font-medium">
               Day After Brunch? <span className="text-red-600">*</span>
             </p>
-            <p className="text-sm">
+            <p className="text-sm max-w-[34ch]">
               Casual morning brunch the day after the wedding for close friends
               and family at the{' '}
               <OpenInExternalLink
@@ -203,6 +178,47 @@ export function PersonFieldset({
             onChange={onPersonChange.attendingBrunch}
             required
           />
+        </div>
+      )}
+
+      {(person.attendingReception === true ||
+        person.attendingCeremony === true ||
+        person.attendingBrunch === true) && (
+        <div className="mt-4">
+          <label
+            className="block mb-1 font-medium"
+            htmlFor={`${fieldPrefix}-contactInfo`}
+          >
+            Phone or Email{' '}
+            {(personType === 'invitee' || person.foodOption === 'unknown') && (
+              <span className="text-red-600">*</span>
+            )}
+          </label>
+          <input
+            type="text"
+            id={`${fieldPrefix}-contactInfo`}
+            value={person.contactInfo}
+            onChange={e => onPersonChange.contactInfo(e.target.value)}
+            placeholder="Phone number or email address"
+            className="w-full p-2 border bg-white rounded focus:outline-none focus:ring"
+            required={
+              personType === 'invitee' || person.foodOption === 'unknown'
+            }
+          />
+          {person.foodOption === 'unknown' ? (
+            <p className="text-sm mt-1">
+              We'll reach out to discuss{' '}
+              {personType === 'invitee' ? 'your' : 'their'} dinner options. If
+              we are unable to connect, the Chicken Entrée will be selected by
+              default.
+            </p>
+          ) : (
+            <p className="text-sm mt-1">
+              Please provide{' '}
+              {personType === 'invitee' ? 'required' : 'optional'} contact
+              information for any wedding updates and questions.
+            </p>
+          )}
         </div>
       )}
 

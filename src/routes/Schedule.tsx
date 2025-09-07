@@ -7,8 +7,8 @@ export function Schedule() {
     <AppWithHeader>
       <PageWrapper pageTitle="Schedule">
         <p className="text-xl">
-          We're so excited to celebrate with you! Below you'll find all the
-          details you need to plan your day with us.
+          We can't wait to celebrate with you! Below you'll find all the details
+          to help you plan your day with us.
         </p>
         <ScheduleCore />
       </PageWrapper>

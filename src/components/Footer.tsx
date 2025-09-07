@@ -2,24 +2,23 @@ import type { JSX } from 'react';
 
 export function Footer(): JSX.Element {
   return (
-    <footer className="bg-flax-smoke-700 text-white py-4">
-      <div className="flex flex-col items-center justify-center">
+    <footer className="bg-flax-smoke-700 text-white py-2">
+      <p className="flex items-center justify-center gap-2 text-xs">
+        &copy; {new Date().getFullYear()} Lynh and Michael{' '}
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
+          width="800"
+          height="800"
           fill="none"
-          className="text-xs"
+          viewBox="0 0 16 16"
+          className="h-3 w-3"
         >
           <path
             fill="#fff"
-            d="m12.82 5.58-.82.822-.824-.824a5.375 5.375 0 1 0-7.601 7.602l7.895 7.895a.75.75 0 0 0 1.06 0l7.902-7.897a5.376 5.376 0 0 0-.001-7.599 5.38 5.38 0 0 0-7.611 0Z"
+            d="M1.243 8.243 8 15l6.757-6.757a4.243 4.243 0 0 0 1.243-3v-.19A4.052 4.052 0 0 0 8.783 2.52L8 3.5l-.783-.98A4.052 4.052 0 0 0 0 5.053v.19c0 1.126.447 2.205 1.243 3Z"
           />
-        </svg>{' '}
-        <p className="flex items-center justify-center gap-2">
-          &copy; {new Date().getFullYear()} Lynh and Michael
-        </p>
-      </div>
+        </svg>
+      </p>
     </footer>
   );
 }

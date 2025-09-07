@@ -28,7 +28,9 @@ export function RadioGroup({
       {options.map(({ label, value: v }) => (
         <label
           key={label}
-          className="flex whitespace-nowrap items-center cursor-pointer m-0 focus-within:ring-2 ring-stone-500 focus-within:outline-offset-6"
+          className={`flex whitespace-nowrap items-center cursor-pointer m-0 focus-within:outline-2 outline-stone-500  hover:bg-flax-smoke-100 py-3 px-2 rounded ${
+            value === v ? 'ring-2 bg-flax-smoke-100' : ''
+          }`}
         >
           <input
             type="radio"

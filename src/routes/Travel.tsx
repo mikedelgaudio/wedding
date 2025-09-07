@@ -23,8 +23,9 @@ export function Travel(): JSX.Element {
         <div className="flex flex-col gap-4 text-xl">
           <p>
             We are excited to welcome you to the Pacific Northwest for our
-            wedding! We have lived in Redmond for over 3 years and are happy to
-            share some travel tips and recommendations while you're in the area.
+            wedding! After living in Redmond for over three years, we are
+            delighted to share our favorite travel tips and recommendations to
+            help you make the most of your visit.
           </p>
           <ResponsiveFigure
             src={`${CDN_URL}/redmond.jpg`}
@@ -34,11 +35,11 @@ export function Travel(): JSX.Element {
             loading="eager"
           />
           <p>
-            Redmond is located just east of Seattle and is known for its
-            beautiful parks, access to nature, and accessible food options to
-            Seattle and surrounding cities (Bellevue, Kirkland, Woodinville). We
-            hope that you'd take this opportunity to explore the area while
-            you're here since it is some of the best times of the year to visit!
+            Redmond is just east of Seattle and is known for its beautiful
+            parks, abundant nature, and convenient access to great dining in and
+            around nearby cities such as Bellevue, Kirkland, and Woodinville. We
+            hope you take this opportunity to explore the area while you are
+            here, as this is one of the best times of the year to visit.
           </p>
 
           <AccordionItem
@@ -108,9 +109,8 @@ export function Travel(): JSX.Element {
                   />
                 </svg>{' '}
                 <p>
-                  Note: Seattle is hosting the 2026 FIFA World Cup matches
-                  between June 15 and July 8, 2026. We recommend purchasing your
-                  travel accommodations as early as possible.
+                  We recommend staying in Redmond or neighboring cities such as
+                  Woodinville or Kirkland to avoid traffic during rush hour.
                 </p>
               </div>
 
@@ -141,29 +141,11 @@ export function Travel(): JSX.Element {
                   in Downtown Redmond, offering modern amenities and easy access
                   to local attractions. Mike's parents actually stayed here and
                   loved it!
-                  <div className="p-4 mt-2 bg-blue-100 rounded-xl flex gap-4">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="800"
-                      height="800"
-                      className="w-12 h-auto"
-                      fill="none"
-                      viewBox="-0.5 0 25 25"
-                    >
-                      <path
-                        stroke="#000"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="1.5"
-                        d="M12 21.5A9.25 9.25 0 1 0 12 3a9.25 9.25 0 0 0 0 18.5Z"
-                      />
-                      <path
-                        fill="#000"
-                        d="M12.93 8.15a.92.92 0 0 1-.93.9.9.9 0 1 1 .93-.9Zm-1.64 8.38v-5.38a.7.7 0 0 1 .71-.72.689.689 0 0 1 .69.72v5.38a.701.701 0 0 1-1.4 0Z"
-                      />
-                    </svg>{' '}
-                    <p>We have a hotel block at Archer hotel</p>
-                  </div>
+                </li>
+                <li>
+                  <strong>Seattle Marriott Redmond : </strong>
+                  Another great option neighboring with the Redmond Town Center
+                  and Marriott Residence Inn Redmond hotel.
                 </li>
                 <li>
                   <strong>Airbnb Options:</strong> There are many Airbnb options
@@ -186,9 +168,9 @@ export function Travel(): JSX.Element {
                 Kirkland offers a charming waterfront area with parks and
                 restaurants. Woodinville is famous for its wineries and
                 breweries, making it a great option for those interested in
-                exploring the local beverage scene. Please check out Google Maps
-                and some of the local guides on YouTube for a better
-                visualization of the area.
+                exploring the local beverage scene. Please check Google Maps and
+                some of the local guides on YouTube for a better visualization
+                of the area.
               </p>
             </>
           </AccordionItem>
@@ -401,6 +383,12 @@ export function Travel(): JSX.Element {
                 onToggle={() => toggleSection('Outdoor-attractions')}
               >
                 <ul className="list-disc pl-6  text-md flex flex-col gap-2">
+                  <li>
+                    <strong>2026 FIFA World Cup:</strong> Seattle is hosting a
+                    handful of matches for the 2026 FIFA World Cup! Get ready
+                    for an exciting summer of soccer, with matches taking place
+                    at Lumen Field and other venues throughout the city.
+                  </li>
                   <li>
                     <strong>Leavenworth:</strong> Step into a storybook Bavarian
                     village nestled in the mountains, just two hours from

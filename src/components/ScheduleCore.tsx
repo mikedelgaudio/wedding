@@ -10,6 +10,7 @@ interface IEvent {
   address: string;
   attire: string;
   date: string;
+  mapLink: string;
 }
 
 const ringsSvg = (
@@ -179,7 +180,7 @@ export function ScheduleCore() {
               <p className="text-lg">{event.address}</p>
               <OpenInExternalLink
                 title="View on Google Maps"
-                googleMaps={{ address: event.address }}
+                url={event.mapLink}
               />
               <p className="mt-6">Attire: {event.attire}</p>
             </div>

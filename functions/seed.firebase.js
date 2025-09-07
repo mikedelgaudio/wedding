@@ -20,6 +20,7 @@ async function seed() {
       time: '2:00PM PDT',
       venue: 'Immaculate Church',
       date: 'June 10, 2028',
+      mapLink: 'https://maps.app.goo.gl/gXExcSGPG2F5ewXP7',
     },
     {
       address: '1234 Mickey Mouse Rd, Redmond, WA 98052',
@@ -28,6 +29,7 @@ async function seed() {
       time: '4:00PM - 10:00PM PDT',
       venue: 'Chateau X',
       date: 'June 10, 2028',
+      mapLink: 'https://maps.app.goo.gl/gXExcSGPG2F5ewXP7',
     },
   ];
 
