@@ -30,7 +30,6 @@ interface PersonFieldsetProps {
   };
   personType: 'invitee' | 'guest';
   guestNumber?: number;
-  isRequired?: boolean;
 }
 
 export function PersonFieldset({
@@ -38,7 +37,6 @@ export function PersonFieldset({
   onPersonChange,
   personType,
   guestNumber,
-  isRequired = true,
 }: PersonFieldsetProps) {
   const fieldPrefix =
     personType === 'invitee' ? 'invitee' : `guest-${guestNumber}`;
@@ -49,10 +47,9 @@ export function PersonFieldset({
 
   // Determine if fields should be required based on attendance
   const shouldRequireFields =
-    isRequired &&
-    (person.attendingCeremony === true ||
-      person.attendingReception === true ||
-      person.attendingBrunch === true);
+    person.attendingCeremony === true ||
+    person.attendingReception === true ||
+    person.attendingBrunch === true;
 
   return (
     <fieldset className="space-y-4 border p-4 rounded shadow-xl">
@@ -181,9 +178,7 @@ export function PersonFieldset({
         </div>
       )}
 
-      {(person.attendingReception === true ||
-        person.attendingCeremony === true ||
-        person.attendingBrunch === true) && (
+      {shouldRequireFields && (
         <div className="mt-4">
           <label
             className="block mb-1 font-medium"

@@ -15,21 +15,25 @@ async function seed() {
   const events = [
     {
       address: '1234 18th Ave, Seattle, WA 98122',
-      attire: 'Formal',
+      description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
       header: 'Ceremony',
       time: '2:00PM PDT',
       venue: 'Immaculate Church',
       date: 'June 10, 2028',
       mapLink: 'https://maps.app.goo.gl/gXExcSGPG2F5ewXP7',
+      iframeSrc:
+        'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2683.768194010278!2d-122.13910802392734!3d47.72774797960424!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x54900da16485138b%3A0xf56a0a0e0435c5f7!2sChateau%20Lill%20featuring%20Lill%20Family%20Wines!5e0!3m2!1sen!2sus!4v1757219781288!5m2!1sen!2sus',
     },
     {
       address: '1234 Mickey Mouse Rd, Redmond, WA 98052',
-      attire: 'Formal',
+      description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
       header: 'Reception',
       time: '4:00PM - 10:00PM PDT',
       venue: 'Chateau X',
       date: 'June 10, 2028',
       mapLink: 'https://maps.app.goo.gl/gXExcSGPG2F5ewXP7',
+      iframeSrc:
+        'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2683.768194010278!2d-122.13910802392734!3d47.72774797960424!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x54900da16485138b%3A0xf56a0a0e0435c5f7!2sChateau%20Lill%20featuring%20Lill%20Family%20Wines!5e0!3m2!1sen!2sus!4v1757219781288!5m2!1sen!2sus',
     },
   ];
 

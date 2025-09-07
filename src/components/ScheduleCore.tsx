@@ -8,9 +8,10 @@ interface IEvent {
   header: string;
   venue: string;
   address: string;
-  attire: string;
   date: string;
   mapLink: string;
+  iframeSrc: string;
+  description?: string;
 }
 
 const ringsSvg = (
@@ -45,7 +46,6 @@ const partySvg = (
   </svg>
 );
 
-// Error icon SVG
 const errorSvg = (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -61,6 +61,32 @@ const errorSvg = (
       strokeLinejoin="round"
       strokeWidth="2"
       d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z"
+    />
+  </svg>
+);
+
+const locationSvg = (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="800"
+    height="800"
+    fill="none"
+    viewBox="0 0 24 24"
+    className="h-6 w-6"
+  >
+    <path
+      stroke="#000"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth="2"
+      d="M12 21c3.5-3.6 7-6.824 7-10.8C19 6.224 15.866 3 12 3s-7 3.224-7 7.2 3.5 7.2 7 10.8Z"
+    />
+    <path
+      stroke="#000"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth="2"
+      d="M12 13a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"
     />
   </svg>
 );
@@ -178,11 +204,23 @@ export function ScheduleCore() {
             <div>
               <p className="text-lg">{event.venue}</p>
               <p className="text-lg">{event.address}</p>
-              <OpenInExternalLink
-                title="View on Google Maps"
-                url={event.mapLink}
-              />
-              <p className="mt-6">Attire: {event.attire}</p>
+              {event.description && <p className="my-2">{event.description}</p>}
+              <div className="flex items-center">
+                <OpenInExternalLink
+                  title="View on Google Maps"
+                  url={event.mapLink}
+                />
+                {locationSvg}
+              </div>
+              <iframe
+                src={event.iframeSrc}
+                width="400"
+                height="300"
+                style={{ border: 0 }}
+                className="w-full h-[300px] mt-4"
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+              ></iframe>
             </div>
           </div>
         </div>
