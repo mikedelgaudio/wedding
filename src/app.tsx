@@ -1,6 +1,5 @@
 import { Outlet, Route, Routes } from 'react-router-dom';
 import { EventProvider } from './context/event/EventProvider';
-import { RsvpPolicyProvider } from './context/rsvp-policy/RsvpPolicyProvider';
 import { AuthProvider } from './firebase/auth/AuthProvider';
 import { RequireAuth } from './firebase/auth/RequireAuth';
 import { useScrollToTop } from './hooks/useScrollToTop';
@@ -18,11 +17,9 @@ function ProtectedLayout() {
   useScrollToTop();
   return (
     <EventProvider>
-      <RsvpPolicyProvider>
-        <RequireAuth>
-          <Outlet />
-        </RequireAuth>
-      </RsvpPolicyProvider>
+      <RequireAuth>
+        <Outlet />
+      </RequireAuth>
     </EventProvider>
   );
 }
