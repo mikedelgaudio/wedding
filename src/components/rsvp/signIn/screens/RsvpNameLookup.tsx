@@ -7,18 +7,20 @@ import {
   type DocumentSnapshot,
 } from 'firebase/firestore';
 import { useState, type FormEvent } from 'react';
-import type { IRSVPDoc } from '../../../firebase/IRSVPDoc';
-import { db } from '../../../firebase/firebase.service';
+import type { IRSVPDoc } from '../../../../firebase/IRSVPDoc';
+import { db } from '../../../../firebase/firebase.service';
 import {
   trackRsvpError,
   trackRsvpFormLookupSubmit,
   trackRsvpSuccess,
-} from '../../../utils/analytics';
+} from '../../../../utils/analytics';
 import {
   GENERIC_ERROR_MESSAGE,
   RSVP_DEADLINE_PASSED_ERROR_MESSAGE,
   RSVP_SERVICE_UNAVAILABLE_ERROR_MESSAGE,
-} from '../utils/errorMessages';
+} from '../../utils/errorMessages';
+import { RsvpBackButton } from '../RsvpBackButton';
+import { RsvpHeader } from '../RsvpHeader';
 
 interface NameSearchResult {
   id: string;
@@ -29,7 +31,7 @@ interface NameSearchResult {
 
 interface RsvpNameLookupProps {
   onSuccess: (snap: DocumentSnapshot<IRSVPDoc>) => void;
-  onBack: () => void;
+  onBack?: () => void;
 }
 
 export function RsvpNameLookup({ onSuccess, onBack }: RsvpNameLookupProps) {
@@ -253,15 +255,9 @@ export function RsvpNameLookup({ onSuccess, onBack }: RsvpNameLookupProps) {
 
   return (
     <>
-      <div className="mb-6">
-        <button
-          type="button"
-          onClick={onBack}
-          className="text-stone-600 hover:text-stone-800 focus:outline-none focus:ring underline"
-        >
-          ← Back to sign-in options
-        </button>
-      </div>
+      {onBack && <RsvpBackButton onBack={onBack} />}
+
+      <RsvpHeader />
 
       <p className="text-lg mb-6">
         Search for your invitation by entering your first and last name below.
@@ -313,6 +309,7 @@ export function RsvpNameLookup({ onSuccess, onBack }: RsvpNameLookupProps) {
             </p>
           </div>
         )}
+
         <button
           type="submit"
           disabled={loading}
@@ -321,6 +318,17 @@ export function RsvpNameLookup({ onSuccess, onBack }: RsvpNameLookupProps) {
           {loading ? 'Searching…' : 'Search'}
         </button>
       </form>
+
+      <p className="text-sm">
+        Questions? Email us at{' '}
+        <a
+          className="underline focus:outline-none focus:ring hover:no-underline"
+          href="mailto:wedding@delgaudio.dev"
+        >
+          wedding@delgaudio.dev
+        </a>
+        .
+      </p>
 
       {searchResults.length > 0 && (
         <div className="mt-8">
@@ -355,6 +363,7 @@ export function RsvpNameLookup({ onSuccess, onBack }: RsvpNameLookupProps) {
               </label>
             ))}
           </div>
+
           <button
             type="button"
             onClick={handlePersonSelection}
@@ -365,17 +374,6 @@ export function RsvpNameLookup({ onSuccess, onBack }: RsvpNameLookupProps) {
           </button>
         </div>
       )}
-
-      <p className="text-sm mt-6">
-        Questions? Email us at{' '}
-        <a
-          className="underline focus:outline-none focus:ring hover:no-underline"
-          href="mailto:wedding@delgaudio.dev"
-        >
-          wedding@delgaudio.dev
-        </a>
-        .
-      </p>
     </>
   );
 }

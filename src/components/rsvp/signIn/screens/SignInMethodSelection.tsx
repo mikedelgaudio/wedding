@@ -1,14 +1,16 @@
+import { RsvpHeader } from '../RsvpHeader';
+
 interface SignInMethodSelectionProps {
-  onSelectCode: () => void;
-  onSelectName: () => void;
+  onSelectMethod: (method: 'code' | 'name') => void;
 }
 
 export function SignInMethodSelection({
-  onSelectCode,
-  onSelectName,
+  onSelectMethod,
 }: SignInMethodSelectionProps) {
   return (
     <>
+      <RsvpHeader />
+
       <h2 className="text-xl font-semibold mb-4">
         How would you like to RSVP?
       </h2>
@@ -16,8 +18,8 @@ export function SignInMethodSelection({
       <div className="space-y-4">
         <button
           type="button"
-          onClick={onSelectCode}
-          className="w-full focus:outline-none focus:ring cursor-pointer bg-stone-900 text-white py-3 px-4 rounded hover:bg-stone-700 text-left"
+          onClick={() => onSelectMethod('code')}
+          className="w-full focus:outline-none focus-visible:ring ring-black ring-offset-2 cursor-pointer bg-stone-900 text-white py-3 px-4 rounded hover:bg-stone-700 focus-visible:bg-stone-700 text-left"
         >
           <div className="font-semibold mb-1">RSVP with Code</div>
           <div className="text-sm opacity-90">
@@ -27,8 +29,8 @@ export function SignInMethodSelection({
 
         <button
           type="button"
-          onClick={onSelectName}
-          className="w-full focus:outline-none focus:ring cursor-pointer bg-stone-600 text-white py-3 px-4 rounded hover:bg-stone-500 text-left"
+          onClick={() => onSelectMethod('name')}
+          className="w-full focus:outline-none focus-visible:ring ring-black ring-offset-2 cursor-pointer bg-stone-900 text-white py-3 px-4 rounded hover:bg-stone-700  focus-visible:bg-stone-700 text-left"
         >
           <div className="font-semibold mb-1">RSVP with Name</div>
           <div className="text-sm opacity-90">

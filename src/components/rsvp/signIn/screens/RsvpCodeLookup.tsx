@@ -5,19 +5,21 @@ import {
   type DocumentSnapshot,
 } from 'firebase/firestore';
 import { useState, type FormEvent } from 'react';
-import { db } from '../../../firebase/firebase.service';
-import type { IRSVPDoc } from '../../../firebase/IRSVPDoc';
+import { db } from '../../../../firebase/firebase.service';
+import type { IRSVPDoc } from '../../../../firebase/IRSVPDoc';
 import {
   trackRsvpError,
   trackRsvpFormLookupSubmit,
   trackRsvpSuccess,
-} from '../../../utils/analytics';
-import { CODE_FORMAT } from '../utils/codeFormat';
+} from '../../../../utils/analytics';
+import { CODE_FORMAT } from '../../utils/codeFormat';
 import {
   GENERIC_ERROR_MESSAGE,
   RSVP_DEADLINE_PASSED_ERROR_MESSAGE,
   RSVP_SERVICE_UNAVAILABLE_ERROR_MESSAGE,
-} from '../utils/errorMessages';
+} from '../../utils/errorMessages';
+import { RsvpBackButton } from '../RsvpBackButton';
+import { RsvpHeader } from '../RsvpHeader';
 
 interface RsvpCodeSignInProps {
   onSuccess: (snap: DocumentSnapshot<IRSVPDoc>) => void;
@@ -111,30 +113,11 @@ export function RsvpCodeLookup({ onSuccess, onBack }: RsvpCodeSignInProps) {
 
   return (
     <>
-      {onBack && (
-        <div className="mb-6">
-          <button
-            type="button"
-            onClick={onBack}
-            className="text-stone-600 hover:text-stone-800 focus:outline-none focus:ring underline"
-          >
-            ← Back to sign-in options
-          </button>
-        </div>
-      )}
+      <RsvpHeader />
 
-      <p className="text-lg">
-        We hope you'll be able to join us—it would mean so much to celebrate
-        together! But we also understand that summer is a busy time and travel
-        isn't always easy. If you're unable to attend, please know that your
-        love and support still mean the world to us.
-      </p>
       <form onSubmit={handleSubmit}>
-        <div className="flex items-center justify-between">
-          <label
-            htmlFor="rsvpCode"
-            className="text-xl font-semibold mb-2 block"
-          >
+        <div className="flex items-center justify-between mb-2">
+          <label htmlFor="rsvpCode" className="text-xl font-semibold m-0 block">
             Enter your RSVP code
           </label>
         </div>
@@ -169,6 +152,7 @@ export function RsvpCodeLookup({ onSuccess, onBack }: RsvpCodeSignInProps) {
           </a>
           .
         </p>
+        {onBack && <RsvpBackButton onBack={onBack} />}
         <button
           type="submit"
           disabled={loading}
