@@ -6,18 +6,18 @@ import {
   type UpdateData,
 } from 'firebase/firestore';
 import { useEffect, useMemo, useState, type FormEvent } from 'react';
-import { db } from '../../firebase/firebase.service';
-import type { IGuest, IRSVPDoc } from '../../firebase/IRSVPDoc';
+import { db } from '../../../firebase/firebase.service';
+import type { IGuest, IRSVPDoc } from '../../../firebase/IRSVPDoc';
 import {
   trackRsvpFormLoaded,
   trackRsvpFormSubmit,
   trackRsvpSaveError,
   trackRsvpSaveSuccess,
-} from '../../utils/analytics';
+} from '../../../utils/analytics';
+import { isValidFoodOption, type FoodOptionId } from '../utils/foodOptions';
+import { validateRsvpForm } from '../utils/validateRsvpForm';
 import { PersonFieldset } from './PersonFieldset';
 import { SuccessScreen } from './SuccessScreen';
-import { isValidFoodOption, type FoodOptionId } from './utils/foodOptions';
-import { validateRsvpForm } from './utils/validateRsvpForm';
 
 interface RsvpFormProps {
   snapshot: DocumentSnapshot<IRSVPDoc>;

@@ -7,13 +7,13 @@ import {
   type DocumentSnapshot,
 } from 'firebase/firestore';
 import { useState, type FormEvent } from 'react';
-import type { IRSVPDoc } from '../../firebase/IRSVPDoc';
-import { db } from '../../firebase/firebase.service';
+import type { IRSVPDoc } from '../../../firebase/IRSVPDoc';
+import { db } from '../../../firebase/firebase.service';
 import {
   trackRsvpError,
   trackRsvpFormLookupSubmit,
   trackRsvpSuccess,
-} from '../../utils/analytics';
+} from '../../../utils/analytics';
 
 const RSVP_SERVICE_UNAVAILABLE_ERROR_MESSAGE =
   'The RSVP service is currently unavailable. Please try again later or contact us for assistance.';

@@ -1,11 +1,11 @@
 import { Fragment } from 'react';
-import { OpenInExternalLink } from '../OpenInExternalLink';
-import { RadioGroup } from './RadioGroup';
+import { OpenInExternalLink } from '../../OpenInExternalLink';
 import {
   FOOD_OPTIONS,
   isValidFoodOption,
   type FoodOptionId,
-} from './utils/foodOptions';
+} from '../utils/foodOptions';
+import { RadioGroup } from './RadioGroup';
 
 interface PersonFieldsetProps {
   person: {

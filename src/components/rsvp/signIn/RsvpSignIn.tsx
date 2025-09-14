@@ -5,39 +5,33 @@ import {
   type DocumentSnapshot,
 } from 'firebase/firestore';
 import { useState, type FormEvent } from 'react';
-import type { IRSVPDoc } from '../../firebase/IRSVPDoc';
-import { db } from '../../firebase/firebase.service';
-import { useRsvpPolicy } from '../../hooks/useRsvpPolicy';
+import type { RsvpPolicyType } from '../../../context/event/IEventData';
+import type { IRSVPDoc } from '../../../firebase/IRSVPDoc';
+import { db } from '../../../firebase/firebase.service';
+import { useEvent } from '../../../hooks/useEvent';
 import {
   trackRsvpError,
   trackRsvpFormLookupSubmit,
   trackRsvpSuccess,
-} from '../../utils/analytics';
+} from '../../../utils/analytics';
+import { CODE_FORMAT } from '../utils/codeFormat';
+import {
+  GENERIC_ERROR_MESSAGE,
+  RSVP_DEADLINE_PASSED_ERROR_MESSAGE,
+  RSVP_SERVICE_UNAVAILABLE_ERROR_MESSAGE,
+} from '../utils/errorMessages';
 import { RsvpNameLookup } from './RsvpNameLookup';
 import { SignInMethodSelection } from './SignInMethodSelection';
-
-const RSVP_SERVICE_UNAVAILABLE_ERROR_MESSAGE =
-  'The RSVP service is currently unavailable. Please try again later or contact us for assistance.';
-
-const GENERIC_ERROR_MESSAGE =
-  "We couldn't find or access your invitation. Please check your code and try again, or contact us if you need help.";
-
-const RSVP_DEADLINE_PASSED_ERROR_MESSAGE =
-  'The RSVP deadline for this RSVP has passed. Please contact us for assistance.';
-
-const CODE_FORMAT = /^[A-Z0-9]{4}-[A-Z0-9]{4}$/;
-
-type SignInMode = 'selection' | 'code' | 'name';
 
 interface RsvpSignInProps {
   onSuccess: (snap: DocumentSnapshot<IRSVPDoc>) => void;
 }
 
 export function RsvpSignIn({ onSuccess }: RsvpSignInProps) {
-  const policyData = useRsvpPolicy();
-  const [signInMode, setSignInMode] = useState<SignInMode>(() => {
+  const policyData = useEvent();
+  const [signInMode, setSignInMode] = useState<RsvpPolicyType>(() => {
     // Initialize mode based on policy if available
-    return 'selection';
+    return 'code';
   });
 
   // If policy data is not loaded yet, show loading
@@ -50,21 +44,19 @@ export function RsvpSignIn({ onSuccess }: RsvpSignInProps) {
   }
 
   // If name lookup is not allowed, go directly to code mode
-  const shouldShowSelection = policyData.allowNameLookup;
+  const shouldShowSelection = policyData.rsvpPolicy === 'both';
 
   return (
     <>
       {!shouldShowSelection || signInMode === 'code' ? (
         <RsvpCodeSignIn
           onSuccess={onSuccess}
-          onBack={
-            shouldShowSelection ? () => setSignInMode('selection') : undefined
-          }
+          onBack={shouldShowSelection ? () => setSignInMode('code') : undefined}
         />
       ) : signInMode === 'name' ? (
         <RsvpNameLookup
           onSuccess={onSuccess}
-          onBack={() => setSignInMode('selection')}
+          onBack={() => setSignInMode('name')}
         />
       ) : (
         <SignInMethodSelection
