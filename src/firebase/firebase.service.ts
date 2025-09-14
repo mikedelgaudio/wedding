@@ -1,9 +1,9 @@
 import { getAnalytics } from 'firebase/analytics';
 import { initializeApp } from 'firebase/app';
 import { initializeAppCheck, ReCaptchaV3Provider } from 'firebase/app-check';
-import { getAuth } from 'firebase/auth';
-import { getFirestore } from 'firebase/firestore';
-import { getFunctions } from 'firebase/functions';
+import { connectAuthEmulator, getAuth } from 'firebase/auth';
+import { connectFirestoreEmulator, getFirestore } from 'firebase/firestore';
+import { connectFunctionsEmulator, getFunctions } from 'firebase/functions';
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_REACT_APP_FIREBASE_API_KEY,
@@ -38,6 +38,6 @@ export const functions = getFunctions(app);
 export const analytics = getAnalytics(app);
 
 // Optional: connect to emulators
-// connectFirestoreEmulator(db, 'localhost', 8080);
-// connectFunctionsEmulator(functions, 'localhost', 5001);
-// connectAuthEmulator(auth, 'http://localhost:9099'); // Optional
+connectFirestoreEmulator(db, 'localhost', 8080);
+connectFunctionsEmulator(functions, 'localhost', 5001);
+connectAuthEmulator(auth, 'http://localhost:9099'); // Optional

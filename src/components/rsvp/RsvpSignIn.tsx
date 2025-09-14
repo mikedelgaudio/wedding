@@ -7,11 +7,14 @@ import {
 import { useState, type FormEvent } from 'react';
 import type { IRSVPDoc } from '../../firebase/IRSVPDoc';
 import { db } from '../../firebase/firebase.service';
+import { useRsvpPolicy } from '../../hooks/useRsvpPolicy';
 import {
   trackRsvpError,
   trackRsvpFormLookupSubmit,
   trackRsvpSuccess,
 } from '../../utils/analytics';
+import { RsvpNameLookup } from './RsvpNameLookup';
+import { SignInMethodSelection } from './SignInMethodSelection';
 
 const RSVP_SERVICE_UNAVAILABLE_ERROR_MESSAGE =
   'The RSVP service is currently unavailable. Please try again later or contact us for assistance.';
@@ -24,11 +27,61 @@ const RSVP_DEADLINE_PASSED_ERROR_MESSAGE =
 
 const CODE_FORMAT = /^[A-Z0-9]{4}-[A-Z0-9]{4}$/;
 
+type SignInMode = 'selection' | 'code' | 'name';
+
 interface RsvpSignInProps {
   onSuccess: (snap: DocumentSnapshot<IRSVPDoc>) => void;
 }
 
 export function RsvpSignIn({ onSuccess }: RsvpSignInProps) {
+  const policyData = useRsvpPolicy();
+  const [signInMode, setSignInMode] = useState<SignInMode>(() => {
+    // Initialize mode based on policy if available
+    return 'selection';
+  });
+
+  // If policy data is not loaded yet, show loading
+  if (!policyData) {
+    return (
+      <div className="text-center py-8">
+        <p className="text-lg">Loading...</p>
+      </div>
+    );
+  }
+
+  // If name lookup is not allowed, go directly to code mode
+  const shouldShowSelection = policyData.allowNameLookup;
+
+  return (
+    <>
+      {!shouldShowSelection || signInMode === 'code' ? (
+        <RsvpCodeSignIn
+          onSuccess={onSuccess}
+          onBack={
+            shouldShowSelection ? () => setSignInMode('selection') : undefined
+          }
+        />
+      ) : signInMode === 'name' ? (
+        <RsvpNameLookup
+          onSuccess={onSuccess}
+          onBack={() => setSignInMode('selection')}
+        />
+      ) : (
+        <SignInMethodSelection
+          onSelectCode={() => setSignInMode('code')}
+          onSelectName={() => setSignInMode('name')}
+        />
+      )}
+    </>
+  );
+}
+
+interface RsvpCodeSignInProps {
+  onSuccess: (snap: DocumentSnapshot<IRSVPDoc>) => void;
+  onBack?: () => void;
+}
+
+function RsvpCodeSignIn({ onSuccess, onBack }: RsvpCodeSignInProps) {
   const [code, setCode] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -115,6 +168,18 @@ export function RsvpSignIn({ onSuccess }: RsvpSignInProps) {
 
   return (
     <>
+      {onBack && (
+        <div className="mb-6">
+          <button
+            type="button"
+            onClick={onBack}
+            className="text-stone-600 hover:text-stone-800 focus:outline-none focus:ring underline"
+          >
+            ← Back to sign-in options
+          </button>
+        </div>
+      )}
+
       <p className="text-lg">
         We hope you'll be able to join us—it would mean so much to celebrate
         together! But we also understand that summer is a busy time and travel
