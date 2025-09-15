@@ -53,8 +53,8 @@ export function RsvpNameLookup({ onSuccess, onBack }: RsvpNameLookupProps) {
     // Track form submission
     trackRsvpFormLookupSubmit();
 
-    const trimmedFirstName = firstName.trim();
-    const trimmedLastName = lastName.trim();
+    const trimmedFirstName = firstName.trim().toLowerCase();
+    const trimmedLastName = lastName.trim().toLowerCase();
 
     if (!trimmedFirstName || !trimmedLastName) {
       setError('Please enter both your first and last name to search.');
@@ -71,12 +71,7 @@ export function RsvpNameLookup({ onSuccess, onBack }: RsvpNameLookupProps) {
       const results: NameSearchResult[] = [];
 
       querySnapshot.forEach(docSnap => {
-        // Skip policy document
-        if (docSnap.id === 'policy') return;
-
         const data = docSnap.data() as IRSVPDoc;
-        const firstNameSearch = trimmedFirstName.toLowerCase();
-        const lastNameSearch = trimmedLastName.toLowerCase();
 
         // Helper function to calculate name match score
         const getNameMatchScore = (fullName: string): number => {
@@ -86,29 +81,30 @@ export function RsvpNameLookup({ onSuccess, onBack }: RsvpNameLookupProps) {
           let score = 0;
 
           // Exact first name match
-          if (nameParts.some(part => part === firstNameSearch)) {
+          if (nameParts.some(part => part === trimmedFirstName)) {
             score += 10;
           }
           // Partial first name match
           else if (
             nameParts.some(
               part =>
-                part.includes(firstNameSearch) ||
-                firstNameSearch.includes(part),
+                part.includes(trimmedFirstName) ||
+                trimmedFirstName.includes(part),
             )
           ) {
             score += 5;
           }
 
           // Exact last name match
-          if (nameParts.some(part => part === lastNameSearch)) {
+          if (nameParts.some(part => part === trimmedLastName)) {
             score += 10;
           }
           // Partial last name match
           else if (
             nameParts.some(
               part =>
-                part.includes(lastNameSearch) || lastNameSearch.includes(part),
+                part.includes(trimmedLastName) ||
+                trimmedLastName.includes(part),
             )
           ) {
             score += 5;
@@ -116,8 +112,8 @@ export function RsvpNameLookup({ onSuccess, onBack }: RsvpNameLookupProps) {
 
           // Bonus for full name containing both search terms
           if (
-            nameLower.includes(firstNameSearch) &&
-            nameLower.includes(lastNameSearch)
+            nameLower.includes(trimmedFirstName) &&
+            nameLower.includes(trimmedLastName)
           ) {
             score += 3;
           }
@@ -255,14 +251,7 @@ export function RsvpNameLookup({ onSuccess, onBack }: RsvpNameLookupProps) {
 
   return (
     <>
-      {onBack && <RsvpBackButton onBack={onBack} />}
-
       <RsvpHeader />
-
-      <p className="text-lg mb-6">
-        Search for your invitation by entering your first and last name below.
-      </p>
-
       <form onSubmit={handleSearch}>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
@@ -309,7 +298,9 @@ export function RsvpNameLookup({ onSuccess, onBack }: RsvpNameLookupProps) {
             </p>
           </div>
         )}
-
+        <p className="text-md">
+          Search for your invitation by entering your first and last name.
+        </p>
         <button
           type="submit"
           disabled={loading}
@@ -317,18 +308,8 @@ export function RsvpNameLookup({ onSuccess, onBack }: RsvpNameLookupProps) {
         >
           {loading ? 'Searching…' : 'Search'}
         </button>
+        {onBack && <RsvpBackButton onBack={onBack} />}
       </form>
-
-      <p className="text-sm">
-        Questions? Email us at{' '}
-        <a
-          className="underline focus:outline-none focus:ring hover:no-underline"
-          href="mailto:wedding@delgaudio.dev"
-        >
-          wedding@delgaudio.dev
-        </a>
-        .
-      </p>
 
       {searchResults.length > 0 && (
         <div className="mt-8">

@@ -114,7 +114,6 @@ export function RsvpCodeLookup({ onSuccess, onBack }: RsvpCodeSignInProps) {
   return (
     <>
       <RsvpHeader />
-
       <form onSubmit={handleSubmit}>
         <div className="flex items-center justify-between mb-2">
           <label htmlFor="rsvpCode" className="text-xl font-semibold m-0 block">
@@ -142,24 +141,14 @@ export function RsvpCodeLookup({ onSuccess, onBack }: RsvpCodeSignInProps) {
           The RSVP code is on your invitation in the format{' '}
           <strong>XXXX-XXXX</strong>.
         </p>
-        <p className="text-sm">
-          Questions? Email us at{' '}
-          <a
-            className="underline focus:outline-none focus:ring hover:no-underline"
-            href="mailto:wedding@delgaudio.dev"
-          >
-            wedding@delgaudio.dev
-          </a>
-          .
-        </p>
-        {onBack && <RsvpBackButton onBack={onBack} />}
         <button
           type="submit"
           disabled={loading}
-          className="w-full focus:outline-none focus:ring  cursor-pointer bg-stone-900 text-white mt-6 py-2 rounded hover:bg-stone-700 disabled:opacity-50 disabled:cursor-not-allowed"
+          className="w-full focus:outline-none focus:ring cursor-pointer bg-stone-900 text-white mt-6 py-2 rounded hover:bg-stone-700 disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          {loading ? 'Checking…' : 'Lookup'}
+          {loading ? 'Checking…' : 'Search'}
         </button>
+        {onBack && <RsvpBackButton onBack={onBack} />}
       </form>
     </>
   );

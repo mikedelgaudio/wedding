@@ -38,17 +38,6 @@ export function SignInMethodSelection({
           </div>
         </button>
       </div>
-
-      <p className="text-sm mt-6">
-        Questions? Email us at{' '}
-        <a
-          className="underline focus:outline-none focus:ring hover:no-underline"
-          href="mailto:wedding@delgaudio.dev"
-        >
-          wedding@delgaudio.dev
-        </a>
-        .
-      </p>
     </>
   );
 }
