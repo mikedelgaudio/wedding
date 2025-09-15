@@ -10,11 +10,7 @@ export function SignInMethodSelection({
   return (
     <>
       <RsvpHeader />
-
-      <h2 className="text-xl font-semibold mb-4">
-        How would you like to RSVP?
-      </h2>
-
+      <h2 className="text-xl font-semibold mb-4">Choose your RSVP method</h2>
       <div className="space-y-4">
         <button
           type="button"

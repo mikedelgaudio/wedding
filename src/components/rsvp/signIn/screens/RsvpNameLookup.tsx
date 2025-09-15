@@ -19,6 +19,7 @@ import {
   RSVP_DEADLINE_PASSED_ERROR_MESSAGE,
   RSVP_SERVICE_UNAVAILABLE_ERROR_MESSAGE,
 } from '../../utils/errorMessages';
+import { getNameMatchScore } from '../../utils/getNameMatchScore';
 import { RsvpBackButton } from '../RsvpBackButton';
 import { RsvpHeader } from '../RsvpHeader';
 
@@ -53,10 +54,10 @@ export function RsvpNameLookup({ onSuccess, onBack }: RsvpNameLookupProps) {
     // Track form submission
     trackRsvpFormLookupSubmit();
 
-    const trimmedFirstName = firstName.trim().toLowerCase();
-    const trimmedLastName = lastName.trim().toLowerCase();
+    const sanitizedUserInputFirstName = firstName.trim().toLowerCase();
+    const sanitizedUserInputLastName = lastName.trim().toLowerCase();
 
-    if (!trimmedFirstName || !trimmedLastName) {
+    if (!sanitizedUserInputFirstName || !sanitizedUserInputLastName) {
       setError('Please enter both your first and last name to search.');
       setLoading(false);
       return;
@@ -73,56 +74,12 @@ export function RsvpNameLookup({ onSuccess, onBack }: RsvpNameLookupProps) {
       querySnapshot.forEach(docSnap => {
         const data = docSnap.data() as IRSVPDoc;
 
-        // Helper function to calculate name match score
-        const getNameMatchScore = (fullName: string): number => {
-          const nameLower = fullName.toLowerCase();
-          const nameParts = nameLower.split(' ');
-
-          let score = 0;
-
-          // Exact first name match
-          if (nameParts.some(part => part === trimmedFirstName)) {
-            score += 10;
-          }
-          // Partial first name match
-          else if (
-            nameParts.some(
-              part =>
-                part.includes(trimmedFirstName) ||
-                trimmedFirstName.includes(part),
-            )
-          ) {
-            score += 5;
-          }
-
-          // Exact last name match
-          if (nameParts.some(part => part === trimmedLastName)) {
-            score += 10;
-          }
-          // Partial last name match
-          else if (
-            nameParts.some(
-              part =>
-                part.includes(trimmedLastName) ||
-                trimmedLastName.includes(part),
-            )
-          ) {
-            score += 5;
-          }
-
-          // Bonus for full name containing both search terms
-          if (
-            nameLower.includes(trimmedFirstName) &&
-            nameLower.includes(trimmedLastName)
-          ) {
-            score += 3;
-          }
-
-          return score;
-        };
-
         // Check invitee name
-        const inviteeScore = getNameMatchScore(data.invitee.name);
+        const inviteeScore = getNameMatchScore({
+          sanitizedUserInputFirstName,
+          sanitizedUserInputLastName,
+          fullNameToCompare: data.invitee.name,
+        });
         if (inviteeScore > 0) {
           results.push({
             id: docSnap.id,
@@ -135,8 +92,12 @@ export function RsvpNameLookup({ onSuccess, onBack }: RsvpNameLookupProps) {
         // Also check guests if they exist
         if (data.guests) {
           data.guests.forEach(guest => {
-            const guestScore = getNameMatchScore(guest.name);
-            if (guestScore > 0) {
+            const guestScore = getNameMatchScore({
+              sanitizedUserInputFirstName,
+              sanitizedUserInputLastName,
+              fullNameToCompare: guest.name,
+            });
+            if (guestScore > 0 && guest.name) {
               results.push({
                 id: docSnap.id,
                 name: guest.name,
@@ -160,7 +121,10 @@ export function RsvpNameLookup({ onSuccess, onBack }: RsvpNameLookupProps) {
         trackRsvpError(
           'not_found_error',
           'name_not_found',
-          'No RSVP found for name: ' + trimmedFirstName + ' ' + trimmedLastName,
+          'No RSVP found for name: ' +
+            sanitizedUserInputFirstName +
+            ' ' +
+            sanitizedUserInputLastName,
         );
         setError(
           'No invitations found for that name. Please check the spelling and try again.',

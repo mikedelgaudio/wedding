@@ -1,4 +1,5 @@
 import { Fragment } from 'react';
+import type { IGuest } from '../../../firebase/IRSVPDoc';
 import { OpenInExternalLink } from '../../OpenInExternalLink';
 import {
   FOOD_OPTIONS,
@@ -8,17 +9,7 @@ import {
 import { RadioGroup } from './RadioGroup';
 
 interface PersonFieldsetProps {
-  person: {
-    name: string;
-    attendingCeremony: boolean | null;
-    attendingReception: boolean | null;
-    attendingBrunch: boolean | null;
-    dietaryRestrictions: string;
-    foodOption: FoodOptionId | null;
-    contactInfo: string;
-    isNameEditable?: boolean;
-    allowedToAttendBrunch?: boolean;
-  };
+  person: IGuest;
   onPersonChange: {
     attendingCeremony: (value: boolean | null) => void;
     attendingReception: (value: boolean | null) => void;
@@ -67,7 +58,7 @@ export function PersonFieldset({
             <input
               id={`${fieldPrefix}-name`}
               type="text"
-              value={person.name}
+              value={person.name ?? ''}
               onChange={e => onPersonChange.name(e.target.value)}
               placeholder={`${displayName} Full Name`}
               required={shouldRequireFields}
@@ -192,7 +183,7 @@ export function PersonFieldset({
           <input
             type="text"
             id={`${fieldPrefix}-contactInfo`}
-            value={person.contactInfo}
+            value={person.contactInfo ?? ''}
             onChange={e => onPersonChange.contactInfo(e.target.value)}
             placeholder="Phone number or email address"
             className="w-full p-2 border bg-white rounded focus:outline-none focus:ring"
@@ -226,7 +217,7 @@ export function PersonFieldset({
         </label>
         <input
           type="text"
-          value={person.dietaryRestrictions}
+          value={person.dietaryRestrictions ?? ''}
           id={`${fieldPrefix}-dietaryRestrictions`}
           onChange={e => onPersonChange.dietaryRestrictions(e.target.value)}
           placeholder="e.g. Vegetarian, Gluten-free…"
