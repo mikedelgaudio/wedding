@@ -2,7 +2,7 @@ import type { JSX } from 'react';
 import { useLocation } from 'react-router-dom';
 import { FadeInOnLoad } from './components/FadeInOnLoad';
 import { Footer } from './components/Footer';
-import { Header3 } from './components/Header3';
+import { Header } from './components/Header';
 
 export function AppWithHeader({ children }: { children: JSX.Element }) {
   const location = useLocation();
@@ -10,10 +10,11 @@ export function AppWithHeader({ children }: { children: JSX.Element }) {
 
   return (
     <div className="min-h-screen flex flex-col">
-      <Header3 />
+      <Header />
       <FadeInOnLoad>
         <main
           className={`${!isHomePage ? 'mt-[72px] md:mt-[136px]' : 'mt-auto'}`}
+          id="main-content"
         >
           {children}
         </main>
