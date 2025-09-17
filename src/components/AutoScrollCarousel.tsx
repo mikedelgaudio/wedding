@@ -1,12 +1,15 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { Link } from 'react-router-dom';
+import { useEvent } from '../hooks/useEvent';
+import { AnimatedElement } from './animation/AnimatedElement';
 
 const CDN_URL = import.meta.env.VITE_REACT_APP_ASSET_CDN_URL;
 
 const images = [
   `${CDN_URL}/home.jpg`,
-  `${CDN_URL}/day.jpg`,
   `${CDN_URL}/stare.jpg`,
   `${CDN_URL}/photos.jpg`,
+  `${CDN_URL}/day.jpg`,
   `${CDN_URL}/facing.jpg`,
 ];
 
@@ -18,6 +21,7 @@ const currentScrollSpeed = 30;
 const HEADER_HEIGHT_IN_PX = 72;
 
 export function AutoScrollCarousel() {
+  const event = useEvent();
   const scrollRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const animationRef = useRef<number>(0);
@@ -293,14 +297,11 @@ export function AutoScrollCarousel() {
   }, [parallaxOffsets]);
 
   return (
-    <div
-      ref={containerRef}
-      className="w-full h-[calc(100vh-72px)] md:h-[calc(100vh-172px)] flex flex-col relative"
-    >
+    <div ref={containerRef} className="w-full flex flex-col relative">
       <div className="flex-1 relative overflow-hidden">
         <div
           ref={scrollRef}
-          className="h-[calc(100vh-72px)] md:h-[calc(100vh-172px)] overflow-x-scroll overflow-y-hidden"
+          className="h-lvh brightness-50 overflow-x-scroll overflow-y-hidden"
           style={{
             scrollbarWidth: 'none',
             msOverflowStyle: 'none',
@@ -331,25 +332,63 @@ export function AutoScrollCarousel() {
             ))}
           </div>
         </div>
+        <div className="w-full grid grid-cols-1 gap-6 md:justify-items-center py-20 px-2 text-white absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10 pointer-events-none">
+          <div className="flex items-center justify-center flex-col">
+            <AnimatedElement
+              as="div"
+              className="flex flex-col items-center"
+              delay={0}
+              duration={200}
+              animationType="fade-up"
+            >
+              <p className="text-md md:text-xl uppercase pb-2">
+                Please join us for the wedding of
+              </p>
+              <p
+                className="text-6xl md:text-9xl"
+                style={{ fontFamily: '"Tangerine", serif' }}
+              >
+                Lynh & Michael
+              </p>
+            </AnimatedElement>
+            <AnimatedElement
+              delay={100}
+              duration={200}
+              animationType="fade-up"
+              className="flex flex-nowrap whitespace-nowrap gap-4 text-shadow-2xs mb-6"
+            >
+              <span className="text-2xl md:text-4xl">{event?.date}</span>
+              <span className="border-r border-white">&nbsp;</span>
+              <span className="text-2xl md:text-4xl">{event?.location}</span>
+            </AnimatedElement>
+            <Link
+              className="text-xl md:text-4xl focus:outline-none w-fit px-6 py-2 focus:ring cursor-pointer shadow bg-transparent text-white rounded hover:bg-fantasy-50 hover:text-black disabled:opacity-50 disabled:cursor-not-allowed pointer-events-auto transition-colors duration-300 ease-in-out border-2 border-fantasy-50"
+              to={'/rsvp'}
+            >
+              RSVP
+            </Link>
+          </div>
+        </div>
       </div>
 
       <button
         onClick={handleChevronClick}
-        className="absolute cursor-pointer bottom-6 left-1/2 -translate-x-1/2 z-20 transition-opacity duration-300 ease-out hover:opacity-80 focus:outline-none focus-visible::ring-2 focus-visible::ring-white focus-visible::ring-opacity-50 rounded-full p-2"
+        className="absolute  cursor-pointer bottom-3 left-1/2 -translate-x-1/2 z-20 transition-opacity duration-300 ease-out hover:opacity-80 focus:outline-none focus-visible::ring-2 focus-visible::ring-white focus-visible::ring-opacity-50 rounded-full p-2"
         style={{
           opacity: chevronOpacity,
         }}
         aria-label="Scroll to next section"
       >
         <div
-          className={`text-white text-4xl drop-shadow-lg ${
+          className={`text-white opacity-90 text-4xl drop-shadow-lg ${
             !prefersReducedMotion ? 'animate-[bounce_2s_infinite]' : ''
           }`}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
+            width="48"
+            height="48"
+            viewBox="0 0 24 24"
             fill="none"
           >
             <path
