@@ -60,7 +60,7 @@ export function OurStoryCore(): JSX.Element {
           duration={200}
           animationType="fade-up"
           rootMargin="100px"
-          className="text-6xl my-4"
+          className="text-5xl my-4"
           style={{ fontFamily: 'Tangerine' }}
         >
           🂱 A Game of Poker
@@ -141,7 +141,7 @@ export function OurStoryCore(): JSX.Element {
         duration={200}
         animationType="fade-up"
         rootMargin="100px"
-        className="text-6xl my-4"
+        className="text-5xl my-4"
         style={{ fontFamily: 'Tangerine' }}
       >
         ✈️ Long distance... kinda?
@@ -194,7 +194,7 @@ export function OurStoryCore(): JSX.Element {
         duration={200}
         animationType="fade-up"
         rootMargin="100px"
-        className="text-6xl my-4"
+        className="text-5xl my-4"
         style={{ fontFamily: 'Tangerine' }}
       >
         ⛰️ Washington Living
@@ -221,7 +221,7 @@ export function OurStoryCore(): JSX.Element {
         duration={200}
         animationType="fade-up"
         rootMargin="100px"
-        className="text-6xl my-4"
+        className="text-5xl my-4"
         style={{ fontFamily: 'Tangerine' }}
       >
         🌷 The Proposal
