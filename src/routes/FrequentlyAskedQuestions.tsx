@@ -69,10 +69,10 @@ const faqData: FAQItem[] = [
         whatever makes you most comfortable. Whether that's an áo dài
         (traditional Vietnamese dress), a pastel suit, or something more
         relaxed. We encourage bright colors, playful prints, and outfits that
-        show off your unique style! The ceremony will be outdoors, so please
-        dress for the weather and keep in mind there will be some walking on
-        gravel paths and grass (comfortable shoes recommended). We are so
-        excited to see your personality shine through in what you wear!
+        show off your unique style! Cocktail hour and dinner will be outdoors,
+        so please dress for the weather and keep in mind there will be some
+        walking on gravel paths and grass (comfortable shoes recommended). We
+        are so excited to see your personality shine through in what you wear!
       </>
     ),
   },
