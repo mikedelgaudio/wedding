@@ -209,11 +209,19 @@ export function OurStoryCore(): JSX.Element {
       >
         After college, Michael and Lynh both returned to Washington for work and
         have been living there ever since! They enjoy going on hikes with their
-        friends, trying new coffee/tea spots, (see recommendations in the{' '}
+        friends and trying new coffee/tea spots, (see recommendations in the{' '}
         <a href="/travel" className="font-bold underline">
           Things To Do section
         </a>
-        ), and traveling. NORWAY/DISNEY PICTURE GOES HERE
+        ).
+        <ResponsiveFigure
+          src={`${CDN_URL}/diabloLake.jpg`}
+          alt=""
+          width={1000}
+          height={400}
+          loading="lazy"
+          caption="July 2023 at Diablo Lake"
+        />
       </AnimatedElement>
       <AnimatedElement
         as="p"
