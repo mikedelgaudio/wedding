@@ -33,7 +33,8 @@ const faqData: FAQItem[] = [
     answer: (
       <>
         The RSVP deadline is located on your invitation. Please make sure to
-        submit your response by this date.
+        submit your response by this date as we cannot guarantee accommodations
+        after this time.
       </>
     ),
   },
@@ -67,12 +68,11 @@ const faqData: FAQItem[] = [
         While many guests will be in formal attire, please feel free to wear
         whatever makes you most comfortable. Whether that's an áo dài
         (traditional Vietnamese dress), a pastel suit, or something more
-        relaxed. Picture a summer garden celebration: bright colors, playful
-        prints, and outfits that show off your unique style are highly
-        encouraged! The ceremony will be outdoors, so please dress for the
-        weather and keep in mind there will be some walking on gravel paths and
-        grass (comfortable shoes recommended). We are so excited to see your
-        personality shine through in what you wear!
+        relaxed. We encourage bright colors, playful prints, and outfits that
+        show off your unique style! The ceremony will be outdoors, so please
+        dress for the weather and keep in mind there will be some walking on
+        gravel paths and grass (comfortable shoes recommended). We are so
+        excited to see your personality shine through in what you wear!
       </>
     ),
   },
@@ -135,8 +135,9 @@ const faqData: FAQItem[] = [
     question: 'Will your wedding be indoors or outdoors?',
     answer: (
       <>
-        The wedding will mostly be outdoors, with indoor backup at the venue in
-        case of extreme weather.
+        The ceremony will be indoors. The reception will mostly be outdoors,
+        with indoor backup at the venue in case of extreme weather. There will
+        be some walking on gravel paths and grass, so please dress accordingly!
       </>
     ),
   },
@@ -165,7 +166,8 @@ const faqData: FAQItem[] = [
     question: 'Is there a hotel block for guests?',
     answer: (
       <>
-        We've secured a hotel block at the Archer Hotel in Downtown Redmond! We
+        We've secured a hotel block at the The <b>SOMM Hotel & Spa</b> in
+        Woodinville! It is about a 1 minute drive from the reception venue. We
         highly recommend booking early, as space is limited. If the hotel block
         is full, don't worry - there are plenty of excellent accommodations
         throughout the area. For our complete recommendations and helpful
@@ -184,18 +186,11 @@ const faqData: FAQItem[] = [
     question: 'Is transportation provided?',
     answer: (
       <>
-        We recommend renting a car if you're flying in, as it will give you the
-        flexibility to explore the beautiful Pacific Northwest. However, if you
-        prefer not to drive, there are several ride-sharing options available in
-        the area. On the big day, we'll be sharing an Uber voucher code. Please
-        send an email to{' '}
-        <a
-          className="underline hover:no-underline focus-visible:border focus-visible:border-gray-950 focus:outline-none focus-visible:rounded-lg"
-          href="mailto:voucher@delgaudio.dev?subject=Uber%20Voucher%20Request&body=Hi, I'd%20like%20to%20request%20an%20Uber%20voucher%20for%20the%20wedding."
-        >
-          voucher@delgaudio.dev
-        </a>{' '}
-        to ensure you get notified!
+        We will not be providing transportation. We recommend arranging your own
+        transportation. There are plenty of rideshare options available in the
+        area, including Uber and Lyft. Rental cars are also an option we
+        reccommend if you plan to explore the area (especially if you are
+        planning on going on a hike).
       </>
     ),
   },

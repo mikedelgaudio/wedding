@@ -119,7 +119,9 @@ export function RsvpSignIn({ onSuccess }: RsvpSignInProps) {
         We hope you'll be able to join us—it would mean so much to celebrate
         together! But we also understand that summer is a busy time and travel
         isn't always easy. If you're unable to attend, please know that your
-        love and support still mean the world to us.
+        love and support still mean the world to us. We are planning on
+        livestreaming the ceremony for those who cannot attend in person,
+        updates on this website to come closer to the date.
       </p>
       <form onSubmit={handleSubmit}>
         <div className="flex items-center justify-between">
