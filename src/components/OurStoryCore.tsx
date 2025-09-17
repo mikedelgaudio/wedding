@@ -185,7 +185,7 @@ export function OurStoryCore(): JSX.Element {
           width={1000}
           height={400}
           loading="lazy"
-          caption="Lynh in Timesquare"
+          caption="Timesquare 2022"
         />
       </AnimatedElement>
       <AnimatedElement
