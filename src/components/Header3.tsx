@@ -73,7 +73,9 @@ export function Header3(): JSX.Element {
               className={`${
                 menuOpen || !isHomePage
                   ? 'opacity-100 flex'
-                  : 'opacity-0 hidden md:opacity-0 md:hidden'
+                  : isHomePage && isScrolled
+                  ? 'opacity-100 flex md:opacity-0 md:hidden'
+                  : 'opacity-0 md:opacity-0 md:hidden'
               } font-bold pointer-events-auto focus-visible:outline focus-visible:outline-gray-950 md:text-6xl text-4xl w-full justify-center mb-0 md:pb-4`}
               style={{ fontFamily: 'Tangerine' }}
               to="/"

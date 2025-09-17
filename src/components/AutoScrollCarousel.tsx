@@ -301,6 +301,7 @@ export function AutoScrollCarousel() {
       <div className="flex-1 relative overflow-hidden">
         <div
           ref={scrollRef}
+          tabIndex={-1}
           className="h-lvh brightness-50 overflow-x-scroll overflow-y-hidden"
           style={{
             scrollbarWidth: 'none',
