@@ -479,9 +479,9 @@ export function Travel(): JSX.Element {
                 <ul className="list-disc pl-6  text-md flex flex-col gap-2">
                   <li>
                     <strong>2026 FIFA World Cup:</strong> Seattle is hosting a
-                    handful of matches for the 2026 FIFA World Cup! Get ready
-                    for an exciting summer of soccer, with matches taking place
-                    at Lumen Field and other venues throughout the city.
+                    handful of matches for the 2026 FIFA World Cup. If you are a
+                    soccer fan, consider checking out a match while you are in
+                    town!
                   </li>
                   <li>
                     <strong>Leavenworth:</strong> Step into a storybook Bavarian
