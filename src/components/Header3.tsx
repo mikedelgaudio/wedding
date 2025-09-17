@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState, type JSX } from 'react';
-import { Link, NavLink } from 'react-router-dom';
+import { Link, NavLink, useLocation } from 'react-router-dom';
+
 const NAV_LINKS = [
   { href: '/', label: 'Home' },
   { href: '/schedule', label: 'Schedule' },
@@ -10,9 +11,29 @@ const NAV_LINKS = [
 
 export function Header3(): JSX.Element {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+  const location = useLocation();
+  const isHomePage = location.pathname === '/';
 
   const toggleMenu = useCallback(() => setMenuOpen(open => !open), []);
   const closeMenu = useCallback(() => setMenuOpen(false), []);
+
+  // Handle scroll detection
+  useEffect(() => {
+    if (!isHomePage) return; // Only apply scroll detection on home page
+
+    const handleScroll = () => {
+      const scrollTop = window.scrollY;
+      setIsScrolled(scrollTop > 0);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    handleScroll(); // Check initial scroll position
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, [isHomePage]);
 
   useEffect(() => {
     if (menuOpen) {
@@ -28,52 +49,48 @@ export function Header3(): JSX.Element {
 
   return (
     <div className="relative z-50">
-      {/* Single backdrop blur container that expands when menu is open */}
+      {/* Header background - only covers header area */}
       <div
-        className={`fixed inset-0 z-50 transition-all duration-300 ${
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
           menuOpen
-            ? 'bg-black/50 backdrop-blur-sm'
-            : 'bg-transparent pointer-events-none'
+            ? 'bg-transparent md:bg-black/80 md:backdrop-blur-md'
+            : isHomePage
+            ? isScrolled
+              ? 'bg-fantasy-50/80 backdrop-blur-md'
+              : 'bg-transparent'
+            : 'bg-fantasy-50/80 backdrop-blur-md'
         }`}
       >
-        {/* Fixed hamburger button */}
-        <button
-          className="fixed top-4 left-6 md:hidden pointer-events-auto cursor-pointer z-60 flex flex-col justify-center items-center w-10 h-10 space-y-1.5 focus-visible:outline focus-visible:outline-gray-950 focus-visible:outline-offset-6"
-          onClick={toggleMenu}
-          aria-label="Toggle menu"
-          aria-expanded={menuOpen}
+        <header
+          className={`flex flex-col items-center w-full py-4 mx-auto transition-colors duration-200 ${
+            menuOpen || (isHomePage && !isScrolled)
+              ? 'text-white'
+              : 'text-black'
+          }`}
         >
-          {[
-            'rotate-45 translate-y-2',
-            'opacity-0',
-            '-rotate-45 -translate-y-2',
-          ].map((transform, i) => (
-            <span
-              key={i}
-              className={`block h-0.5 w-8 bg-white transition-all duration-300 ${
-                menuOpen ? transform : ''
-              }`}
-            />
-          ))}
-        </button>
-
-        <header className="flex flex-col items-center w-full px-6 py-4 mx-auto text-white">
           <div className="flex justify-center w-full">
             <Link
               className={`${
-                menuOpen ? 'opacity-100 flex' : 'opacity-0 hidden'
-              } font-bold pointer-events-auto focus-visible:outline focus-visible:outline-gray-950 md:text-6xl text-4xl w-full justify-center mb-4 md:mb-0`}
+                menuOpen || !isHomePage
+                  ? 'opacity-100 flex'
+                  : 'opacity-0 hidden md:opacity-0 md:hidden'
+              } font-bold pointer-events-auto focus-visible:outline focus-visible:outline-gray-950 md:text-6xl text-4xl w-full justify-center mb-0 md:pb-4`}
               style={{ fontFamily: 'Tangerine' }}
               to="/"
+              onClick={menuOpen ? closeMenu : undefined}
             >
               Lynh & Michael
             </Link>
           </div>
 
-          {/* Single navigation that transforms between desktop and mobile layouts */}
+          {/* Navigation */}
           <nav
             className={`
-              transition-all duration-500 ease-in-out text-white pointer-events-auto
+              transition-all duration-200 ease-in-out ${
+                menuOpen || (isHomePage && !isScrolled)
+                  ? 'text-white'
+                  : 'text-black'
+              } pointer-events-auto
               ${
                 menuOpen
                   ? 'flex flex-col items-center justify-start gap-10 w-full pt-4 md:flex md:items-center md:justify-center md:gap-15 md:text-2xl md:pt-0'
@@ -99,6 +116,36 @@ export function Header3(): JSX.Element {
           </nav>
         </header>
       </div>
+
+      {/* Fixed hamburger button - outside backdrop to maintain z-index */}
+      <button
+        className="fixed top-3 left-3 md:hidden pointer-events-auto cursor-pointer z-60 flex flex-col justify-center items-center w-10 h-10 space-y-1.5 focus-visible:outline focus-visible:outline-gray-950 focus-visible:outline-offset-6"
+        onClick={toggleMenu}
+        aria-label="Toggle menu"
+        aria-expanded={menuOpen}
+      >
+        {[
+          'rotate-45 translate-y-2',
+          'opacity-0',
+          '-rotate-45 -translate-y-2',
+        ].map((transform, i) => (
+          <span
+            key={i}
+            className={`block h-0.5 w-8 ${
+              menuOpen || (isHomePage && !isScrolled) ? 'bg-white' : 'bg-black'
+            } transition-all duration-300 ${menuOpen ? transform : ''}`}
+          />
+        ))}
+      </button>
+
+      {/* Mobile menu backdrop - full screen when open */}
+      <div
+        className={`fixed inset-0 z-40 md:hidden transition-all duration-300 ${
+          menuOpen
+            ? 'bg-black/50 backdrop-blur-sm'
+            : 'bg-transparent pointer-events-none'
+        }`}
+      ></div>
     </div>
   );
 }
