@@ -102,7 +102,7 @@ export function Header(): JSX.Element {
               to="/"
               onClick={menuOpen ? closeMenu : undefined}
             >
-              Lynh & Michael
+              🌷 Lynh & Michael 🌷
             </Link>
           </div>
 
