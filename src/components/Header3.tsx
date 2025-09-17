@@ -28,13 +28,17 @@ export function Header3(): JSX.Element {
 
   return (
     <div className="relative z-50">
-      <header
-        className={`flex items-center w-full px-6 py-4 mx-auto z-50 text-white pointer-events-none fixed top-0 left-0 ${
-          menuOpen ? 'bg-black/50' : 'bg-transparent'
+      {/* Single backdrop blur container that expands when menu is open */}
+      <div
+        className={`fixed inset-0 z-50 transition-all duration-300 ${
+          menuOpen
+            ? 'bg-black/50 backdrop-blur-sm'
+            : 'bg-transparent pointer-events-none'
         }`}
       >
+        {/* Fixed hamburger button */}
         <button
-          className="md:hidden pointer-events-auto cursor-pointer md:invisible flex flex-col justify-center items-center w-10 h-10 space-y-1.5 focus-visible:outline focus-visible:outline-gray-950 focus-visible:outline-offset-6"
+          className="fixed top-4 left-6 md:hidden pointer-events-auto cursor-pointer z-60 flex flex-col justify-center items-center w-10 h-10 space-y-1.5 focus-visible:outline focus-visible:outline-gray-950 focus-visible:outline-offset-6"
           onClick={toggleMenu}
           aria-label="Toggle menu"
           aria-expanded={menuOpen}
@@ -53,64 +57,47 @@ export function Header3(): JSX.Element {
           ))}
         </button>
 
-        <div className="flex justify-center w-full flex-wrap">
-          <Link
-            className={`${
-              menuOpen ? 'opacity-100 flex' : 'opacity-0 hidden'
-            } font-bold focus-visible:outline focus-visible:outline-gray-950 md:text-6xl text-4xl w-full justify-center  `}
-            style={{ fontFamily: 'Tangerine' }}
-            to="/"
+        <header className="flex flex-col items-center w-full px-6 py-4 mx-auto text-white">
+          <div className="flex justify-center w-full">
+            <Link
+              className={`${
+                menuOpen ? 'opacity-100 flex' : 'opacity-0 hidden'
+              } font-bold pointer-events-auto focus-visible:outline focus-visible:outline-gray-950 md:text-6xl text-4xl w-full justify-center mb-4 md:mb-0`}
+              style={{ fontFamily: 'Tangerine' }}
+              to="/"
+            >
+              Lynh & Michael
+            </Link>
+          </div>
+
+          {/* Single navigation that transforms between desktop and mobile layouts */}
+          <nav
+            className={`
+              transition-all duration-500 ease-in-out text-white pointer-events-auto
+              ${
+                menuOpen
+                  ? 'flex flex-col items-center justify-start gap-10 w-full pt-4 md:flex md:items-center md:justify-center md:gap-15 md:text-2xl md:pt-0'
+                  : 'hidden md:flex md:items-center md:justify-center md:gap-15 md:text-2xl'
+              }
+            `}
+            onClick={menuOpen ? e => e.stopPropagation() : undefined}
           >
-            Lynh & Michael
-          </Link>
-          <nav className="hidden md:flex items-center justify-center gap-15 text-2xl">
             {NAV_LINKS.map(({ href, label }) => (
               <NavLink
                 key={label}
                 to={href}
                 className={({ isActive }) =>
-                  `focus-visible:outline focus-visible:outline-gray-950 focus-visible:outline-offset-6 hover:overline text-xl ${
+                  `cursor-pointer focus-visible:outline focus-visible:outline-gray-950 focus-visible:outline-offset-6 hover:overline text-xl transition-colors ${
                     isActive ? 'font-bold overline' : ''
                   }`
                 }
+                onClick={menuOpen ? closeMenu : undefined}
               >
                 {label}
               </NavLink>
             ))}
           </nav>
-        </div>
-      </header>
-      <div
-        className={`fixed inset-0 top-[72px] flex flex-col items-center bg-black/50 z-40 transition-opacity duration-300 md:hidden ${
-          menuOpen
-            ? 'opacity-100 pointer-events-auto'
-            : 'opacity-0 invisible pointer-events-none'
-        }`}
-      >
-        <nav
-          className={`w-full text-white overflow-hidden transition-transform transform origin-top duration-500 ease-in-out ${
-            menuOpen ? 'scale-y-100' : 'scale-y-0'
-          } flex flex-col items-center justify-start gap-10 pb-6`}
-          style={{
-            transformOrigin: 'top',
-            transform: `translateY(${menuOpen ? '0' : '-100%'})`, // Ensures smooth roll-up animation
-            transition: 'transform 0.5s ease-in-out',
-          }}
-          onClick={e => e.stopPropagation()}
-        >
-          {NAV_LINKS.map(({ href, label }) => (
-            <NavLink
-              key={label}
-              to={href}
-              className={({ isActive }) =>
-                `hover:overline text-xl ${isActive ? 'font-bold overline' : ''}`
-              }
-              onClick={closeMenu}
-            >
-              {label}
-            </NavLink>
-          ))}
-        </nav>
+        </header>
       </div>
     </div>
   );
