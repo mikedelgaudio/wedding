@@ -166,12 +166,13 @@ const faqData: FAQItem[] = [
     question: 'Is there a hotel block for guests?',
     answer: (
       <>
-        We've secured a hotel block at the The <b>SOMM Hotel & Spa</b> in
-        Woodinville! It is about a 1 minute drive from the reception venue. We
-        highly recommend booking early, as space is limited. If the hotel block
-        is full, don't worry - there are plenty of excellent accommodations
-        throughout the area. For our complete recommendations and helpful
-        booking links, please visit the{' '}
+        We've secured a hotel block at the The{' '}
+        <span className="font-bold">SOMM Hotel & Spa</span> in Woodinville! It
+        is about a 1 minute drive from the reception venue. We highly recommend
+        booking early, as space is limited. If the hotel block is full, don't
+        worry - there are plenty of excellent accommodations throughout the
+        area. For our complete recommendations and helpful booking links, please
+        visit the{' '}
         <Link
           className="underline hover:no-underline focus-visible:border focus-visible:border-gray-950 focus:outline-none focus-visible:rounded-lg"
           to="/travel"
@@ -186,11 +187,10 @@ const faqData: FAQItem[] = [
     question: 'Is transportation provided?',
     answer: (
       <>
-        We will not be providing transportation. We recommend arranging your own
-        transportation. There are plenty of rideshare options available in the
-        area, including Uber and Lyft. Rental cars are also an option we
-        reccommend if you plan to explore the area (especially if you are
-        planning on going on a hike).
+        Transportation will not be provided, so we kindly encourage you to make
+        your own arrangements. The area is well-served by rideshare services
+        such as Uber and Lyft. If you are planning to explore more of the region
+        or go on a hike, a rental car is also a great option.
       </>
     ),
   },

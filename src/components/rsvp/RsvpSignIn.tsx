@@ -116,12 +116,11 @@ export function RsvpSignIn({ onSuccess }: RsvpSignInProps) {
   return (
     <>
       <p className="text-lg">
-        We hope you'll be able to join us—it would mean so much to celebrate
-        together! But we also understand that summer is a busy time and travel
-        isn't always easy. If you're unable to attend, please know that your
-        love and support still mean the world to us. We are planning on
-        livestreaming the ceremony for those who cannot attend in person,
-        updates on this website to come closer to the date.
+        We'd love for you to join us. It would mean so much to celebrate
+        together! We understand summer can be busy and travel isn't always easy,
+        so please know your love and support mean the world no matter what. For
+        those unable to attend, we plan to livestream the ceremony, with updates
+        shared here closer to the date.
       </p>
       <form onSubmit={handleSubmit}>
         <div className="flex items-center justify-between">

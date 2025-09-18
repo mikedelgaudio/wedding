@@ -169,7 +169,7 @@ export function Travel(): JSX.Element {
                     rel="noreferrer"
                     className="underline hover:no-underline focus-visible:border focus-visible:border-gray-950 focus:outline-none focus-visible:rounded-lg"
                   >
-                    <strong>Marriott Residence Inn Redmond: </strong>
+                    <strong>Marriott Residence Inn Redmond:</strong>
                   </a>
                   This is the hotel that we both stayed for 3 months when we
                   were interns. It offers spacious suites with kitchenettes (hot

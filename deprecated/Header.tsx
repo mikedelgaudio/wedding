@@ -58,7 +58,7 @@ export function Header(): JSX.Element {
             style={{ fontFamily: 'Tangerine' }}
             to="/"
           >
-            🌷 Lynh & Michael 🌷
+            Lynh & Michael
           </Link>
           <span className="md:block hidden text-lg">
             {event?.date} &nbsp;&middot;&nbsp; {event?.location}

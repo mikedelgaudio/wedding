@@ -1,4 +1,5 @@
 import type { JSX } from 'react';
+import { Link } from 'react-router-dom';
 import { ResponsiveFigure } from './ResponsiveFigure';
 import { AnimatedElement } from './animation/AnimatedElement';
 
@@ -210,9 +211,12 @@ export function OurStoryCore(): JSX.Element {
         After college, Michael and Lynh both returned to Washington for work and
         have been living there ever since! They enjoy going on hikes with their
         friends and trying new coffee/tea spots, (see recommendations in the{' '}
-        <a href="/travel" className="font-bold underline">
+        <Link
+          to="/travel"
+          className="font-bold underline hover:no-underline focus-visible:outline-2"
+        >
           Things To Do section
-        </a>
+        </Link>
         ).
         <ResponsiveFigure
           src={`${CDN_URL}/diabloLake.jpg`}
