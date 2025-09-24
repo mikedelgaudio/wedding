@@ -49,26 +49,11 @@ export function Header(): JSX.Element {
 
   return (
     <div className="relative z-50">
-      {/* Skip Navigation Button */}
-      <a
-        href="#main-content"
-        className={`
-          sr-only focus:not-sr-only fixed top-4 left-4 z-[100] 
-          px-4 py-2 rounded-md font-medium transition-colors
-          focus-visible:outline-2 focus-visible:outline-offset-2
-          ${
-            menuOpen || (isHomePage && !isScrolled)
-              ? 'bg-white text-black focus-visible:outline-black'
-              : 'bg-black text-white focus-visible:outline-white'
-          }
-        `}
-      >
-        Skip to main content
-      </a>
-
       {/* Header background - only covers header area */}
       <div
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        className={`${
+          isHomePage ? 'fixed' : ''
+        } top-0 left-0 right-0 z-50 transition-all duration-300 ${
           menuOpen
             ? 'bg-transparent md:bg-black/80 md:backdrop-blur-md'
             : isHomePage
@@ -102,7 +87,7 @@ export function Header(): JSX.Element {
               to="/"
               onClick={menuOpen ? closeMenu : undefined}
             >
-              🌷 Lynh & Michael 🌷
+              Lynh & Michael
             </Link>
           </div>
 

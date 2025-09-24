@@ -1,17 +1,14 @@
-import {
-  doc,
-  DocumentReference,
-  getDoc,
-  type DocumentSnapshot,
-} from 'firebase/firestore';
+import { doc, DocumentReference, getDoc } from 'firebase/firestore';
 import { useState, type FormEvent } from 'react';
-import type { IRSVPDoc } from '../../firebase/IRSVPDoc';
-import { db } from '../../firebase/firebase.service';
+import { db } from '../../../firebase/firebase.service';
+import type { IRSVPDoc } from '../../../firebase/IRSVPDoc';
 import {
   trackRsvpError,
   trackRsvpFormLookupSubmit,
   trackRsvpSuccess,
-} from '../../utils/analytics';
+} from '../../../utils/analytics';
+import type { IRsvpScreenProps } from '../models/IRsvpScreenProps';
+import { RsvpHeader } from '../RsvpHeader';
 
 const RSVP_SERVICE_UNAVAILABLE_ERROR_MESSAGE =
   'The RSVP service is currently unavailable. Please try again later or contact us for assistance.';
@@ -24,11 +21,10 @@ const RSVP_DEADLINE_PASSED_ERROR_MESSAGE =
 
 const CODE_FORMAT = /^[A-Z0-9]{4}-[A-Z0-9]{4}$/;
 
-interface RsvpSignInProps {
-  onSuccess: (snap: DocumentSnapshot<IRSVPDoc>) => void;
-}
-
-export function RsvpSignIn({ onSuccess }: RsvpSignInProps) {
+export function RsvpSignIn({
+  onSuccess,
+  onBackToMethodSelection,
+}: IRsvpScreenProps) {
   const [code, setCode] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -115,13 +111,7 @@ export function RsvpSignIn({ onSuccess }: RsvpSignInProps) {
 
   return (
     <>
-      <p className="text-lg">
-        We'd love for you to join us. It would mean so much to celebrate
-        together! We understand summer can be busy and travel isn't always easy,
-        so please know your love and support mean the world no matter what. For
-        those unable to attend, we plan to livestream the ceremony, with updates
-        shared here closer to the date.
-      </p>
+      <RsvpHeader />
       <form onSubmit={handleSubmit}>
         <div className="flex items-center justify-between">
           <label
@@ -152,16 +142,28 @@ export function RsvpSignIn({ onSuccess }: RsvpSignInProps) {
           The RSVP code is on your invitation in the format{' '}
           <strong>XXXX-XXXX</strong>.
         </p>
-        <p className="text-sm">
-          Questions? Email us at{' '}
-          <a
-            className="underline focus:outline-none focus:ring hover:no-underline"
-            href="mailto:wedding@delgaudio.dev"
-          >
-            wedding@delgaudio.dev
-          </a>
-          .
-        </p>
+
+        {onBackToMethodSelection && (
+          <p className="text-sm ">
+            If you can't find your code, try{' '}
+            <span
+              role="button"
+              onClick={onBackToMethodSelection}
+              className="cursor-pointer underline hover:no-underline"
+            >
+              searching by name
+            </span>
+            , or email us at{' '}
+            <a
+              className="underline focus:outline-none focus:ring hover:no-underline"
+              href="mailto:wedding@delgaudio.dev"
+            >
+              wedding@delgaudio.dev
+            </a>
+            .
+          </p>
+        )}
+
         <button
           type="submit"
           disabled={loading}

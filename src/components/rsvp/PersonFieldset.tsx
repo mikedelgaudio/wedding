@@ -1,4 +1,5 @@
 import { Fragment } from 'react';
+import { useRsvp } from '../../hooks/useRsvp';
 import { OpenInExternalLink } from '../OpenInExternalLink';
 import { RadioGroup } from './RadioGroup';
 import {
@@ -19,25 +20,16 @@ interface PersonFieldsetProps {
     isNameEditable?: boolean;
     allowedToAttendBrunch?: boolean;
   };
-  onPersonChange: {
-    attendingCeremony: (value: boolean | null) => void;
-    attendingReception: (value: boolean | null) => void;
-    attendingBrunch: (value: boolean | null) => void;
-    dietaryRestrictions: (value: string) => void;
-    foodOption: (value: FoodOptionId | null) => void;
-    contactInfo: (value: string) => void;
-    name: (value: string) => void;
-  };
   personType: 'invitee' | 'guest';
   guestNumber?: number;
 }
 
 export function PersonFieldset({
   person,
-  onPersonChange,
   personType,
   guestNumber,
 }: PersonFieldsetProps) {
+  const { actions } = useRsvp();
   const fieldPrefix =
     personType === 'invitee' ? 'invitee' : `guest-${guestNumber}`;
   const displayName =
@@ -68,7 +60,11 @@ export function PersonFieldset({
               id={`${fieldPrefix}-name`}
               type="text"
               value={person.name}
-              onChange={e => onPersonChange.name(e.target.value)}
+              onChange={e => {
+                if (personType === 'guest' && guestNumber !== undefined) {
+                  actions.updateGuest(guestNumber - 1, 'name', e.target.value);
+                }
+              }}
               placeholder={`${displayName} Full Name`}
               required={shouldRequireFields}
               className="w-full p-2 border rounded bg-white focus:outline-none focus:ring"
@@ -89,7 +85,13 @@ export function PersonFieldset({
         <RadioGroup
           name={`${fieldPrefix}-attendingCeremony`}
           value={person.attendingCeremony}
-          onChange={onPersonChange.attendingCeremony}
+          onChange={value => {
+            if (personType === 'invitee') {
+              actions.updateField('attendingCeremony', value);
+            } else if (guestNumber !== undefined) {
+              actions.updateGuest(guestNumber - 1, 'attendingCeremony', value);
+            }
+          }}
           required
         />
       </div>
@@ -101,7 +103,13 @@ export function PersonFieldset({
         <RadioGroup
           name={`${fieldPrefix}-attendingReception`}
           value={person.attendingReception}
-          onChange={onPersonChange.attendingReception}
+          onChange={value => {
+            if (personType === 'invitee') {
+              actions.updateField('attendingReception', value);
+            } else if (guestNumber !== undefined) {
+              actions.updateGuest(guestNumber - 1, 'attendingReception', value);
+            }
+          }}
           required
         />
       </div>
@@ -136,7 +144,11 @@ export function PersonFieldset({
                   onChange={e => {
                     const value = e.target.value;
                     if (isValidFoodOption(value)) {
-                      onPersonChange.foodOption(value);
+                      if (personType === 'invitee') {
+                        actions.updateField('foodOption', value);
+                      } else if (guestNumber !== undefined) {
+                        actions.updateGuest(guestNumber - 1, 'foodOption', value);
+                      }
                     }
                   }}
                   className="sr-only peer"
@@ -172,7 +184,13 @@ export function PersonFieldset({
           <RadioGroup
             name={`${fieldPrefix}-attendingBrunch`}
             value={person.attendingBrunch}
-            onChange={onPersonChange.attendingBrunch}
+            onChange={value => {
+              if (personType === 'invitee') {
+                actions.updateField('attendingBrunch', value);
+              } else if (guestNumber !== undefined) {
+                actions.updateGuest(guestNumber - 1, 'attendingBrunch', value);
+              }
+            }}
             required
           />
         </div>
@@ -193,7 +211,13 @@ export function PersonFieldset({
             type="text"
             id={`${fieldPrefix}-contactInfo`}
             value={person.contactInfo}
-            onChange={e => onPersonChange.contactInfo(e.target.value)}
+            onChange={e => {
+              if (personType === 'invitee') {
+                actions.updateField('contactInfo', e.target.value);
+              } else if (guestNumber !== undefined) {
+                actions.updateGuest(guestNumber - 1, 'contactInfo', e.target.value);
+              }
+            }}
             placeholder="Phone number or email address"
             className="w-full p-2 border bg-white rounded focus:outline-none focus:ring"
             required={
@@ -228,7 +252,13 @@ export function PersonFieldset({
           type="text"
           value={person.dietaryRestrictions}
           id={`${fieldPrefix}-dietaryRestrictions`}
-          onChange={e => onPersonChange.dietaryRestrictions(e.target.value)}
+          onChange={e => {
+            if (personType === 'invitee') {
+              actions.updateField('dietaryRestrictions', e.target.value);
+            } else if (guestNumber !== undefined) {
+              actions.updateGuest(guestNumber - 1, 'dietaryRestrictions', e.target.value);
+            }
+          }}
           placeholder="e.g. Vegetarian, Gluten-free…"
           className="w-full p-2 border rounded bg-white focus:outline-none focus:ring"
         />

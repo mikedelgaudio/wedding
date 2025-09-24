@@ -11,6 +11,9 @@ service cloud.firestore {
       // Only allow authenticated users (via site password) to read
       allow get: if request.auth.uid == 'site-guest';
 
+      // Allow listing for name lookup functionality
+      allow list: if request.auth.uid == 'site-guest';
+
       // Allow update by authenticated user and if valid
       allow update: if
         request.auth.uid == 'site-guest'

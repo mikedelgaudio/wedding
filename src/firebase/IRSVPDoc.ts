@@ -14,7 +14,8 @@ export interface IInvitee extends IAttending {
   contactInfo?: string | null;
 }
 
-export interface IGuest extends IInvitee {
+export interface IGuest extends Omit<IInvitee, 'name'> {
+  name?: string | null;
   isNameEditable: boolean;
 }
 
