@@ -37,7 +37,7 @@ export function ResponsiveFigure({
         <figcaption
           className="
             absolute bottom-0 w-full 
-            bg-white text-black italic text-sm 
+            bg-black text-white  text-sm 
             text-center px-2 py-1
             sm:bottom-4 sm:left-1/2 sm:w-auto sm:transform sm:-translate-x-1/2 sm:rounded-xl
           "

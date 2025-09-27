@@ -8,7 +8,7 @@ export function AppWithHeader({ children }: { children: JSX.Element }) {
     <div className="min-h-screen flex flex-col">
       <Header />
       <FadeInOnLoad>
-        <main className="mt-[72px] md:mt-auto" id="main-content">
+        <main className="mt-auto" id="main-content">
           {children}
         </main>
       </FadeInOnLoad>

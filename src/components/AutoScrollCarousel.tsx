@@ -345,12 +345,12 @@ export function AutoScrollCarousel() {
               <p className="text-md md:text-xl uppercase pb-2">
                 Please join us for the wedding of
               </p>
-              <p
+              <h1
                 className="text-6xl md:text-9xl"
                 style={{ fontFamily: '"Tangerine", serif' }}
               >
                 Lynh & Michael
-              </p>
+              </h1>
             </AnimatedElement>
             <AnimatedElement
               delay={100}
