@@ -1,9 +1,9 @@
 import { useEffect, useMemo, type FormEvent } from 'react';
-import { useRsvp } from '../../hooks/useRsvp';
-import { trackRsvpError, trackRsvpFormLoaded } from '../../utils/analytics';
+import { useRsvp } from '../../../hooks/useRsvp';
+import { trackRsvpError, trackRsvpFormLoaded } from '../../../utils/analytics';
+import { SuccessScreen } from '../results/SuccessScreen';
+import { isValidFoodOption, type FoodOptionId } from '../utils/foodOptions';
 import { PersonFieldset } from './PersonFieldset';
-import { SuccessScreen } from './SuccessScreen';
-import { isValidFoodOption, type FoodOptionId } from './utils/foodOptions';
 
 export function RsvpForm() {
   const { state, actions } = useRsvp();

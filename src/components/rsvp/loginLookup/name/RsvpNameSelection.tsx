@@ -1,7 +1,7 @@
 import type { DocumentSnapshot } from 'firebase/firestore';
-import type { IRSVPDoc } from '../../firebase/IRSVPDoc';
-import { trackRsvpSuccess } from '../../utils/analytics';
-import type { NameMatch } from './forms/RsvpNameLookup';
+import type { IRSVPDoc } from '../../../../firebase/IRSVPDoc';
+import { trackRsvpSuccess } from '../../../../utils/analytics';
+import type { NameMatch } from './RsvpNameLookup';
 
 interface RsvpNameSelectionProps {
   matches: NameMatch[];

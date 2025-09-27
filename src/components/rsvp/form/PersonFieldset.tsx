@@ -1,12 +1,12 @@
 import { Fragment } from 'react';
-import { useRsvp } from '../../hooks/useRsvp';
-import { OpenInExternalLink } from '../OpenInExternalLink';
-import { RadioGroup } from './RadioGroup';
+import { useRsvp } from '../../../hooks/useRsvp';
+import { OpenInExternalLink } from '../../OpenInExternalLink';
 import {
   FOOD_OPTIONS,
   isValidFoodOption,
   type FoodOptionId,
-} from './utils/foodOptions';
+} from '../utils/foodOptions';
+import { RadioGroup } from './RadioGroup';
 
 interface PersonFieldsetProps {
   person: {
@@ -147,7 +147,11 @@ export function PersonFieldset({
                       if (personType === 'invitee') {
                         actions.updateField('foodOption', value);
                       } else if (guestNumber !== undefined) {
-                        actions.updateGuest(guestNumber - 1, 'foodOption', value);
+                        actions.updateGuest(
+                          guestNumber - 1,
+                          'foodOption',
+                          value,
+                        );
                       }
                     }
                   }}
@@ -215,7 +219,11 @@ export function PersonFieldset({
               if (personType === 'invitee') {
                 actions.updateField('contactInfo', e.target.value);
               } else if (guestNumber !== undefined) {
-                actions.updateGuest(guestNumber - 1, 'contactInfo', e.target.value);
+                actions.updateGuest(
+                  guestNumber - 1,
+                  'contactInfo',
+                  e.target.value,
+                );
               }
             }}
             placeholder="Phone number or email address"
@@ -256,7 +264,11 @@ export function PersonFieldset({
             if (personType === 'invitee') {
               actions.updateField('dietaryRestrictions', e.target.value);
             } else if (guestNumber !== undefined) {
-              actions.updateGuest(guestNumber - 1, 'dietaryRestrictions', e.target.value);
+              actions.updateGuest(
+                guestNumber - 1,
+                'dietaryRestrictions',
+                e.target.value,
+              );
             }
           }}
           placeholder="e.g. Vegetarian, Gluten-free…"

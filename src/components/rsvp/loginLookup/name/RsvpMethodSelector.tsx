@@ -1,4 +1,4 @@
-import { RsvpHeader } from './RsvpHeader';
+import { RsvpHeader } from '../RsvpHeader';
 
 interface RsvpMethodSelectorProps {
   onSelectMethod: (method: 'code' | 'name') => void;

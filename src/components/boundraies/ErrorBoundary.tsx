@@ -9,7 +9,7 @@ interface State {
   error?: Error;
 }
 
-export class RsvpErrorBoundary extends Component<Props, State> {
+export class ErrorBoundary extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = { hasError: false };
@@ -28,7 +28,7 @@ export class RsvpErrorBoundary extends Component<Props, State> {
               Something went wrong
             </h2>
             <p className="mb-4">
-              We're sorry, but there was an error loading your RSVP. Please try
+              We're sorry, but there was an error loading your data. Please try
               refreshing the page.
             </p>
             <p className="text-sm">

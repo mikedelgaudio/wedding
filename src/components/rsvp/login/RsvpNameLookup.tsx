@@ -12,7 +12,7 @@ import {
   trackRsvpError,
   trackRsvpFormLookupSubmit,
 } from '../../../utils/analytics';
-import { RsvpHeader } from '../RsvpHeader';
+import { RsvpHeader } from '../loginLookup/RsvpHeader';
 import type { IRsvpScreenProps } from '../models/IRsvpScreenProps';
 import { calculateMatchScore } from '../utils/calculateMatchWord';
 

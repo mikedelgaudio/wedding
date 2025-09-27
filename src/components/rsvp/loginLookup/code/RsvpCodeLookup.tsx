@@ -1,13 +1,13 @@
 import { doc, DocumentReference, getDoc } from 'firebase/firestore';
 import { useState, type FormEvent } from 'react';
-import { db } from '../../../firebase/firebase.service';
-import type { IRSVPDoc } from '../../../firebase/IRSVPDoc';
+import { db } from '../../../../firebase/firebase.service';
+import type { IRSVPDoc } from '../../../../firebase/IRSVPDoc';
 import {
   trackRsvpError,
   trackRsvpFormLookupSubmit,
   trackRsvpSuccess,
-} from '../../../utils/analytics';
-import type { IRsvpScreenProps } from '../models/IRsvpScreenProps';
+} from '../../../../utils/analytics';
+import type { IRsvpScreenProps } from '../../models/IRsvpScreenProps';
 import { RsvpHeader } from '../RsvpHeader';
 
 const RSVP_SERVICE_UNAVAILABLE_ERROR_MESSAGE =
@@ -21,7 +21,7 @@ const RSVP_DEADLINE_PASSED_ERROR_MESSAGE =
 
 const CODE_FORMAT = /^[A-Z0-9]{4}-[A-Z0-9]{4}$/;
 
-export function RsvpSignIn({
+export function RsvpCodeLookup({
   onSuccess,
   onBackToMethodSelection,
 }: IRsvpScreenProps) {

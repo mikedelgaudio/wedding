@@ -1,16 +1,16 @@
 import type { DocumentSnapshot } from 'firebase/firestore';
 import { useCallback, useMemo, useState, type JSX } from 'react';
 import { AppWithHeader } from '../AppWithHeader';
+import { ErrorBoundary } from '../components/boundraies/ErrorBoundary';
 import { PageWrapper } from '../components/PageWrapper';
+import { RsvpForm } from '../components/rsvp/form/RsvpForm';
+import { RsvpCodeLookup } from '../components/rsvp/loginLookup/code/RsvpCodeLookup';
+import { RsvpMethodSelector } from '../components/rsvp/loginLookup/name/RsvpMethodSelector';
 import {
   RsvpNameLookup,
   type NameMatch,
-} from '../components/rsvp/forms/RsvpNameLookup';
-import { RsvpSignIn } from '../components/rsvp/forms/RsvpSignIn';
-import { RsvpErrorBoundary } from '../components/rsvp/RsvpErrorBoundary';
-import { RsvpForm } from '../components/rsvp/RsvpForm';
-import { RsvpMethodSelector } from '../components/rsvp/RsvpMethodSelector';
-import { RsvpNameSelection } from '../components/rsvp/RsvpNameSelection';
+} from '../components/rsvp/loginLookup/name/RsvpNameLookup';
+import { RsvpNameSelection } from '../components/rsvp/loginLookup/name/RsvpNameSelection';
 import { RsvpProvider } from '../context/rsvp/RsvpProvider';
 import type { IRSVPDoc } from '../firebase/IRSVPDoc';
 import { useEvent } from '../hooks/useEvent';
@@ -31,11 +31,7 @@ function RsvpContent(): JSX.Element {
   );
   const [nameMatches, setNameMatches] = useState<NameMatch[]>([]);
 
-  // Memoize the method selection flag to avoid recalculation
-  const allowRsvpByName = useMemo(
-    () => eventData?.allowRsvpByName === true,
-    [eventData?.allowRsvpByName],
-  );
+  const allowRsvpByName = !!eventData?.allowRsvpByName;
 
   // Memoize all callback handlers to prevent unnecessary re-renders
   const handleMethodSelection = useCallback((method: 'code' | 'name') => {
@@ -66,14 +62,14 @@ function RsvpContent(): JSX.Element {
 
   // Memoize the content rendering to avoid unnecessary recalculations
   const content = useMemo(() => {
-    // If RSVP is completed, show the form
+    // Show the form directly if we already have a snapshot
     if (rsvpState.snapshot) {
       return <RsvpForm />;
     }
 
     // If allowRsvpByName is not enabled, show traditional code entry
     if (!allowRsvpByName) {
-      return <RsvpSignIn onSuccess={handleRsvpSuccess} />;
+      return <RsvpCodeLookup onSuccess={handleRsvpSuccess} />;
     }
 
     // Handle different states for name-based RSVP
@@ -82,7 +78,12 @@ function RsvpContent(): JSX.Element {
         return <RsvpMethodSelector onSelectMethod={handleMethodSelection} />;
 
       case 'code-entry':
-        return <RsvpSignIn onSuccess={handleRsvpSuccess} />;
+        return (
+          <RsvpCodeLookup
+            onSuccess={handleRsvpSuccess}
+            onBackToMethodSelection={handleBackToMethodSelection}
+          />
+        );
 
       case 'name-entry':
         return (
@@ -103,7 +104,7 @@ function RsvpContent(): JSX.Element {
         );
 
       default:
-        return <RsvpMethodSelector onSelectMethod={handleMethodSelection} />;
+        return <RsvpCodeLookup onSuccess={handleRsvpSuccess} />;
     }
   }, [
     rsvpState.snapshot,
@@ -127,9 +128,9 @@ function RsvpContent(): JSX.Element {
 export function Rsvp(): JSX.Element {
   return (
     <RsvpProvider>
-      <RsvpErrorBoundary>
+      <ErrorBoundary>
         <RsvpContent />
-      </RsvpErrorBoundary>
+      </ErrorBoundary>
     </RsvpProvider>
   );
 }
