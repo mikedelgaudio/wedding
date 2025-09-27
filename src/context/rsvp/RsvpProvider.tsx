@@ -5,7 +5,7 @@ import {
   type DocumentSnapshot,
   type UpdateData,
 } from 'firebase/firestore';
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useReducer } from 'react';
 import {
   isValidFoodOption,
   type FoodOptionId,
@@ -25,93 +25,228 @@ interface RsvpProviderProps {
   children: React.ReactNode;
 }
 
-export function RsvpProvider({ children }: RsvpProviderProps) {
-  const [snapshot, setSnapshot] = useState<DocumentSnapshot<IRSVPDoc> | null>(
-    null,
-  );
-  const [isSaving, setIsSaving] = useState(false);
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const [successFlag, setSuccessFlag] = useState(false);
-
-  // Initialize form data from snapshot when it changes
-  const formData = useMemo((): IRsvpFormData => {
-    if (!snapshot?.data()) {
-      return {
-        attendingCeremony: null,
-        attendingReception: null,
-        attendingBrunch: null,
-        dietaryRestrictions: '',
-        foodOption: null,
-        contactInfo: '',
-        guests: [],
+/**
+ * Actions that can be dispatched to update the RSVP state.
+ * Each action represents a specific state change in the RSVP flow.
+ */
+type RsvpAction =
+  /** Load RSVP data from Firestore snapshot (triggers form data initialization) */
+  | { type: 'SET_SNAPSHOT'; payload: DocumentSnapshot<IRSVPDoc> | null }
+  /** Toggle saving state during form submission */
+  | { type: 'SET_SAVING'; payload: boolean }
+  /** Set error message (null clears errors) */
+  | { type: 'SET_ERROR'; payload: string | null }
+  /** Set success state (automatically clears errors and saving state) */
+  | { type: 'SET_SUCCESS'; payload: boolean }
+  /** Replace entire form data (rarely used) */
+  | { type: 'UPDATE_FORM_DATA'; payload: IRsvpFormData }
+  /** Update a single field on the main invitee */
+  | {
+      type: 'UPDATE_FIELD';
+      payload: {
+        field: keyof Omit<IRsvpFormData, 'guests'>;
+        value: IRsvpFormData[keyof Omit<IRsvpFormData, 'guests'>];
       };
     }
+  /** Update a single field on a specific guest */
+  | {
+      type: 'UPDATE_GUEST';
+      payload: {
+        guestIndex: number;
+        field: keyof IGuest;
+        value: IGuest[keyof IGuest];
+      };
+    }
+  /** Reset all state back to defaults */
+  | { type: 'RESET_FORM' };
 
-    const data = snapshot.data()!;
-    const normalizedGuests: IGuest[] =
-      !data.guests || !Array.isArray(data.guests) || data.guests.length === 0
-        ? []
-        : data.guests.map(g => ({
-            name: g.name ?? '',
-            attendingCeremony: g.attendingCeremony ?? null,
-            attendingReception: g.attendingReception ?? null,
-            attendingBrunch: g.attendingBrunch ?? null,
-            allowedToAttendBrunch: g.allowedToAttendBrunch ?? false,
-            dietaryRestrictions: g.dietaryRestrictions ?? '',
-            isNameEditable: g.isNameEditable ?? false,
-            foodOption: isValidFoodOption(g.foodOption ?? null)
-              ? g.foodOption
-              : null,
-            contactInfo: g.contactInfo ?? '',
-          }));
+/**
+ * Default form data used when no RSVP data is loaded.
+ * All attendance fields start as null (no selection made yet).
+ */
+const defaultFormData: IRsvpFormData = {
+  attendingCeremony: null,
+  attendingReception: null,
+  attendingBrunch: null,
+  dietaryRestrictions: '',
+  foodOption: null,
+  contactInfo: '',
+  guests: [],
+};
 
-    return {
-      attendingCeremony: data.invitee.attendingCeremony ?? null,
-      attendingReception: data.invitee.attendingReception ?? null,
-      attendingBrunch: data.invitee.attendingBrunch ?? null,
-      dietaryRestrictions: data.invitee.dietaryRestrictions ?? '',
-      foodOption: isValidFoodOption(data.invitee.foodOption ?? null)
-        ? (data.invitee.foodOption as FoodOptionId)
-        : null,
-      contactInfo: data.invitee.contactInfo ?? '',
-      guests: normalizedGuests,
-    };
-  }, [snapshot]);
+/**
+ * Transforms a Firestore snapshot into form data structure.
+ * Handles data normalization and provides safe defaults for missing fields.
+ * This is the single source of truth for snapshot → form data conversion.
+ */
+function createFormDataFromSnapshot(
+  snapshot: DocumentSnapshot<IRSVPDoc> | null,
+): IRsvpFormData {
+  if (!snapshot?.data()) {
+    return defaultFormData;
+  }
 
-  const [localFormData, setLocalFormData] = useState<IRsvpFormData>(formData);
+  const data = snapshot.data()!;
 
-  // Update local form data when snapshot changes
-  React.useEffect(() => {
-    setLocalFormData(formData);
-  }, [formData]);
+  // Normalize guest data - ensure all fields have safe defaults
+  const normalizedGuests: IGuest[] =
+    !data.guests || !Array.isArray(data.guests) || data.guests.length === 0
+      ? []
+      : data.guests.map(g => ({
+          name: g.name ?? '',
+          attendingCeremony: g.attendingCeremony ?? null,
+          attendingReception: g.attendingReception ?? null,
+          attendingBrunch: g.attendingBrunch ?? null,
+          allowedToAttendBrunch: g.allowedToAttendBrunch ?? false,
+          dietaryRestrictions: g.dietaryRestrictions ?? '',
+          isNameEditable: g.isNameEditable ?? false,
+          foodOption: isValidFoodOption(g.foodOption ?? null)
+            ? (g.foodOption as FoodOptionId)
+            : null,
+          contactInfo: g.contactInfo ?? '',
+        }));
+
+  return {
+    attendingCeremony: data.invitee.attendingCeremony ?? null,
+    attendingReception: data.invitee.attendingReception ?? null,
+    attendingBrunch: data.invitee.attendingBrunch ?? null,
+    dietaryRestrictions: data.invitee.dietaryRestrictions ?? '',
+    foodOption: isValidFoodOption(data.invitee.foodOption ?? null)
+      ? (data.invitee.foodOption as FoodOptionId)
+      : null,
+    contactInfo: data.invitee.contactInfo ?? '',
+    guests: normalizedGuests,
+  };
+}
+
+/**
+ * Reducer that manages all RSVP state transitions.
+ *
+ * Key design principles:
+ * - SET_SNAPSHOT automatically derives form data and clears error/success states
+ * - Any form updates (UPDATE_FIELD/UPDATE_GUEST) clear success flag
+ * - SET_SUCCESS automatically clears errors and saving state
+ * - All state changes are predictable and atomic
+ */
+function rsvpReducer(state: IRsvpState, action: RsvpAction): IRsvpState {
+  switch (action.type) {
+    case 'SET_SNAPSHOT':
+      return {
+        ...state,
+        snapshot: action.payload,
+        formData: createFormDataFromSnapshot(action.payload),
+        // Clear previous error/success states when loading new snapshot
+        errorMessage: null,
+        successFlag: false,
+      };
+
+    case 'SET_SAVING':
+      return { ...state, isSaving: action.payload };
+
+    case 'SET_ERROR':
+      return { ...state, errorMessage: action.payload, isSaving: false };
+
+    case 'SET_SUCCESS':
+      return {
+        ...state,
+        successFlag: action.payload,
+        isSaving: false,
+        errorMessage: null,
+      };
+
+    case 'UPDATE_FORM_DATA':
+      return { ...state, formData: action.payload };
+
+    case 'UPDATE_FIELD':
+      return {
+        ...state,
+        formData: {
+          ...state.formData,
+          [action.payload.field]: action.payload.value,
+        },
+        // Clear success flag when user makes changes
+        successFlag: false,
+      };
+
+    case 'UPDATE_GUEST':
+      return {
+        ...state,
+        formData: {
+          ...state.formData,
+          guests: state.formData.guests.map((guest, index) =>
+            index === action.payload.guestIndex
+              ? { ...guest, [action.payload.field]: action.payload.value }
+              : guest,
+          ),
+        },
+        // Clear success flag when user makes changes
+        successFlag: false,
+      };
+
+    case 'RESET_FORM':
+      return {
+        snapshot: null,
+        formData: defaultFormData,
+        isSaving: false,
+        errorMessage: null,
+        successFlag: false,
+      };
+
+    default:
+      return state;
+  }
+}
+
+/**
+ * RsvpProvider - Main context provider for RSVP functionality.
+ *
+ * Manages the complete RSVP flow:
+ * 1. User enters RSVP code or searches by name
+ * 2. setSnapshot() loads Firestore data and initializes form
+ * 3. User edits form using updateField() and updateGuest()
+ * 4. User submits via submitRsvp() which validates and saves to Firestore
+ * 5. Optional: resetForm() clears everything to start over
+ *
+ * Key benefits of this implementation:
+ * - Single source of truth via useReducer
+ * - No state synchronization issues
+ * - Optimized re-renders with stable callbacks
+ * - Automatic error/success state management
+ */
+export function RsvpProvider({ children }: RsvpProviderProps) {
+  const [state, dispatch] = useReducer(rsvpReducer, {
+    snapshot: null,
+    formData: defaultFormData,
+    isSaving: false,
+    errorMessage: null,
+    successFlag: false,
+  });
+
+  // Action creators - stable callbacks that don't cause re-renders
+  const setSnapshot = useCallback((snapshot: DocumentSnapshot<IRSVPDoc>) => {
+    dispatch({ type: 'SET_SNAPSHOT', payload: snapshot });
+  }, []);
 
   /**
-   * Updates a specific field in the main invitee's RSVP form data.
-   * Uses TypeScript generics to ensure type safety between field name and value.
-   *
-   * @param fieldName - The field name to update (e.g., 'attendingCeremony', 'foodOption')
-   * @param newValue - The new value for the field (type-checked against the field)
+   * Updates a field on the main invitee (not guests).
+   * Automatically clears success flag when user makes changes.
    */
   const updateField = useCallback(
     <FieldName extends keyof Omit<IRsvpFormData, 'guests'>>(
       fieldName: FieldName,
       newValue: IRsvpFormData[FieldName],
     ) => {
-      setLocalFormData(previousFormData => ({
-        ...previousFormData,
-        [fieldName]: newValue
-      }));
+      dispatch({
+        type: 'UPDATE_FIELD',
+        payload: { field: fieldName, value: newValue },
+      });
     },
     [],
   );
 
   /**
-   * Updates a specific field for a guest at the given index.
-   * Uses TypeScript generics to ensure type safety between field name and value.
-   *
-   * @param guestIndex - Index of the guest in the guests array (0-based)
-   * @param fieldName - The field name to update (e.g., 'attendingCeremony', 'foodOption')
-   * @param newValue - The new value for the field (type-checked against the field)
+   * Updates a field on a specific guest.
+   * Automatically clears success flag when user makes changes.
    */
   const updateGuest = useCallback(
     <FieldName extends keyof IGuest>(
@@ -119,68 +254,78 @@ export function RsvpProvider({ children }: RsvpProviderProps) {
       fieldName: FieldName,
       newValue: IGuest[FieldName],
     ) => {
-      setLocalFormData(previousFormData => ({
-        ...previousFormData,
-        guests: previousFormData.guests.map((guest, currentIndex) =>
-          currentIndex === guestIndex
-            ? { ...guest, [fieldName]: newValue } // Update only the target guest
-            : guest, // Keep other guests unchanged
-        ),
-      }));
+      dispatch({
+        type: 'UPDATE_GUEST',
+        payload: { guestIndex, field: fieldName, value: newValue },
+      });
     },
     [],
   );
 
+  /**
+   * Validates and submits the RSVP form to Firestore.
+   *
+   * Process:
+   * 1. Validates required fields based on attendance selections
+   * 2. Transforms form data into Firestore document format
+   * 3. Saves to Firestore with optimistic error handling
+   * 4. Updates state with success/error status
+   * 5. Tracks analytics events for monitoring
+   */
   const submitRsvp = useCallback(async () => {
-    if (!snapshot?.data()) {
-      setErrorMessage('No RSVP data found');
+    if (!state.snapshot?.data()) {
+      dispatch({ type: 'SET_ERROR', payload: 'No RSVP data found' });
       return;
     }
 
     trackRsvpFormSubmit();
-    setErrorMessage(null);
+    dispatch({ type: 'SET_ERROR', payload: null });
 
-    const data = snapshot.data()!;
+    const data = state.snapshot.data()!;
     const validationError = validateRsvpForm({
-      attendingCeremony: localFormData.attendingCeremony,
-      attendingReception: localFormData.attendingReception,
-      attendingBrunch: localFormData.attendingBrunch,
-      foodOption: localFormData.foodOption,
-      contactInfo: localFormData.contactInfo,
-      guestResponses: localFormData.guests,
+      attendingCeremony: state.formData.attendingCeremony,
+      attendingReception: state.formData.attendingReception,
+      attendingBrunch: state.formData.attendingBrunch,
+      foodOption: state.formData.foodOption,
+      contactInfo: state.formData.contactInfo,
+      guestResponses: state.formData.guests,
       inviteeAllowedToAttendBrunch: !!data.invitee.allowedToAttendBrunch,
     });
 
     if (validationError) {
       trackRsvpSaveError('validation_error', undefined, validationError);
-      setErrorMessage(validationError);
+      dispatch({ type: 'SET_ERROR', payload: validationError });
       return;
     }
 
-    setIsSaving(true);
+    dispatch({ type: 'SET_SAVING', payload: true });
     try {
+      // Build Firestore payload - transform form data to document structure
       const payload: UpdateData<IRSVPDoc> = {
         invitee: {
-          name: data.invitee.name,
-          attendingCeremony: localFormData.attendingCeremony,
-          attendingReception: localFormData.attendingReception,
-          attendingBrunch: localFormData.attendingBrunch,
-          dietaryRestrictions: localFormData.dietaryRestrictions || null,
-          foodOption: localFormData.attendingReception
-            ? localFormData.foodOption
+          name: data.invitee.name, // Preserve original name (read-only)
+          attendingCeremony: state.formData.attendingCeremony,
+          attendingReception: state.formData.attendingReception,
+          attendingBrunch: state.formData.attendingBrunch,
+          dietaryRestrictions: state.formData.dietaryRestrictions || null,
+          // Only save food option if attending reception
+          foodOption: state.formData.attendingReception
+            ? state.formData.foodOption
             : null,
+          // Only require contact info if attending any event
           contactInfo:
-            localFormData.attendingCeremony ||
-            localFormData.attendingReception ||
-            localFormData.attendingBrunch
-              ? localFormData.contactInfo || null
+            state.formData.attendingCeremony ||
+            state.formData.attendingReception ||
+            state.formData.attendingBrunch
+              ? state.formData.contactInfo || null
               : null,
         },
         lastModified: serverTimestamp(),
       };
 
-      if (localFormData.guests.length > 0) {
-        payload.guests = localFormData.guests.map<
+      // Handle guest responses (if any)
+      if (state.formData.guests.length > 0) {
+        payload.guests = state.formData.guests.map<
           Omit<IGuest, 'allowedToAttendBrunch'>
         >(g => ({
           name: g.name,
@@ -189,7 +334,9 @@ export function RsvpProvider({ children }: RsvpProviderProps) {
           attendingBrunch: g.attendingBrunch,
           dietaryRestrictions: g.dietaryRestrictions || null,
           isNameEditable: g.isNameEditable,
+          // Only save food option if attending reception
           foodOption: g.attendingReception ? g.foodOption : null,
+          // Only require contact info if attending any event
           contactInfo:
             g.attendingCeremony || g.attendingReception || g.attendingBrunch
               ? g.contactInfo || null
@@ -199,10 +346,11 @@ export function RsvpProvider({ children }: RsvpProviderProps) {
         payload.guests = [];
       }
 
-      const ref = doc(db, 'rsvp', snapshot.id);
+      // Save to Firestore
+      const ref = doc(db, 'rsvp', state.snapshot.id);
       await updateDoc(ref, payload);
 
-      setSuccessFlag(true);
+      dispatch({ type: 'SET_SUCCESS', payload: true });
       trackRsvpSaveSuccess();
     } catch (err) {
       const firebaseError = err as { code?: string; message?: string };
@@ -211,38 +359,32 @@ export function RsvpProvider({ children }: RsvpProviderProps) {
         firebaseError.code,
         firebaseError.message,
       );
-      setErrorMessage(
-        'An error occurred while saving your RSVP. Please refresh the page and try again or contact us.',
-      );
-    } finally {
-      setIsSaving(false);
+      dispatch({
+        type: 'SET_ERROR',
+        payload:
+          'An error occurred while saving your RSVP. Please refresh the page and try again or contact us.',
+      });
     }
-  }, [snapshot, localFormData]);
+  }, [state.snapshot, state.formData]);
 
+  /**
+   * Resets all state back to initial values.
+   * Useful for starting a completely new RSVP session.
+   */
   const resetForm = useCallback(() => {
-    setSnapshot(null);
-    setLocalFormData({
-      attendingCeremony: null,
-      attendingReception: null,
-      attendingBrunch: null,
-      dietaryRestrictions: '',
-      foodOption: null,
-      contactInfo: '',
-      guests: [],
-    });
-    setIsSaving(false);
-    setErrorMessage(null);
-    setSuccessFlag(false);
+    dispatch({ type: 'RESET_FORM' });
   }, []);
 
-  const state: IRsvpState = {
-    snapshot,
-    formData: localFormData,
-    isSaving,
-    errorMessage,
-    successFlag,
+  // Expose state in the expected interface format
+  const contextState: IRsvpState = {
+    snapshot: state.snapshot,
+    formData: state.formData,
+    isSaving: state.isSaving,
+    errorMessage: state.errorMessage,
+    successFlag: state.successFlag,
   };
 
+  // Expose actions with stable references (don't change on re-renders)
   const actions = {
     setSnapshot,
     updateField,
@@ -252,7 +394,7 @@ export function RsvpProvider({ children }: RsvpProviderProps) {
   };
 
   const contextValue: IRsvpContext = {
-    state,
+    state: contextState,
     actions,
   };
 
