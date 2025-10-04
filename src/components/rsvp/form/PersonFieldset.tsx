@@ -43,6 +43,11 @@ export function PersonFieldset({
     person.attendingReception === true ||
     person.attendingBrunch === true;
 
+  // For invitees, always show contact info (they're the party leader)
+  // For guests, only show if they're attending
+  const shouldShowContactInfo =
+    personType === 'invitee' ? true : shouldRequireFields;
+
   return (
     <fieldset className="space-y-4 border p-4 rounded shadow-xl">
       <legend className="sr-only font-medium m-0">{legendText}</legend>
@@ -200,7 +205,7 @@ export function PersonFieldset({
         </div>
       )}
 
-      {shouldRequireFields && (
+      {shouldShowContactInfo && (
         <div className="mt-4">
           <label
             className="block mb-1 font-medium"

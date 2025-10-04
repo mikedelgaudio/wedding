@@ -70,7 +70,7 @@ export const sendRsvpConfirmation = functions.https.onCall(async request => {
 
   // Generate email content
   const attendingEvents = [];
-  if (rsvpData.attendingCeremony) attendingEvents.push('Wedding Ceremony');
+  if (rsvpData.attendingCeremony) attendingEvents.push('Ceremony');
   if (rsvpData.attendingReception) attendingEvents.push('Reception');
   if (rsvpData.attendingBrunch) attendingEvents.push('Brunch');
 
@@ -121,7 +121,7 @@ export const sendRsvpConfirmation = functions.https.onCall(async request => {
         }">
           <p style="margin: 5px 0; font-weight: bold; color: #44403c;">${
             index + 1
-          }. ${guest.name}</p>
+          }. ${guest.name || 'No guest name provided'}</p>
           <p style="margin: 5px 0; color: #57534e;">Attending: ${
             guestEvents.length > 0 ? guestEvents.join(', ') : 'Not attending'
           }</p>

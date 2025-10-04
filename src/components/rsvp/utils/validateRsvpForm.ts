@@ -30,13 +30,8 @@ export function validateRsvpForm({
     return 'Please select a food option for the reception dinner.';
   }
 
-  // Check contact info requirements for invitee
-  const inviteeAttendingAnyEvent =
-    attendingCeremony === true ||
-    attendingReception === true ||
-    attendingBrunch === true;
-
-  if (inviteeAttendingAnyEvent && !contactInfo.trim()) {
+  // Always require contact info for invitee (they're the party leader)
+  if (!contactInfo.trim()) {
     return 'Please provide your phone number or email address.';
   }
   if (

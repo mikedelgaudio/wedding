@@ -313,13 +313,8 @@ export function RsvpProvider({ children }: RsvpProviderProps) {
           foodOption: state.formData.attendingReception
             ? state.formData.foodOption
             : null,
-          // Only require contact info if attending any event
-          contactInfo:
-            state.formData.attendingCeremony ||
-            state.formData.attendingReception ||
-            state.formData.attendingBrunch
-              ? state.formData.contactInfo || null
-              : null,
+          // Always save contact info (invitee is the party leader)
+          contactInfo: state.formData.contactInfo || null,
         },
         lastModified: serverTimestamp(),
       };
