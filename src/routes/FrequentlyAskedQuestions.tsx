@@ -187,10 +187,13 @@ const faqData: FAQItem[] = [
     question: 'Is transportation provided?',
     answer: (
       <>
-        Transportation will not be provided, so we kindly encourage you to make
-        your own arrangements. The area is well-served by rideshare services
-        such as Uber and Lyft. If you are planning to explore more of the region
-        or go on a hike, a rental car is also a great option.
+        We want to make sure you can get around easily! While we don't have
+        official transportation, the good news is that the area has excellent
+        rideshare options like Uber and Lyft that make getting around a breeze.
+        And if you're hoping to explore the beautiful surrounding region or hit
+        some trails, renting a car would give you the freedom to adventure at
+        your own pace. We're happy to help with any questions about getting
+        around!
       </>
     ),
   },
@@ -212,7 +215,7 @@ export function FrequentlyAskedQuestions(): JSX.Element {
   return (
     <AppWithHeader>
       <PageWrapper pageTitle="Frequently Asked Questions">
-        <p className="text-xl">
+        <p className="text-lg">
           If your question isn't here, please email us at{' '}
           <a
             className="underline hover:no-underline focus-visible:border focus-visible:border-gray-950 focus:outline-none focus-visible:rounded-lg"

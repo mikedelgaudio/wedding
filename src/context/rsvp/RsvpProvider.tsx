@@ -5,19 +5,17 @@ import {
   type DocumentSnapshot,
   type UpdateData,
 } from 'firebase/firestore';
+import { httpsCallable } from 'firebase/functions';
 import React, { useCallback, useReducer } from 'react';
 import {
   isValidFoodOption,
   type FoodOptionId,
 } from '../../components/rsvp/utils/foodOptions';
 import { validateRsvpForm } from '../../components/rsvp/utils/validateRsvpForm';
-import { db } from '../../firebase/firebase.service';
+import { db, functions } from '../../firebase/firebase.service';
 import type { IGuest, IRSVPDoc } from '../../firebase/IRSVPDoc';
-import {
-  trackRsvpFormSubmit,
-  trackRsvpSaveError,
-  trackRsvpSaveSuccess,
-} from '../../utils/analytics';
+import { trackEvent } from '../../utils/analytics';
+import { getFoodOptionName } from './foodOptionUtils';
 import type { IRsvpContext, IRsvpFormData, IRsvpState } from './IRsvpContext';
 import { RsvpContext } from './RsvpContext';
 
@@ -278,7 +276,7 @@ export function RsvpProvider({ children }: RsvpProviderProps) {
       return;
     }
 
-    trackRsvpFormSubmit();
+    trackEvent('rsvp_form_submit');
     dispatch({ type: 'SET_ERROR', payload: null });
 
     const data = state.snapshot.data()!;
@@ -293,7 +291,10 @@ export function RsvpProvider({ children }: RsvpProviderProps) {
     });
 
     if (validationError) {
-      trackRsvpSaveError('validation_error', undefined, validationError);
+      trackEvent('rsvp_form_validation_error', {
+        failure_code: 'validation_error',
+        failure_message: validationError,
+      });
       dispatch({ type: 'SET_ERROR', payload: validationError });
       return;
     }
@@ -351,14 +352,42 @@ export function RsvpProvider({ children }: RsvpProviderProps) {
       await updateDoc(ref, payload);
 
       dispatch({ type: 'SET_SUCCESS', payload: true });
-      trackRsvpSaveSuccess();
+      trackEvent('rsvp_form_success');
+
+      // Send confirmation email
+      try {
+        const sendRsvpConfirmation = httpsCallable(
+          functions,
+          'sendRsvpConfirmation',
+        );
+        await sendRsvpConfirmation({
+          inviteeName: data.invitee.name,
+          contactInfo: state.formData.contactInfo || '',
+          attendingCeremony: !!state.formData.attendingCeremony,
+          attendingReception: !!state.formData.attendingReception,
+          attendingBrunch: !!state.formData.attendingBrunch,
+          foodOption: getFoodOptionName(state.formData.foodOption),
+          dietaryRestrictions: state.formData.dietaryRestrictions || undefined,
+          guests: state.formData.guests.map(guest => ({
+            name: guest.name,
+            attendingCeremony: !!guest.attendingCeremony,
+            attendingReception: !!guest.attendingReception,
+            attendingBrunch: !!guest.attendingBrunch,
+            foodOption: getFoodOptionName(guest.foodOption),
+            dietaryRestrictions: guest.dietaryRestrictions || undefined,
+          })),
+        });
+      } catch (emailError) {
+        trackEvent('rsvp_email_error', {
+          failure_message: (emailError as Error).message,
+        });
+      }
     } catch (err) {
       const firebaseError = err as { code?: string; message?: string };
-      trackRsvpSaveError(
-        'firebase_error',
-        firebaseError.code,
-        firebaseError.message,
-      );
+      trackEvent('rsvp_firebase_save_error', {
+        failure_code: firebaseError.code || 'unknown',
+        failure_message: firebaseError.message || 'unknown',
+      });
       dispatch({
         type: 'SET_ERROR',
         payload:

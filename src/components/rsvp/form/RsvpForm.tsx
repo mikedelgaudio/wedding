@@ -1,6 +1,6 @@
 import { useEffect, useMemo, type FormEvent } from 'react';
 import { useRsvp } from '../../../hooks/useRsvp';
-import { trackRsvpError, trackRsvpFormLoaded } from '../../../utils/analytics';
+import { trackEvent } from '../../../utils/analytics';
 import { SuccessScreen } from '../results/SuccessScreen';
 import { isValidFoodOption, type FoodOptionId } from '../utils/foodOptions';
 import { PersonFieldset } from './PersonFieldset';
@@ -12,12 +12,15 @@ export function RsvpForm() {
   const data = snapshot?.data();
 
   if (!data) {
-    trackRsvpError('No RSVP data found in RsvpForm');
+    trackEvent('rsvp_form_error', {
+      failure_code: 'no_rsvp_data',
+      failure_message: 'No RSVP data found in RsvpForm',
+    });
     throw new Error('No RSVP data found');
   }
 
   useEffect(() => {
-    trackRsvpFormLoaded();
+    trackEvent('rsvp_form_loaded');
   }, []);
 
   // Date formatting and button text

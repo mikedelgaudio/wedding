@@ -8,22 +8,17 @@ import {
 import { useState, type FormEvent } from 'react';
 import type { IRSVPDoc } from '../../../../firebase/IRSVPDoc';
 import { db } from '../../../../firebase/firebase.service';
-import {
-  trackRsvpError,
-  trackRsvpFormLookupSubmit,
-} from '../../../../utils/analytics';
+import { trackEvent } from '../../../../utils/analytics';
 import type { IRsvpScreenProps } from '../../models/IRsvpScreenProps';
 import { calculateMatchScore } from '../../utils/calculateMatchWord';
+import {
+  GENERIC_ERROR_MESSAGE,
+  RSVP_SERVICE_UNAVAILABLE_ERROR_MESSAGE,
+} from '../../utils/errors';
 import { RsvpHeader } from '../RsvpHeader';
 
 const MAX_MATCHES = 10;
 const MIN_SCORE_THRESHOLD = 0.25;
-
-const RSVP_SERVICE_UNAVAILABLE_ERROR_MESSAGE =
-  'The RSVP service is currently unavailable. Please try again later or contact us for assistance.';
-
-const GENERIC_ERROR_MESSAGE =
-  "We couldn't find your invitation. Please check your name and try again, or use the RSVP code on your invitation.";
 
 interface NameMatch {
   snapshot: DocumentSnapshot<IRSVPDoc>;
@@ -50,17 +45,16 @@ export function RsvpNameLookup({
     setError(null);
     setLoading(true);
 
-    trackRsvpFormLookupSubmit();
+    trackEvent('rsvp_name_lookup_submit');
 
     const trimmedFirst = firstName.trim();
     const trimmedLast = lastName.trim();
 
     if (!trimmedFirst || !trimmedLast) {
-      trackRsvpError(
-        'validation_error',
-        'missing_name_fields',
-        'First and last name are required',
-      );
+      trackEvent('rsvp_name_validation_error', {
+        failure_code: 'missing_name_fields',
+        failure_message: 'First and last name are required',
+      });
       setError('Please enter both your first and last name.');
       setLoading(false);
       return;
@@ -156,11 +150,10 @@ export function RsvpNameLookup({
         .slice(0, MAX_MATCHES);
 
       if (uniqueMatches.length === 0) {
-        trackRsvpError(
-          'not_found_error',
-          'name_not_found',
-          `Name "${fullSearchName}" not found`,
-        );
+        trackEvent('rsvp_name_not_found', {
+          failure_code: 'name_not_found',
+          failure_message: `Name "${fullSearchName}" not found`,
+        });
         setError(GENERIC_ERROR_MESSAGE);
       } else if (
         uniqueMatches.length === 1 &&
@@ -176,18 +169,16 @@ export function RsvpNameLookup({
       const firebaseError = err as { code?: string; message?: string };
 
       if (firebaseError.code === 'unavailable') {
-        trackRsvpError(
-          'firebase_service_error',
-          firebaseError.code,
-          firebaseError.message,
-        );
+        trackEvent('firebase_service_error', {
+          failure_code: firebaseError.code,
+          failure_message: firebaseError.message,
+        });
         setError(RSVP_SERVICE_UNAVAILABLE_ERROR_MESSAGE);
       } else {
-        trackRsvpError(
-          'firebase_error',
-          firebaseError.code,
-          firebaseError.message,
-        );
+        trackEvent('firebase_error', {
+          failure_code: firebaseError.code,
+          failure_message: firebaseError.message,
+        });
         setError(GENERIC_ERROR_MESSAGE);
       }
     }

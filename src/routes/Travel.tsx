@@ -82,8 +82,8 @@ export function Travel(): JSX.Element {
             <>
               <p>
                 We have compiled a list of recommended accommodations in the
-                Downtown Redmond area. These options are the easiest to access
-                for the wedding festivities.
+                Downtown Redmond and Woodinville area. These options are the
+                easiest to access for the wedding festivities.
               </p>
               <div className="p-4 mt-2 bg-blue-100 rounded-xl flex gap-4">
                 <svg
@@ -130,9 +130,9 @@ export function Travel(): JSX.Element {
                     className="underline hover:no-underline focus-visible:border focus-visible:border-gray-950 focus:outline-none focus-visible:rounded-lg"
                   >
                     <strong>
-                      The SOMM Hotel & Spa, Autograph Collection (Marriott)
+                      The SOMM Hotel & Spa, Autograph Collection (Marriott):
                     </strong>
-                  </a>
+                  </a>{' '}
                   This is the hotel that we have a hotel block at. It is the
                   closest hotel to the reception venue, about a 1 minute drive.
                   We highly recommend booking early if you are interested, as
@@ -148,7 +148,7 @@ export function Travel(): JSX.Element {
                     className="underline hover:no-underline focus-visible:border focus-visible:border-gray-950 focus:outline-none focus-visible:rounded-lg"
                   >
                     <strong>Willows Lodge:</strong>
-                  </a>
+                  </a>{' '}
                   A beautiful lodge-style hotel located in the heart of
                   Woodinville, offering a cozy and intimate atmosphere. About a
                   3 minute drive from the reception venue.
@@ -170,7 +170,7 @@ export function Travel(): JSX.Element {
                     className="underline hover:no-underline focus-visible:border focus-visible:border-gray-950 focus:outline-none focus-visible:rounded-lg"
                   >
                     <strong>Marriott Residence Inn Redmond:</strong>
-                  </a>
+                  </a>{' '}
                   This is the hotel that we both stayed for 3 months when we
                   were interns. It offers spacious suites with kitchenettes (hot
                   plates and fridge), complimentary breakfast, and is located
@@ -184,7 +184,7 @@ export function Travel(): JSX.Element {
                     className="underline hover:no-underline focus-visible:border focus-visible:border-gray-950 focus:outline-none focus-visible:rounded-lg"
                   >
                     <strong>Archer Hotel Redmond:</strong>
-                  </a>
+                  </a>{' '}
                   A stylish hotel located in Downtown Redmond, offering modern
                   amenities and easy access to local attractions. Mike's parents
                   actually stayed here and loved it!
@@ -197,7 +197,7 @@ export function Travel(): JSX.Element {
                     className="underline hover:no-underline focus-visible:border focus-visible:border-gray-950 focus:outline-none focus-visible:rounded-lg"
                   >
                     <strong>Seattle Marriott Redmond:</strong>
-                  </a>
+                  </a>{' '}
                   Another great option neighboring with the Redmond Town Center
                   and Marriott Residence Inn Redmond hotel.
                 </li>
@@ -248,33 +248,33 @@ export function Travel(): JSX.Element {
               >
                 <ul className="list-disc pl-6  text-md flex flex-col gap-2">
                   <li>
-                    <strong>Lighthouse Roasters</strong> (Fremont, North
+                    <strong>Lighthouse Roasters:</strong> (Fremont, North
                     Seattle) - Our favorite spot for coffee! They roast their
                     own beans.
                   </li>
                   <li>
-                    <strong>Phe</strong> (Capitol Hill, Seattle) - Serving
+                    <strong>Phe:</strong> (Capitol Hill, Seattle) - Serving
                     Vietnamese coffee, matcha, hojicha, and delicious bánh
                     mì—definitely worth a stop.
                   </li>
                   <li>
-                    <strong>Thruline</strong> (Kirkland) - Great cappuccinos and
-                    just steps from the waterfront—perfect for a relaxing
+                    <strong>Thruline:</strong> (Kirkland) - Great cappuccinos
+                    and just steps from the waterfront—perfect for a relaxing
                     stroll.
                   </li>
                   <li>
-                    <strong>Aroom</strong> (Above Gas Works Park, Seattle) - A
+                    <strong>Aroom:</strong> (Above Gas Works Park, Seattle) - A
                     charming Vietnamese coffee shop with scenic views and cozy
                     ambiance.
                   </li>
                   <li>
-                    <strong>5 Stones Coffee Co</strong> (Redmond) - Specifically
-                    their Cafe Stefano, vanilla + hazelnut syrup, ceylon
-                    cinnamon steamed into the milk & a zest of orange. Service
-                    tend to be on the slower side.
+                    <strong>5 Stones Coffee Co:</strong> (Redmond) -
+                    Specifically their Cafe Stefano, vanilla + hazelnut syrup,
+                    ceylon cinnamon steamed into the milk & a zest of orange.
+                    Service tend to be on the slower side.
                   </li>
                   <li>
-                    <strong>Cafe Hagen</strong> (Bellevue) - A Scandinavian
+                    <strong>Cafe Hagen:</strong> (Bellevue) - A Scandinavian
                     coffee shop. If you want to try something different, go for
                     their København latte which has hints of cardamom and
                     almond. Their food platters are also fun for
@@ -291,30 +291,30 @@ export function Travel(): JSX.Element {
               >
                 <ul className="list-disc pl-6  text-md flex flex-col gap-2">
                   <li>
-                    <strong>HeyTea</strong> (Bellevue & Redmond coming soon) -
+                    <strong>HeyTea:</strong> (Bellevue & Redmond coming soon) -
                     Lynh loves the Coconut Cloud Blue, Mike goes for the Matcha
                     Cloud Jasmine, and the Mango Boom (25% sweetness) is always
                     a hit.
                   </li>
                   <li>
-                    <strong>Yezi Coconut Dessert</strong> (Bellevue Mall) - If
+                    <strong>Yezi Coconut Dessert:</strong> (Bellevue Mall) - If
                     you like real coconut as much as Lynh, this place was made
                     for you. We like their puddings and their Mango Coconut
                     Snowy (order less sweetness).
                   </li>
                   <li>
-                    <strong>Bobae</strong> (Kirkland & Woodinville) - One of our
-                    top picks! They use locally sourced ingredients, full-leaf
-                    teas, and make all toppings in-house. Try the NITRO OG Milk
-                    Tea with 25% sweetness.
+                    <strong>Bobae:</strong> (Kirkland & Woodinville) - One of
+                    our top picks! They use locally sourced ingredients,
+                    full-leaf teas, and make all toppings in-house. Try the
+                    NITRO OG Milk Tea with 25% sweetness.
                   </li>
                   <li>
-                    <strong>OMO Thai Tea</strong> (Bellevue) - We're obsessed
+                    <strong>OMO Thai Tea:</strong> (Bellevue) - We're obsessed
                     with the Thai Green Classic. Bonus: they also serve
                     soft-serve ice cream!
                   </li>
                   <li>
-                    <strong>CHICHA San Chen</strong> (Bellevue) - Premium
+                    <strong>CHICHA San Chen:</strong> (Bellevue) - Premium
                     Taiwanese tea with lots of customizable options—super smooth
                     and refreshing. Our favorite is the oolong tea + orange.
                   </li>
@@ -322,46 +322,46 @@ export function Travel(): JSX.Element {
               </AccordionItem>
               <AccordionItem
                 id="favorite-food"
-                title="🍽️ Favorite Food"
+                title="🍽️ Food"
                 isOpen={!!openSections['favorite-food']}
                 onToggle={() => toggleSection('favorite-food')}
                 useSubHeading
               >
                 <ul className="list-disc pl-6  text-md flex flex-col gap-2">
                   <li>
-                    <strong>A Ma Chicken Rice</strong> (Redmond) - Amazing
+                    <strong>A Ma Chicken Rice:</strong> (Redmond) - Amazing
                     Hainanese chicken—simple, flavorful, and a must-try.
                   </li>
                   <li>
-                    <strong>Isarn Thai Soul Kitchen</strong> (Kirkland) - One of
-                    our favorites! Mike and I love the chicken soup (ask for
-                    coconut milk) and the khao soi.
+                    <strong>Isarn Thai Soul Kitchen:</strong> (Kirkland) - One
+                    of our favorites! We love the chicken soup (ask for coconut
+                    milk) and the khao soi.
                   </li>
                   <li>
-                    <strong>DERU</strong> (Kirkland) - Our favorite brunch spot.
-                    Get on the waitlist early!
+                    <strong>DERU:</strong> (Kirkland) - Our favorite brunch
+                    spot. Get on the waitlist early!
                   </li>
                   <li>
-                    <strong>Von's 1000 Spirits</strong> (Woodinville) - Great
+                    <strong>Von's 1000 Spirits:</strong> (Woodinville) - Great
                     sourdough pasta and lots of drink options if that's
                     something you're into!
                   </li>
                   <li>
-                    <strong>Anh and Chi</strong> (Vancouver) - If you want
+                    <strong>Anh and Chi:</strong> (Vancouver) - If you want
                     Vietnamese food, this is the place. Lynh loves their Gỏi Bắp
                     Chuối Cua Lột - Soft Shell Crab Salad and Phở Hoàng - Beef
                     Noodle Soup
                   </li>
                   <li>
-                    <strong>Din Tai Fung</strong> (Bellevue) - Famous for their
+                    <strong>Din Tai Fung:</strong> (Bellevue) - Famous for their
                     xiao long bao (soup dumplings), Mike loves the pork
                     dumplings. Lynh likes their Braised Beef Noodle Soup. A more
                     affordable option is Dough Zone which is also pretty good.
                   </li>
                   <li>
-                    <strong>Matts' Rotisserie & Oyster Lounge</strong> (Redmond)
-                    A favorite of Lynh's dad for fresh oysters and Mike's
-                    parents for rotisserie chicken, and prime rib.
+                    <strong>Matts' Rotisserie & Oyster Lounge:</strong>{' '}
+                    (Redmond) A favorite of Lynh's dad for fresh oysters and
+                    Mike's parents for rotisserie chicken, and prime rib.
                   </li>
                 </ul>
               </AccordionItem>

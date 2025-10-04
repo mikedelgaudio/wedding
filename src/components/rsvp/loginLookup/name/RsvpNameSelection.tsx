@@ -1,6 +1,6 @@
 import type { DocumentSnapshot } from 'firebase/firestore';
 import type { IRSVPDoc } from '../../../../firebase/IRSVPDoc';
-import { trackRsvpSuccess } from '../../../../utils/analytics';
+import { trackEvent } from '../../../../utils/analytics';
 import type { NameMatch } from './RsvpNameLookup';
 
 interface RsvpNameSelectionProps {
@@ -15,7 +15,7 @@ export function RsvpNameSelection({
   onBackToNameEntry,
 }: RsvpNameSelectionProps) {
   const handleSelectRsvp = (snapshot: DocumentSnapshot<IRSVPDoc>) => {
-    trackRsvpSuccess();
+    trackEvent('rsvp_name_selection');
     onSelectRsvp(snapshot);
   };
 
