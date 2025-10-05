@@ -31,6 +31,15 @@ interface RsvpData {
 export const sendRsvpConfirmation = functions.https.onCall(async request => {
   logger.info('RSVP confirmation email request received');
 
+  // ✅ Enforce App Check (includes ReCAPTCHA protection)
+  if (!request.app) {
+    logger.warn('App Check missing');
+    throw new functions.https.HttpsError(
+      'failed-precondition',
+      'App Check is required.',
+    );
+  }
+
   // Validate that we have SMTP configuration
   if (!SMTP_HOST || !SMTP_USER || !SMTP_PASS) {
     logger.error('SMTP configuration missing');

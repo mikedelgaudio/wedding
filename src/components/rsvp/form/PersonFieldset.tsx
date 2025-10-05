@@ -211,13 +211,13 @@ export function PersonFieldset({
             className="block mb-1 font-medium"
             htmlFor={`${fieldPrefix}-contactInfo`}
           >
-            Phone or Email{' '}
+            Email address{' '}
             {(personType === 'invitee' || person.foodOption === 'unknown') && (
               <span className="text-red-600">*</span>
             )}
           </label>
           <input
-            type="text"
+            type="email"
             id={`${fieldPrefix}-contactInfo`}
             value={person.contactInfo}
             onChange={e => {
@@ -231,7 +231,7 @@ export function PersonFieldset({
                 );
               }
             }}
-            placeholder="Phone number or email address"
+            placeholder="Email address"
             className="w-full p-2 border bg-white rounded focus:outline-none focus:ring"
             required={
               personType === 'invitee' || person.foodOption === 'unknown'
