@@ -48,11 +48,11 @@ export function Header(): JSX.Element {
   }, [menuOpen]);
 
   return (
-    <div className="relative z-50">
+    <div className={`relative ${menuOpen ? 'z-50' : 'z-50'}`}>
       {/* Header background - only covers header area */}
       <div
         className={`${
-          isHomePage ? 'fixed' : ''
+          isHomePage ? 'fixed' : 'fixed md:relative'
         } top-0 left-0 right-0 z-50 transition-all duration-300 ${
           menuOpen
             ? 'bg-transparent md:bg-black/80 md:backdrop-blur-md'
@@ -131,7 +131,7 @@ export function Header(): JSX.Element {
 
       {/* Fixed hamburger button - outside backdrop to maintain z-index */}
       <button
-        className={`fixed top-3 left-3 md:hidden pointer-events-auto cursor-pointer z-60 flex flex-col justify-center items-center w-10 h-10 space-y-1.5 focus-visible:outline ${
+        className={`fixed top-3 left-3 md:hidden pointer-events-auto cursor-pointer z-50 flex flex-col justify-center items-center w-10 h-10 space-y-1.5 focus-visible:outline ${
           menuOpen || (isHomePage && !isScrolled)
             ? 'focus-visible:outline-white'
             : 'focus-visible:outline-black'
