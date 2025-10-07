@@ -1,27 +1,60 @@
 # Getting Started
 
-To start the Firebase emulators for Firestore, Auth, Functions, and Hosting, use the following command:
+## Setup
+
+Run the initial setup:
 
 ```bash
-firebase emulators:start --only firestore,auth,functions,hosting
+npm run setup
 ```
 
-Run locally with:
+## Local Development
+
+Start the Firebase emulators:
+
+```bash
+npm run emulators
+```
+
+Run the development server:
 
 ```bash
 npm run dev
 ```
 
-# Deploy
-
-Ensure to run the build command in the root directory and the `functions` directory before deploying:
+Seed the database (optional):
 
 ```bash
-npm run build
+npm run seed
 ```
 
-Then deploy with:
+# Deploy
+
+Deploy everything (builds and deploys hosting + functions):
 
 ```bash
-firebase deploy --only hosting,functions
+npm run deploy
+```
+
+Or deploy individually:
+
+```bash
+npm run deploy:hosting    # Deploy hosting only
+npm run deploy:functions   # Deploy functions only
+```
+
+# Build Commands
+
+```bash
+npm run build              # Build the app
+npm run build:functions    # Build functions
+npm run build:all          # Build both app and functions
+```
+
+# Cleanup
+
+Remove all build artifacts and dependencies:
+
+```bash
+npm run clean
 ```

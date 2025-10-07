@@ -57,7 +57,7 @@ export function RsvpNameSelection({
         })}
       </div>
 
-      <div className="mt-6 p-4 bg-fantasy-200 rounded-lg">
+      <div className="mt-6 p-4 bg-quarter-pearl-lusta-200 rounded-lg">
         <p className="text-sm ">
           <strong>Don't see your name?</strong> You can try:
         </p>

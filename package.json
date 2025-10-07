@@ -4,10 +4,19 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
+    "setup": "bash setup.sh",
+    "seed": "cd functions && node seed.firebase.js && cd ..",
     "dev": "vite",
     "build": "tsc -b && vite build",
+    "build:functions": "cd functions && npm run build && cd ..",
+    "build:all": "npm run build && npm run build:functions",
+    "emulators": "firebase emulators:start --only firestore,auth,functions,hosting",
+    "deploy": "npm run build:all && firebase deploy --only hosting,functions",
+    "deploy:hosting": "npm run build && firebase deploy --only hosting",
+    "deploy:functions": "npm run build:functions && firebase deploy --only functions",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "clean": "rm -rf dist functions/lib node_modules functions/node_modules"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.1.4",

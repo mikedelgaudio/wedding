@@ -1,7 +1,7 @@
 @import 'tailwindcss';
 
 html {
-  background-color: #faf4f1;
+  background-color: #fffcf3;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -23,17 +23,17 @@ body {
 }
 
 @theme {
-  --color-fantasy-50: #faf4f1;
-  --color-fantasy-100: #f4e7e0;
-  --color-fantasy-200: #e8ccc0;
-  --color-fantasy-300: #d9ab98;
-  --color-fantasy-400: #c9836e;
-  --color-fantasy-500: #bd6652;
-  --color-fantasy-600: #b05246;
-  --color-fantasy-700: #92423c;
-  --color-fantasy-800: #763836;
-  --color-fantasy-900: #60302e;
-  --color-fantasy-950: #331717;
+  --color-quarter-pearl-lusta-50: #fffcf3;
+  --color-quarter-pearl-lusta-100: #fff5d5;
+  --color-quarter-pearl-lusta-200: #fee7aa;
+  --color-quarter-pearl-lusta-300: #fdd574;
+  --color-quarter-pearl-lusta-400: #fbb73c;
+  --color-quarter-pearl-lusta-500: #f99f16;
+  --color-quarter-pearl-lusta-600: #ea830c;
+  --color-quarter-pearl-lusta-700: #c2640c;
+  --color-quarter-pearl-lusta-800: #9a4e12;
+  --color-quarter-pearl-lusta-900: #7c4212;
+  --color-quarter-pearl-lusta-950: #432007;
   --color-flax-smoke-50: #f4f5f0;
   --color-flax-smoke-100: #e6e8df;
   --color-flax-smoke-200: #d1d4c2;

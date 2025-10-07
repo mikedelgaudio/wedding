@@ -367,7 +367,7 @@ export function AutoScrollCarousel() {
               </span>
             </AnimatedElement>
             <Link
-              className="text-xl md:text-4xl focus:outline-none w-fit px-6 py-2 focus:ring cursor-pointer shadow bg-transparent text-white rounded hover:bg-fantasy-50 hover:text-black disabled:opacity-50 disabled:cursor-not-allowed pointer-events-auto transition-colors duration-300 ease-in-out border-2 border-fantasy-50"
+              className="text-xl md:text-4xl focus:outline-none w-fit px-6 py-2 focus:ring cursor-pointer shadow bg-transparent text-white rounded hover:bg-quarter-pearl-lusta-50 hover:text-black disabled:opacity-50 disabled:cursor-not-allowed pointer-events-auto transition-colors duration-300 ease-in-out border-2 border-quarter-pearl-lusta-50"
               to={'/rsvp'}
             >
               RSVP

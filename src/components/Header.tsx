@@ -58,9 +58,9 @@ export function Header(): JSX.Element {
             ? 'bg-transparent md:bg-black/80 md:backdrop-blur-md'
             : isHomePage
             ? isScrolled
-              ? 'bg-fantasy-50/80 backdrop-blur-md'
+              ? 'bg-quarter-pearl-lusta-50/80 backdrop-blur-md'
               : 'bg-transparent'
-            : 'bg-fantasy-50/80 backdrop-blur-md'
+            : 'bg-quarter-pearl-lusta-50/80 backdrop-blur-md'
         }`}
       >
         <header
