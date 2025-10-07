@@ -11,6 +11,10 @@ interface ValidationParams {
   inviteeAllowedToAttendBrunch: boolean;
 }
 
+function isValidEmail(email: string): boolean {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+}
+
 export function validateRsvpForm({
   attendingCeremony,
   attendingReception,
@@ -30,21 +34,19 @@ export function validateRsvpForm({
     return 'Please select a food option for the reception dinner.';
   }
 
-  // Check contact info requirements for invitee
-  const inviteeAttendingAnyEvent =
-    attendingCeremony === true ||
-    attendingReception === true ||
-    attendingBrunch === true;
-
-  if (inviteeAttendingAnyEvent && !contactInfo.trim()) {
-    return 'Please provide your phone number or email address.';
+  // Always require contact info for invitee (they're the party leader)
+  if (!contactInfo.trim()) {
+    return 'Please provide your email address.';
+  }
+  if (!isValidEmail(contactInfo.trim())) {
+    return 'Please provide a valid email address.';
   }
   if (
     attendingReception === true &&
     foodOption === 'unknown' &&
     !contactInfo.trim()
   ) {
-    return 'Please provide your phone number or email so we can contact you about food options.';
+    return 'Please provide your email address so we can contact you about food options.';
   }
   if (inviteeAllowedToAttendBrunch && attendingBrunch == null) {
     return 'Please select Yes or No for brunch attendance.';
@@ -81,6 +83,10 @@ export function validateRsvpForm({
         return `Please provide contact info for Guest ${
           i + 1
         } so we can discuss food options.`;
+      }
+      // If contact info is provided, validate it's a valid email
+      if (g.contactInfo?.trim() && !isValidEmail(g.contactInfo.trim())) {
+        return `Please provide a valid email address for Guest ${i + 1}.`;
       }
       if (g.allowedToAttendBrunch && g.attendingBrunch == null) {
         return `Please select Yes or No for Guest ${i + 1} brunch attendance.`;

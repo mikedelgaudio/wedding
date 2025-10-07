@@ -345,12 +345,12 @@ export function AutoScrollCarousel() {
               <p className="text-md md:text-xl uppercase pb-2">
                 Please join us for the wedding of
               </p>
-              <p
+              <h1
                 className="text-6xl md:text-9xl"
                 style={{ fontFamily: '"Tangerine", serif' }}
               >
                 Lynh & Michael
-              </p>
+              </h1>
             </AnimatedElement>
             <AnimatedElement
               delay={100}
@@ -358,9 +358,13 @@ export function AutoScrollCarousel() {
               animationType="fade-up"
               className="flex flex-nowrap whitespace-nowrap gap-4 text-shadow-2xs mb-6"
             >
-              <span className="text-2xl md:text-4xl">{event?.date}</span>
+              <span className="text-xl md:text-2xl">
+                {event?.date.toUpperCase()}
+              </span>
               <span className="border-r border-white">&nbsp;</span>
-              <span className="text-2xl md:text-4xl">{event?.location}</span>
+              <span className="text-xl md:text-2xl">
+                {event?.location.toUpperCase()}
+              </span>
             </AnimatedElement>
             <Link
               className="text-xl md:text-4xl focus:outline-none w-fit px-6 py-2 focus:ring cursor-pointer shadow bg-transparent text-white rounded hover:bg-fantasy-50 hover:text-black disabled:opacity-50 disabled:cursor-not-allowed pointer-events-auto transition-colors duration-300 ease-in-out border-2 border-fantasy-50"

@@ -17,6 +17,7 @@ export function EventProvider({ children }: { children: React.ReactNode }) {
           setEventData({
             date: data.date,
             location: data.location,
+            allowRsvpByName: data.allowRsvpByName,
           });
         }
       } catch (error) {

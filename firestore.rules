@@ -9,7 +9,7 @@ service cloud.firestore {
 
     match /rsvp/{inviteCode} {
       // Only allow authenticated users (via site password) to read
-      allow get: if request.auth.uid == 'site-guest';
+      allow get, list: if request.auth.uid == 'site-guest';
 
       // Allow update by authenticated user and if valid
       allow update: if

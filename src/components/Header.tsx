@@ -48,27 +48,12 @@ export function Header(): JSX.Element {
   }, [menuOpen]);
 
   return (
-    <div className="relative z-50">
-      {/* Skip Navigation Button */}
-      <a
-        href="#main-content"
-        className={`
-          sr-only focus:not-sr-only fixed top-4 left-4 z-[100] 
-          px-4 py-2 rounded-md font-medium transition-colors
-          focus-visible:outline-2 focus-visible:outline-offset-2
-          ${
-            menuOpen || (isHomePage && !isScrolled)
-              ? 'bg-white text-black focus-visible:outline-black'
-              : 'bg-black text-white focus-visible:outline-white'
-          }
-        `}
-      >
-        Skip to main content
-      </a>
-
+    <div className={`relative ${menuOpen ? 'z-50' : 'z-50'}`}>
       {/* Header background - only covers header area */}
       <div
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        className={`${
+          isHomePage ? 'fixed' : 'fixed md:relative'
+        } top-0 left-0 right-0 z-50 transition-all duration-300 ${
           menuOpen
             ? 'bg-transparent md:bg-black/80 md:backdrop-blur-md'
             : isHomePage
@@ -146,7 +131,7 @@ export function Header(): JSX.Element {
 
       {/* Fixed hamburger button - outside backdrop to maintain z-index */}
       <button
-        className={`fixed top-3 left-3 md:hidden pointer-events-auto cursor-pointer z-60 flex flex-col justify-center items-center w-10 h-10 space-y-1.5 focus-visible:outline ${
+        className={`fixed top-3 left-3 md:hidden pointer-events-auto cursor-pointer z-50 flex flex-col justify-center items-center w-10 h-10 space-y-1.5 focus-visible:outline ${
           menuOpen || (isHomePage && !isScrolled)
             ? 'focus-visible:outline-white'
             : 'focus-visible:outline-black'

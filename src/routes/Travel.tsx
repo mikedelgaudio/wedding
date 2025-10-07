@@ -23,7 +23,7 @@ export function Travel(): JSX.Element {
         <div className="flex flex-col gap-4 text-xl">
           <p>
             We are excited to welcome you to the Pacific Northwest for our
-            wedding! After living in Redmond for over three years, we are
+            wedding! After living in Redmond for the past few years, we are
             delighted to share our favorite travel tips and recommendations to
             help you make the most of your visit.
           </p>
@@ -62,9 +62,7 @@ export function Travel(): JSX.Element {
                 <li>
                   We recommend renting a car for convenience, but ride-share
                   services are also available. Ride-shares are common to the
-                  airport and local areas near your accommodations, but if
-                  you're interested in visiting Seattle, crossing the lake can
-                  cost a premium and makes it less practical than renting a car.
+                  airport and local areas near your accommodations.
                 </li>
                 <li>
                   There are plentiful accommodation options in Redmond and
@@ -84,8 +82,8 @@ export function Travel(): JSX.Element {
             <>
               <p>
                 We have compiled a list of recommended accommodations in the
-                Downtown Redmond area. These options are the easiest to access
-                for the wedding festivities.
+                Downtown Redmond and Woodinville area. These options are the
+                easiest to access for the wedding festivities.
               </p>
               <div className="p-4 mt-2 bg-blue-100 rounded-xl flex gap-4">
                 <svg
@@ -98,9 +96,9 @@ export function Travel(): JSX.Element {
                 >
                   <path
                     stroke="#000"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="1.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="1.5"
                     d="M12 21.5A9.25 9.25 0 1 0 12 3a9.25 9.25 0 0 0 0 18.5Z"
                   />
                   <path
@@ -109,41 +107,97 @@ export function Travel(): JSX.Element {
                   />
                 </svg>{' '}
                 <p>
-                  We recommend staying in Redmond or neighboring cities such as
-                  Woodinville or Kirkland to avoid traffic during rush hour.
+                  We recommend staying in Redmond/Woodinville or neighboring
+                  cities such as Kirkland to avoid traffic during rush hour. We
+                  would not recommend staying in Seattle due to traffic from the
+                  World Cup.
                 </p>
               </div>
-
-              <h3 className="text-xl font-bold mt-4">Redmond Accommodations</h3>
+              <h3 className="text-xl font-bold mt-4">
+                Woodinville Accommodations
+              </h3>
               <p>
-                If you prefer to stay in Redmond, we recommend looking for
-                hotels near the Redmond Town Center or the venue. This will give
-                you easy access to the wedding festivities and local
-                attractions.
-              </p>
-              <p className="mt-2">
-                Redmond Town Center is a popular shopping and dining destination
-                with a variety of options to choose from with a large amount of
-                hotels features a walkable area with restaurants, shops, and
-                parks. It is also conveniently located near the wedding venue
-                with a 10 minute drive.
+                Woodinville is famous for its wineries and breweries, making it
+                a great option for those interested in exploring the local
+                beverage scene. It is also the closest to the reception venue.
               </p>
               <ul className="list-disc pl-6 text-lg">
                 <li>
-                  <strong>Marriott Residence Inn Redmond: </strong>
+                  <a
+                    href="https://thesomm.com/"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="underline hover:no-underline focus-visible:border focus-visible:border-gray-950 focus:outline-none focus-visible:rounded-lg"
+                  >
+                    <strong>
+                      The SOMM Hotel & Spa, Autograph Collection (Marriott):
+                    </strong>
+                  </a>{' '}
+                  This is the hotel that we have a hotel block at. It is the
+                  closest hotel to the reception venue, about a 1 minute drive.
+                  We highly recommend booking early if you are interested, as
+                  space is limited. If the hotel block is full, don't worry -
+                  there are plenty of excellent accommodations throughout the
+                  area.
+                </li>
+                <li>
+                  <a
+                    href="https://www.willowslodge.com/"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="underline hover:no-underline focus-visible:border focus-visible:border-gray-950 focus:outline-none focus-visible:rounded-lg"
+                  >
+                    <strong>Willows Lodge:</strong>
+                  </a>{' '}
+                  A beautiful lodge-style hotel located in the heart of
+                  Woodinville, offering a cozy and intimate atmosphere. About a
+                  3 minute drive from the reception venue.
+                </li>
+              </ul>
+              <h3 className="text-xl font-bold mt-4">Redmond Accommodations</h3>
+              <p>
+                If you prefer to stay in Redmond, we recommend looking for
+                hotels near the Redmond Town Center. This will give you easy
+                access to attractions by foot. It is also conveniently located
+                near the wedding venue with a 10 minute drive.
+              </p>
+              <ul className="list-disc pl-6 text-lg">
+                <li>
+                  <a
+                    href="https://www.marriott.com/en-us/hotels/seard-residence-inn-seattle-east-redmond/overview/"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="underline hover:no-underline focus-visible:border focus-visible:border-gray-950 focus:outline-none focus-visible:rounded-lg"
+                  >
+                    <strong>Marriott Residence Inn Redmond:</strong>
+                  </a>{' '}
                   This is the hotel that we both stayed for 3 months when we
                   were interns. It offers spacious suites with kitchenettes (hot
                   plates and fridge), complimentary breakfast, and is located
                   near the Redmond Town Center.
                 </li>
                 <li>
-                  <strong>Archer Hotel Redmond:</strong> A stylish hotel located
-                  in Downtown Redmond, offering modern amenities and easy access
-                  to local attractions. Mike's parents actually stayed here and
-                  loved it!
+                  <a
+                    href="https://archerhotel.com/redmond"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="underline hover:no-underline focus-visible:border focus-visible:border-gray-950 focus:outline-none focus-visible:rounded-lg"
+                  >
+                    <strong>Archer Hotel Redmond:</strong>
+                  </a>{' '}
+                  A stylish hotel located in Downtown Redmond, offering modern
+                  amenities and easy access to local attractions. Mike's parents
+                  actually stayed here and loved it!
                 </li>
                 <li>
-                  <strong>Seattle Marriott Redmond : </strong>
+                  <a
+                    href="https://www.marriott.com/en-us/hotels/seamc-seattle-marriott-redmond/overview/"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="underline hover:no-underline focus-visible:border focus-visible:border-gray-950 focus:outline-none focus-visible:rounded-lg"
+                  >
+                    <strong>Seattle Marriott Redmond:</strong>
+                  </a>{' '}
                   Another great option neighboring with the Redmond Town Center
                   and Marriott Residence Inn Redmond hotel.
                 </li>
@@ -159,18 +213,15 @@ export function Travel(): JSX.Element {
               </h3>
               <p>
                 If you are open to staying in neighboring cities, we recommend
-                considering Bellevue, Kirkland, or Woodinville. These cities are
-                close to Redmond and offer a variety of accommodations and
-                dining options.
+                considering Bellevue or Kirkland. These cities are close to
+                Redmond and offer a variety of accommodations and dining
+                options.
               </p>
               <p className="mt-2">
                 Bellevue is known for its upscale shopping and dining, while
                 Kirkland offers a charming waterfront area with parks and
-                restaurants. Woodinville is famous for its wineries and
-                breweries, making it a great option for those interested in
-                exploring the local beverage scene. Please check Google Maps and
-                some of the local guides on YouTube for a better visualization
-                of the area.
+                restaurants. Please check Google Maps and some of the local
+                guides on YouTube for a better visualization of the area.
               </p>
             </>
           </AccordionItem>
@@ -180,6 +231,13 @@ export function Travel(): JSX.Element {
             isOpen={!!openSections['things-to-do']}
             onToggle={() => toggleSection('things-to-do')}
           >
+            <p>
+              There are plenty of things to do in and around Redmond. We tried
+              to keep our reccomendations more focused on the Eastside as going
+              into Seattle might be a bit busy due to the World Cup, but there
+              are still many attractions and activities to enjoy in the area.
+              Here are some of our top recommendations:
+            </p>
             <div className="flex flex-col gap-4">
               <AccordionItem
                 id="coffee"
@@ -190,24 +248,37 @@ export function Travel(): JSX.Element {
               >
                 <ul className="list-disc pl-6  text-md flex flex-col gap-2">
                   <li>
-                    <strong>Lighthouse Roasters</strong> (Fremont, North
-                    Seattle) - A beloved local roastery with great coffee and a
-                    laid-back vibe.
+                    <strong>Lighthouse Roasters:</strong> (Fremont, North
+                    Seattle) - Our favorite spot for coffee! They roast their
+                    own beans.
                   </li>
                   <li>
-                    <strong>Phe</strong> (Capitol Hill, Seattle) - Serving
+                    <strong>Phe:</strong> (Capitol Hill, Seattle) - Serving
                     Vietnamese coffee, matcha, hojicha, and delicious bánh
                     mì—definitely worth a stop.
                   </li>
                   <li>
-                    <strong>Thruline</strong> (Kirkland) - Great cappuccinos and
-                    just steps from the waterfront—perfect for a relaxing
+                    <strong>Thruline:</strong> (Kirkland) - Great cappuccinos
+                    and just steps from the waterfront—perfect for a relaxing
                     stroll.
                   </li>
                   <li>
-                    <strong>Aroom</strong> (Above Gas Works Park, Seattle) - A
+                    <strong>Aroom:</strong> (Above Gas Works Park, Seattle) - A
                     charming Vietnamese coffee shop with scenic views and cozy
                     ambiance.
+                  </li>
+                  <li>
+                    <strong>5 Stones Coffee Co:</strong> (Redmond) -
+                    Specifically their Cafe Stefano, vanilla + hazelnut syrup,
+                    ceylon cinnamon steamed into the milk & a zest of orange.
+                    Service tend to be on the slower side.
+                  </li>
+                  <li>
+                    <strong>Cafe Hagen:</strong> (Bellevue) - A Scandinavian
+                    coffee shop. If you want to try something different, go for
+                    their København latte which has hints of cardamom and
+                    almond. Their food platters are also fun for
+                    breakfast/brunch.
                   </li>
                 </ul>
               </AccordionItem>
@@ -220,54 +291,77 @@ export function Travel(): JSX.Element {
               >
                 <ul className="list-disc pl-6  text-md flex flex-col gap-2">
                   <li>
-                    <strong>HeyTea</strong> (Bellevue & Redmond coming soon) -
+                    <strong>HeyTea:</strong> (Bellevue & Redmond coming soon) -
                     Lynh loves the Coconut Cloud Blue, Mike goes for the Matcha
                     Cloud Jasmine, and the Mango Boom (25% sweetness) is always
                     a hit.
                   </li>
                   <li>
-                    <strong>Bobae</strong> (Kirkland & Woodinville) - One of our
-                    top picks! They use locally sourced ingredients, full-leaf
-                    teas, and make all toppings in-house. Try the NITRO OG Milk
-                    Tea with 25% sweetness.
+                    <strong>Yezi Coconut Dessert:</strong> (Bellevue Mall) - If
+                    you like real coconut as much as Lynh, this place was made
+                    for you. We like their puddings and their Mango Coconut
+                    Snowy (order less sweetness).
                   </li>
                   <li>
-                    <strong>OMO Thai Tea</strong> (Bellevue) - We're obsessed
+                    <strong>Bobae:</strong> (Kirkland & Woodinville) - One of
+                    our top picks! They use locally sourced ingredients,
+                    full-leaf teas, and make all toppings in-house. Try the
+                    NITRO OG Milk Tea with 25% sweetness.
+                  </li>
+                  <li>
+                    <strong>OMO Thai Tea:</strong> (Bellevue) - We're obsessed
                     with the Thai Green Classic. Bonus: they also serve
                     soft-serve ice cream!
                   </li>
                   <li>
-                    <strong>CHICHA San Chen</strong> (Bellevue) - Premium
+                    <strong>CHICHA San Chen:</strong> (Bellevue) - Premium
                     Taiwanese tea with lots of customizable options—super smooth
-                    and refreshing.
+                    and refreshing. Our favorite is the oolong tea + orange.
                   </li>
                 </ul>
               </AccordionItem>
               <AccordionItem
                 id="favorite-food"
-                title="🍽️ Favorite Food"
+                title="🍽️ Food"
                 isOpen={!!openSections['favorite-food']}
                 onToggle={() => toggleSection('favorite-food')}
                 useSubHeading
               >
                 <ul className="list-disc pl-6  text-md flex flex-col gap-2">
                   <li>
-                    <strong>A Ma Chicken Rice</strong> (Redmond) - Amazing
+                    <strong>A Ma Chicken Rice:</strong> (Redmond) - Amazing
                     Hainanese chicken—simple, flavorful, and a must-try.
                   </li>
                   <li>
-                    <strong>Isarn Thai Soul Kitchen</strong> (Kirkland) - One of
-                    our favorites! Mike and I love the chicken soup (ask for
-                    coconut milk) and the khao soi.
+                    <strong>Isarn Thai Soul Kitchen:</strong> (Kirkland) - One
+                    of our favorites! We love the chicken soup (ask for coconut
+                    milk) and the khao soi.
                   </li>
                   <li>
-                    <strong>Din Tai Fung</strong> (Bellevue) - Famous for their
-                    xiao long bao (soup dumplings)—a crowd-pleaser every time.
+                    <strong>DERU:</strong> (Kirkland) - Our favorite brunch
+                    spot. Get on the waitlist early!
                   </li>
                   <li>
-                    <strong>Matts' Rotisserie & Oyster Lounge</strong> (Redmond)
-                    A favorite of Lynh's dad for fresh oysters and Mike's
-                    parents for rotisserie chicken, and prime rib.
+                    <strong>Von's 1000 Spirits:</strong> (Woodinville) - Great
+                    sourdough pasta and lots of drink options if that's
+                    something you're into!
+                  </li>
+                  <li>
+                    <strong>Anh and Chi:</strong> (Vancouver) - If you want
+                    Vietnamese food, this is the place. Lynh loves their Gỏi Bắp
+                    Chuối Cua Lột - Soft Shell Crab Salad and Phở Hoàng - Beef
+                    Noodle Soup
+                  </li>
+                  <li>
+                    <strong>Din Tai Fung:</strong> (Bellevue) - Famous for their
+                    xiao long bao (soup dumplings), Mike loves the pork
+                    dumplings. Lynh likes their Braised Beef Noodle Soup. A more
+                    affordable option is Dough Zone which is also pretty good.
+                  </li>
+                  <li>
+                    <strong>Matts' Rotisserie & Oyster Lounge:</strong>{' '}
+                    (Redmond) A favorite of Lynh's dad for fresh oysters and
+                    Mike's parents for rotisserie chicken, and prime rib.
                   </li>
                 </ul>
               </AccordionItem>
@@ -385,9 +479,9 @@ export function Travel(): JSX.Element {
                 <ul className="list-disc pl-6  text-md flex flex-col gap-2">
                   <li>
                     <strong>2026 FIFA World Cup:</strong> Seattle is hosting a
-                    handful of matches for the 2026 FIFA World Cup! Get ready
-                    for an exciting summer of soccer, with matches taking place
-                    at Lumen Field and other venues throughout the city.
+                    handful of matches for the 2026 FIFA World Cup. If you are a
+                    soccer fan, consider checking out a match while you are in
+                    town!
                   </li>
                   <li>
                     <strong>Leavenworth:</strong> Step into a storybook Bavarian

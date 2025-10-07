@@ -1,34 +1,22 @@
-import {
-  doc,
-  DocumentReference,
-  getDoc,
-  type DocumentSnapshot,
-} from 'firebase/firestore';
+import { doc, DocumentReference, getDoc } from 'firebase/firestore';
 import { useState, type FormEvent } from 'react';
-import type { IRSVPDoc } from '../../firebase/IRSVPDoc';
-import { db } from '../../firebase/firebase.service';
+import { db } from '../../../../firebase/firebase.service';
+import type { IRSVPDoc } from '../../../../firebase/IRSVPDoc';
+import { trackEvent } from '../../../../utils/analytics';
+import type { IRsvpScreenProps } from '../../models/IRsvpScreenProps';
 import {
-  trackRsvpError,
-  trackRsvpFormLookupSubmit,
-  trackRsvpSuccess,
-} from '../../utils/analytics';
-
-const RSVP_SERVICE_UNAVAILABLE_ERROR_MESSAGE =
-  'The RSVP service is currently unavailable. Please try again later or contact us for assistance.';
-
-const GENERIC_ERROR_MESSAGE =
-  "We couldn't find or access your invitation. Please check your code and try again, or contact us if you need help.";
-
-const RSVP_DEADLINE_PASSED_ERROR_MESSAGE =
-  'The RSVP deadline for this RSVP has passed. Please contact us for assistance.';
+  GENERIC_ERROR_MESSAGE,
+  RSVP_DEADLINE_PASSED_ERROR_MESSAGE,
+  RSVP_SERVICE_UNAVAILABLE_ERROR_MESSAGE,
+} from '../../utils/errors';
+import { RsvpHeader } from '../RsvpHeader';
 
 const CODE_FORMAT = /^[A-Z0-9]{4}-[A-Z0-9]{4}$/;
 
-interface RsvpSignInProps {
-  onSuccess: (snap: DocumentSnapshot<IRSVPDoc>) => void;
-}
-
-export function RsvpSignIn({ onSuccess }: RsvpSignInProps) {
+export function RsvpCodeLookup({
+  onSuccess,
+  onBackToMethodSelection,
+}: IRsvpScreenProps) {
   const [code, setCode] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -39,16 +27,14 @@ export function RsvpSignIn({ onSuccess }: RsvpSignInProps) {
     setLoading(true);
 
     // Track form submission
-    trackRsvpFormLookupSubmit();
+    trackEvent('rsvp_code_lookup_submit');
 
     const trimmed = code.trim().toUpperCase();
     if (!CODE_FORMAT.test(trimmed)) {
-      // Track validation error
-      trackRsvpError(
-        'validation_error',
-        'invalid_code_format',
-        'Invalid RSVP code format',
-      );
+      trackEvent('rsvp_code_validation_error', {
+        failure_code: 'invalid_code_format',
+        failure_message: 'Invalid RSVP code format',
+      });
 
       setError(
         'Please enter your code in the format of XXXX-XXXX. Make sure to include the dash.',
@@ -66,25 +52,23 @@ export function RsvpSignIn({ onSuccess }: RsvpSignInProps) {
 
       if (!snap.exists()) {
         // Track document not found error
-        trackRsvpError(
-          'not_found_error',
-          'rsvp_code_not_found',
-          'RSVP ' + cleaned + ' not found',
-        );
+        trackEvent('rsvp_code_not_found', {
+          failure_code: 'not_found_error',
+          failure_message: 'RSVP ' + cleaned + ' not found',
+        });
         setError(GENERIC_ERROR_MESSAGE);
       } else {
         const data = snap.data();
         if (data.rsvpDeadline.toDate() < new Date()) {
           // Track deadline passed error
-          trackRsvpError(
-            'deadline_error',
-            'rsvp_deadline_passed',
-            'RSVP ' + cleaned + ' deadline passed',
-          );
+          trackEvent('rsvp_code_deadline_passed', {
+            failure_code: 'rsvp_deadline_passed',
+            failure_message: 'RSVP ' + cleaned + ' deadline passed',
+          });
           setError(RSVP_DEADLINE_PASSED_ERROR_MESSAGE);
         } else {
           // Track successful lookup
-          trackRsvpSuccess();
+          trackEvent('rsvp_code_lookup_success');
           onSuccess(snap);
         }
       }
@@ -93,19 +77,17 @@ export function RsvpSignIn({ onSuccess }: RsvpSignInProps) {
 
       if (firebaseError.code === 'unavailable') {
         // Track service unavailable error with Firebase details
-        trackRsvpError(
-          'firebase_service_error',
-          firebaseError.code,
-          firebaseError.message,
-        );
+        trackEvent('rsvp_code_firebase_service_error', {
+          failure_code: firebaseError.code,
+          failure_message: firebaseError.message,
+        });
         setError(RSVP_SERVICE_UNAVAILABLE_ERROR_MESSAGE);
       } else {
         // Track other Firebase errors with Firebase details
-        trackRsvpError(
-          'firebase_error',
-          firebaseError.code,
-          firebaseError.message,
-        );
+        trackEvent('rsvp_code_firebase_error', {
+          failure_code: firebaseError.code,
+          failure_message: firebaseError.message,
+        });
         setError(GENERIC_ERROR_MESSAGE);
       }
     }
@@ -115,12 +97,7 @@ export function RsvpSignIn({ onSuccess }: RsvpSignInProps) {
 
   return (
     <>
-      <p className="text-lg">
-        We hope you'll be able to join us—it would mean so much to celebrate
-        together! But we also understand that summer is a busy time and travel
-        isn't always easy. If you're unable to attend, please know that your
-        love and support still mean the world to us.
-      </p>
+      <RsvpHeader />
       <form onSubmit={handleSubmit}>
         <div className="flex items-center justify-between">
           <label
@@ -151,16 +128,38 @@ export function RsvpSignIn({ onSuccess }: RsvpSignInProps) {
           The RSVP code is on your invitation in the format{' '}
           <strong>XXXX-XXXX</strong>.
         </p>
-        <p className="text-sm">
-          Questions? Email us at{' '}
-          <a
-            className="underline focus:outline-none focus:ring hover:no-underline"
-            href="mailto:wedding@delgaudio.dev"
-          >
-            wedding@delgaudio.dev
-          </a>
-          .
-        </p>
+
+        {onBackToMethodSelection ? (
+          <p className="text-sm ">
+            If you can't find your code, try{' '}
+            <span
+              role="button"
+              onClick={onBackToMethodSelection}
+              className="cursor-pointer underline hover:no-underline"
+            >
+              searching by name
+            </span>
+            , or email us at{' '}
+            <a
+              className="underline focus:outline-none focus:ring hover:no-underline"
+              href="mailto:wedding@delgaudio.dev"
+            >
+              wedding@delgaudio.dev
+            </a>
+            .
+          </p>
+        ) : (
+          <p>
+            Questions? Email us at{' '}
+            <a
+              className="underline focus:outline-none focus:ring hover:no-underline"
+              href="mailto:wedding@delgaudio.dev"
+            >
+              wedding@delgaudio.dev
+            </a>
+          </p>
+        )}
+
         <button
           type="submit"
           disabled={loading}

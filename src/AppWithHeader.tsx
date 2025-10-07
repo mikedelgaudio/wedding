@@ -13,7 +13,7 @@ export function AppWithHeader({ children }: { children: JSX.Element }) {
       <Header />
       <FadeInOnLoad>
         <main
-          className={`${!isHomePage ? 'mt-[72px] md:mt-[136px]' : 'mt-auto'}`}
+          className={`mt-auto ${!isHomePage ? 'pt-[72px] md:pt-0' : ''}`}
           id="main-content"
         >
           {children}
