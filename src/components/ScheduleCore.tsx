@@ -119,7 +119,7 @@ function ErrorCard() {
     <div className="bg-red-50 border border-red-200 text-red-800 p-6 rounded-xl shadow-lg col-span-full">
       <div className="flex items-center gap-3 mb-2">
         {errorSvg}
-        <h3 className="font-semibold text-lg">Unable to Load Schedule</h3>
+        <h3 className="font-semibold text-xl">Unable to Load Schedule</h3>
       </div>
       <p className="text-red-600 mb-4">
         We're having trouble loading the event schedule. Please try refreshing

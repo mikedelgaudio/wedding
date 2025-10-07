@@ -60,7 +60,7 @@ export function AccordionItem({
         aria-hidden={!isOpen}
         hidden={!isOpen}
       >
-        <div className="p-4 md:p-5 border-t border-gray-200 bg-white text-gray-600 text-lg">
+        <div className="p-4 md:p-5 border-t border-gray-200 bg-white text-gray-600 md:text-xl text-lg">
           {children}
         </div>
       </div>

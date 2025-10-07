@@ -82,7 +82,7 @@ export function Header(): JSX.Element {
                 menuOpen || (isHomePage && !isScrolled)
                   ? 'focus-visible:outline-white'
                   : 'focus-visible:outline-black'
-              } md:text-6xl text-4xl justify-center md:mb-4`}
+              } md:text-6xl text-4xl justify-center font-bold md:mb-4`}
               style={{ fontFamily: 'Tangerine' }}
               to="/"
               onClick={menuOpen ? closeMenu : undefined}

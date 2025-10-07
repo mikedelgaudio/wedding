@@ -214,8 +214,8 @@ export function FrequentlyAskedQuestions(): JSX.Element {
 
   return (
     <AppWithHeader>
-      <PageWrapper pageTitle="Frequently Asked Questions">
-        <p className="text-lg">
+      <PageWrapper pageTitle="FAQs">
+        <p className="md:text-xl text-lg">
           If your question isn't here, please email us at{' '}
           <a
             className="underline hover:no-underline focus-visible:border focus-visible:border-gray-950 focus:outline-none focus-visible:rounded-lg"

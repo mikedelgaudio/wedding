@@ -10,7 +10,7 @@ export function PageWrapper({
   return (
     <div className="w-full md:max-w-[80ch] mx-auto px-6 pt-4 md:p-4 ">
       {pageTitle && (
-        <h1 className="text-2xl md:text-3xl font-bold mb-4 text-gray-800">
+        <h1 className="text-2xl md:text-6xl font-bold mb-2 text-gray-800">
           {pageTitle}
         </h1>
       )}

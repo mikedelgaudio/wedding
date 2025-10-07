@@ -37,7 +37,13 @@ export const auth = getAuth(app);
 export const functions = getFunctions(app);
 export const analytics = getAnalytics(app);
 
-// Optional: connect to emulators
-// connectFirestoreEmulator(db, 'localhost', 8080);
-// connectFunctionsEmulator(functions, 'localhost', 5001);
-// connectAuthEmulator(auth, 'http://localhost:9099'); // Optional
+// Connect to emulators only in local development
+if (import.meta.env.DEV) {
+  const { connectFirestoreEmulator } = await import('firebase/firestore');
+  const { connectFunctionsEmulator } = await import('firebase/functions');
+  const { connectAuthEmulator } = await import('firebase/auth');
+
+  connectFirestoreEmulator(db, 'localhost', 8080);
+  connectFunctionsEmulator(functions, 'localhost', 5001);
+  connectAuthEmulator(auth, 'http://localhost:9099');
+}
